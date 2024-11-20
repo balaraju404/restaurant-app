@@ -1,0 +1,30 @@
+<ion-header [translucent]="true">
+ <ion-toolbar>
+  <ion-title>
+   Restaurant
+  </ion-title>
+ </ion-toolbar>
+</ion-header>
+
+<ion-content>
+ <ion-router-outlet></ion-router-outlet>
+</ion-content>
+
+<ion-footer>
+ <ion-toolbar>
+  <ion-row justify-content="space-between" align-items="center">
+   <ion-col size="3" class="ion-text-center" (click)="onNavigatePage('home')">
+    <ion-icon name="home-outline" size="large" aria-label="Home"></ion-icon>
+   </ion-col>
+   <ion-col size="3" class="ion-text-center" (click)="onNavigatePage('cart')">
+    <ion-icon name="cart-outline" size="large" aria-label="Cart"></ion-icon>
+   </ion-col>
+   <ion-col size="3" class="ion-text-center" (click)="onNavigatePage('transactions')">
+    <ion-icon name="swap-horizontal" size="large" aria-label="Swap"></ion-icon>
+   </ion-col>
+   <ion-col size="3" class="ion-text-center" (click)="onNavigatePage('profile')">
+    <ion-icon name="person-circle" size="large" aria-label="Profile"></ion-icon>
+   </ion-col>
+  </ion-row>
+ </ion-toolbar>
+</ion-footer>
