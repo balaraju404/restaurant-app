@@ -1,0 +1,35 @@
+.signup-container {
+ width: 100vw;
+ height: 100vh;
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ background: #2e0e4f; //rebeccapurple;
+ ion-card{
+  background:  #80808052;
+ }
+}
+
+.center-content {
+ text-align: center;
+}
+
+.d-flex {
+ display: flex;
+}
+
+.welcome-container {
+ // background: #80808052;
+ text-align: center;
+ padding: 20px;
+}
+
+ion-text h1 {
+ font-size: 24px;
+ margin-bottom: 10px;
+}
+
+ion-text p {
+ font-size: 16px;
+ margin-bottom: 20px;
+}
