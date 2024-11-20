@@ -1,9 +1,15 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'io.ionic.starter',
-  appName: 'restaurant-app',
-  webDir: 'www'
+  appId: 'com.restaurant.app',
+  appName: 'Restaurant',
+  webDir: 'www',
+  // server: {
+  //   androidScheme: 'https',
+  //   iosScheme: 'https',
+  //   hostname: 'your-backend-url.com'  // if using a custom backend URL
+  // }
+
 };
 
 export default config;
