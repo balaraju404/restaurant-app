@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ModalController } from '@ionic/angular';
 import { APIservice } from 'src/app/utils/api.service';
+import { ResDetailsPage } from '../res-details/res-details.page';
 
 @Component({
  selector: 'app-home',
@@ -7,21 +9,25 @@ import { APIservice } from 'src/app/utils/api.service';
  styleUrls: ['home.page.scss'],
 })
 export class HomePage implements OnInit {
- isLoading: boolean = false
+ skeleton_data: any = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+ isLoading: boolean = true
  showAlertMdl: boolean = false;
  alertMdlData: any = {}
  restaurantsData: any = []
- constructor(private readonly apiService: APIservice) { }
+ backUpdata: any = []
+ constructor(private readonly apiService: APIservice, private readonly modalController: ModalController) { }
  ngOnInit() {
-  console.log('ngOnInit');
   this.getRestaurantsData()
  }
  getRestaurantsData() {
+  this.isLoading = true
   this.apiService.getRestaurants().subscribe({
    next: (res: any) => {
+    this.isLoading = false
     console.log(res);
     if (res['status']) {
      this.restaurantsData = res['data']
+     this.backUpdata = res['data']
     } else {
      this.alertMdlData = { 'title': '', 'img': 'danger.png', 'msg': res['msg'] || JSON.stringify(res), 'btn_text': 'Ok', 'btn_cls': 'danger' }
      this.showAlertMdl = true
@@ -32,6 +38,24 @@ export class HomePage implements OnInit {
     this.showAlertMdl = true
    }
   })
+ }
+ async openRestaurantModal(item: any) {
+  const modal = await this.modalController.create({
+   component: ResDetailsPage,
+   componentProps: { resData: item }
+  })
+  modal.present()
+ }
+ searchQuery: string = '';
+ onSearchChange(event: any) {
+  console.log(event['detail']['value'])
+  let text = event['detail']['value'].toLowerCase();
+  if (text.length > 3) {
+   this.restaurantsData = this.backUpdata.filter((item: any) => item['restaurant_name'].toLowerCase().includes(text))
+  }
+  else {
+   this.restaurantsData = this.backUpdata;
+  }
  }
  dismissAlertModal() {
   this.showAlertMdl = false;

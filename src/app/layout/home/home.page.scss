@@ -34,3 +34,20 @@
   border-radius: 0.5rem;
   color: black;
 }
+
+img {
+  width: 4rem;
+  height: 4rem;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.box {
+  background: white;
+  border-radius: 1rem;
+  border: 0.05rem rgba(98, 107, 114, 0.281) solid;
+  padding: 1rem 0;
+  margin: 0.2rem;
+}

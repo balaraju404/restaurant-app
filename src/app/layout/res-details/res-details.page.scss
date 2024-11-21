@@ -1,0 +1,68 @@
+img {
+ width: 1rem;
+ height: 1rem;
+}
+
+.box {
+ img {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+ }
+
+ padding: 0.5rem 0;
+ margin: 0;
+}
+
+.cat-menu-div {
+ width: 20vw;
+ height: 92vh;
+ background: white;
+ color: black;
+ box-shadow: 0 0 0.2rem -0.15rem black;
+ border: none;
+ padding: 0.2rem;
+ float: left;
+
+ ion-row {
+  ion-col {
+   margin: 0.4rem 0;
+   border-radius: 0.5rem;
+   box-shadow: 0 0 0.2rem #adc5db;
+  }
+ }
+
+ ion-card-content {
+  ion-row {
+   font-size: 0.8rem;
+  }
+ }
+
+ .selected-category {
+  color: blue;
+  background: rgba(114, 204, 183, 0.26);
+ }
+}
+
+.right-side {
+ float: left;
+ width: 21rem;
+}
+
+.product {
+ width: 80vw;
+ height: 83vh;
+ float: left;
+ color: black;
+ overflow: auto;
+
+ img {
+  width: 4rem;
+  height: 4rem;
+ }
+
+ ion-card {
+  padding: 0.5rem;
+  margin: 0.2rem;
+ }
+}

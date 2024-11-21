@@ -1,0 +1,104 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-icon
+      slot="start"
+      name="arrow-back-outline"
+      (click)="closeModal()"
+    ></ion-icon>
+    <ion-title>
+      <ion-col><img [src]="resData['res_logo']" alt="" /></ion-col>
+      <ion-col>{{resData['restaurant_name']}}</ion-col>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <div class="cat-menu-div">
+    <ion-row class="ion-no-margin ion-no-padding">
+      @for(item of categoryData;track $index){
+      <ion-col size="12" (click)="onChangeCategory(item['cat_id'])" class="ion-no-margin ion-no-padding {{selectedCatID==item['cat_id']?'selected-category':''}}" >
+        <ion-card-content class="box ion-no-margin" color="blue">
+          <ion-row class="ion-justify-content-center">
+            <img [src]="item['cat_img']" alt="" />
+          </ion-row>
+          <ion-row class="ion-justify-content-center">
+            {{item['cat_name']}}
+          </ion-row>
+        </ion-card-content>
+      </ion-col>
+      } @if (isCatLoading) {
+      <ng-container [ngTemplateOutlet]="skeletonTemplateCat"></ng-container>
+      }
+    </ion-row>
+  </div>
+  <div class="right-side">
+    <ion-searchbar
+      color="light"
+      (ionInput)="onSearchChange($event)"
+      placeholder="Search here..."
+    ></ion-searchbar>
+    <div class="product">
+      <ion-row>
+        @for(product of productData;track $index){
+        <ion-col size="6">
+          <ion-card color="white">
+            <ion-card-header
+              class="ion-no-margin ion-no-padding ion-justify-content-center"
+              >{{product['product_name']}}</ion-card-header
+            >
+            <ion-card-content
+              class="ion-no-margin ion-no-padding ion-justify-content-center"
+            >
+              <img [src]="product['product_img']" alt="" />
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+        } @if (!isLoading && productData.length==0) {
+        <span>No Data Found</span>
+        } @if (isLoading) {
+        <ng-container [ngTemplateOutlet]="skeletonTemplate"></ng-container>
+        }
+      </ion-row>
+    </div>
+  </div>
+</ion-content>
+
+<ng-template #skeletonTemplateCat>
+  <ng-container *ngFor="let item of skeleton_data">
+    <ion-col size="12" class="ion-no-margin ion-no-padding">
+      <ion-card-content class="box ion-no-margin" color="blue">
+        <ion-row class="ion-justify-content-center">
+          <ion-thumbnail>
+            <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+          </ion-thumbnail>
+        </ion-row>
+        <ion-row class="ion-justify-content-center">
+          <ion-skeleton-text
+            [animated]="true"
+            style="width: 60px"
+          ></ion-skeleton-text>
+        </ion-row>
+      </ion-card-content>
+    </ion-col>
+  </ng-container>
+</ng-template>
+
+<ng-template #skeletonTemplate>
+  <ng-container *ngFor="let item of skeleton_data">
+    <ion-col size="6">
+      <ion-card color="white">
+        <ion-card-header class="ion-no-margin ion-no-padding ion-justify-content-center" >
+          <ion-skeleton-text [animated]="true" style="width: 80px" ></ion-skeleton-text>
+        </ion-card-header>
+        <ion-card-content class="ion-no-margin ion-no-padding ion-justify-content-center" >
+          <ion-thumbnail slot="start">
+            <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+          </ion-thumbnail>
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+  </ng-container>
+</ng-template>
