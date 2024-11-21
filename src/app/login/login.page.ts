@@ -18,7 +18,6 @@ export class LoginPage implements OnInit {
 
  constructor(private readonly apiService: APIservice, private readonly router: Router) { }
  ngOnInit() {
-  console.log('Login Page');
   const userData = DBManagerService.getData(Constants.USER_DATA_KEY)
   if (userData) {
    this.router.navigate(['/layout/home'])
@@ -40,7 +39,6 @@ export class LoginPage implements OnInit {
   this.apiService.loginCheck(this.loginName, this.loginPassword).subscribe({
    next: (res: any) => {
     this.isLoading = false
-    console.log(res)
     if (res['status']) {
      const data = JSON.parse(JSON.stringify(res['data']))
      DBManagerService.setData(data, Constants.USER_DATA_KEY)
