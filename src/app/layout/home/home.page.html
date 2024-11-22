@@ -33,7 +33,7 @@
 <ng-template #skeletonTemplate>
   <ng-container *ngFor="let item of skeleton_data">
     <ion-col size="6">
-      <ion-card-content class="box" (click)="openRestaurantModal(item)">
+      <ion-card-content class="box">
         <ion-row class="ion-justify-content-center">
           <ion-thumbnail>
             <ion-skeleton-text [animated]="true"></ion-skeleton-text>

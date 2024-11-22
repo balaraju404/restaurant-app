@@ -44,16 +44,39 @@
     <div class="product">
       <ion-row>
         @for(product of productData;track $index){
-        <ion-col size="6">
+        <ion-col size="12">
           <ion-card color="white">
             <ion-card-header
               class="ion-no-margin ion-no-padding ion-justify-content-center"
-              >{{product['product_name']}}</ion-card-header
-            >
+              >{{product['product_name']}}</ion-card-header>
             <ion-card-content
-              class="ion-no-margin ion-no-padding ion-justify-content-center"
-            >
-              <img [src]="product['product_img']" alt="" />
+              class="ion-no-margin d-flex ion-no-padding ion-justify-content-center"
+              >
+              <ion-col>
+                <ion-row>
+                  <ion-col size="4">
+                    <img [src]="product['product_img']" alt="" />
+                  </ion-col>
+                  <ion-col size="8">
+                    <p>{{product['description'].substring(0,74)}}</p>
+                  </ion-col>
+                </ion-row>
+                <ion-row class="cg2">
+                  <p>price : &#8377;{{product['price']}}</p>
+                  <ion-row class="cg1">
+                    <ion-icon name="remove" class="minus" (click)="eventHandler(product,-1)"></ion-icon>
+                    <p>{{product['quantity']}}</p>
+                    <ion-icon name="add" class="plus" (click)="eventHandler(product,1)"></ion-icon>
+                  </ion-row>
+                </ion-row>
+                <ion-row>
+                  <ion-button size="small"  class="" (click)="viewDetails(product)">view details</ion-button>
+                  <ion-button size="small"  class="">Add cart</ion-button>
+                </ion-row>
+              </ion-col>
+             
+              
+              
             </ion-card-content>
           </ion-card>
         </ion-col>
@@ -90,7 +113,7 @@
 
 <ng-template #skeletonTemplate>
   <ng-container *ngFor="let item of skeleton_data">
-    <ion-col size="6">
+    <ion-col size="12">
       <ion-card color="white">
         <ion-card-header class="ion-no-margin ion-no-padding ion-justify-content-center" >
           <ion-skeleton-text [animated]="true" style="width: 80px" ></ion-skeleton-text>
@@ -104,3 +127,10 @@
     </ion-col>
   </ng-container>
 </ng-template>
+
+
+<div *ngIf="isViewDetails" class="modal-container">
+  <div class="modal-content-container">
+    <ion-button (click)="dismissAlertModal()">close</ion-button>
+  </div>
+ </div>

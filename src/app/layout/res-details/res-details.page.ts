@@ -15,6 +15,7 @@ export class ResDetailsPage implements OnInit {
   categoryData: any = []
   productData: any = []
   selectedCatID: any = ''
+  isViewDetails: boolean = false;
   constructor(private readonly apiService: APIservice, private modalController: ModalController) { }
 
   ngOnInit() {
@@ -48,7 +49,11 @@ export class ResDetailsPage implements OnInit {
       next: (res: any) => {
         this.isLoading = false
         console.log(res)
-        this.productData = res['data'];
+        this.productData = res['data'].map((item: any) => {
+          item['quantity'] = 1;
+          return item;
+        });
+        
       }, error: err => {
         this.isLoading = false
       }
@@ -62,6 +67,11 @@ export class ResDetailsPage implements OnInit {
   }
   onSearchChange(event: any) {
 
+  }
+
+  viewDetails(event : any){
+    this.isViewDetails = true;
+    console.log(event)
   }
 
   closeModal() {
@@ -78,5 +88,14 @@ export class ResDetailsPage implements OnInit {
     }, 2000);
   }
 
+  eventHandler(event : any,i : number){
+    if(event['quantity'] >0 && event['quantity']<10){
+      event['quantity'] = event['quantity']+i;
+      event['quantity'] = event['quantity'] == 0 ? 1 :event['quantity'];
+    }
+  }
 
+  dismissAlertModal() {
+    this.isViewDetails = false;
+   }
 }
