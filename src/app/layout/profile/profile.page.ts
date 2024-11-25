@@ -92,4 +92,7 @@ export class ProfilePage implements OnInit {
   this.selectedFileUrl = null
   this.imageModal = false
  }
+  onLogout(){
+    localStorage.clear()
+  }
 }
