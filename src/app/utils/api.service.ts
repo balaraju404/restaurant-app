@@ -19,8 +19,11 @@ export class APIservice {
   const params = { 'user_name': userName, 'login_name': loginName, 'password': loginPassword, 'role_id': roleId };
   return this.http.post(this.apiUrl + 'user/create', params);
  }
- getUsers() {
-  return this.http.post(this.apiUrl + 'user/getUsers', {});
+ postUserProfile(params: any) {
+  return this.http.post(this.apiUrl + 'user/user_profile', params);
+ }
+ getUsers(params: any = {}) {
+  return this.http.post(this.apiUrl + 'user/getUsers', params);
  }
  getRestaurant(res_id: any) {
   return this.http.post(this.apiUrl + 'restaurant/' + res_id, {});

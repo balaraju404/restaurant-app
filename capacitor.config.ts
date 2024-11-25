@@ -9,6 +9,12 @@ const config: CapacitorConfig = {
   //   iosScheme: 'https',
   //   hostname: 'your-backend-url.com'  // if using a custom backend URL
   // }
+  "plugins": {
+    "Camera": {
+      "allowEditing": true,
+      "saveToGallery": false
+    }
+  }
 
 };
 
