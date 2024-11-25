@@ -6,22 +6,17 @@
       </ion-col>
     </ion-row>
   </div>
-  <ion-searchbar
-    color="light"
-    (ionInput)="onSearchChange($event)"
-    placeholder="Search here..."
-  >
-  </ion-searchbar>
-  <ion-row style="color: black">
+  <ion-searchbar color="light" (ionInput)="onSearchChange($event)" placeholder="Search here..."></ion-searchbar>
+  <ion-row class="text-black">
     @for(item of restaurantsData;track $index){
     <ion-col size="6">
       <ion-card-content class="box" (click)="openRestaurantModal(item)">
-        <ion-row class="ion-justify-content-center"
-          ><img [src]="item['res_logo']" alt=""
-        /></ion-row>
-        <ion-row class="ion-justify-content-center"
-          >{{item['restaurant_name']}}</ion-row
-        >
+        <ion-row class="ion-justify-content-center">
+          <img [src]="item['res_logo']" alt=""/>
+        </ion-row>
+        <ion-row class="ion-justify-content-center">
+          {{item['restaurant_name']}}
+        </ion-row>
       </ion-card-content>
     </ion-col>
     } @if (isLoading) {
@@ -40,10 +35,7 @@
           </ion-thumbnail>
         </ion-row>
         <ion-row class="ion-justify-content-center">
-          <ion-skeleton-text
-            [animated]="true"
-            style="width: 80px"
-          ></ion-skeleton-text>
+          <ion-skeleton-text [animated]="true" style="width: 80px"></ion-skeleton-text>
         </ion-row>
       </ion-card-content>
     </ion-col>
@@ -54,10 +46,6 @@
   <div class="modal-content-container">
     <img src="assets/images/{{alertMdlData['img']}}" alt="Approved" />
     <span class="multi_lines_text">{{alertMdlData['msg']}}</span>
-    <ion-button
-      class="{{alertMdlData['btn_cls']}}"
-      (click)="dismissAlertModal()"
-      >{{alertMdlData['btn_text']}}</ion-button
-    >
+    <ion-button class="{{alertMdlData['btn_cls']}}" (click)="dismissAlertModal()">{{alertMdlData['btn_text']}}</ion-button>
   </div>
 </div>

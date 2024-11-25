@@ -24,7 +24,6 @@ export class HomePage implements OnInit {
   this.apiService.getRestaurants().subscribe({
    next: (res: any) => {
     this.isLoading = false
-    console.log(res);
     if (res['status']) {
      this.restaurantsData = res['data']
      this.backUpdata = res['data']
@@ -48,7 +47,6 @@ export class HomePage implements OnInit {
  }
  searchQuery: string = '';
  onSearchChange(event: any) {
-  console.log(event['detail']['value'])
   let text = event['detail']['value'].toLowerCase();
   if (text.length > 3) {
    this.restaurantsData = this.backUpdata.filter((item: any) => item['restaurant_name'].toLowerCase().includes(text))
