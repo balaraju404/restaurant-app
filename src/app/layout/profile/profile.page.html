@@ -1,9 +1,14 @@
 <ion-content>
+ <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+  <ion-refresher-content pullingIcon="chevron-down-circle-outline" pullingText="Pull to refresh"
+   refreshingSpinner="circles" refreshingText="Refreshing...">
+  </ion-refresher-content>
+ </ion-refresher>
  <div class="img-container">
   <ion-row class="d-flex ion-justify-content-center ion-align-items-center">
    <ion-col size="6" class="d-flex ion-justify-content-center ion-align-items-center">
     @if(userData['user_profile']){
-    <img class="profile-img" src="{{userData['user_info']}}" alt="">
+    <img class="profile-img" src="{{userData['user_profile']}}" alt="">
     }
     @else {
     <img class="profile-img" src="assets/images/user-img.png" alt="">
@@ -12,9 +17,73 @@
    </ion-col>
   </ion-row>
  </div>
-  <ion-row>
-    <ion-button size="small" (click)="onLogout()">Logout</ion-button>
+ <div class="user-data-container">
+  <ion-row class="d-flex ion-justify-content-center ion-align-items-center">
+   <ion-col size="4">
+    <ion-label class="label-name">First Name: </ion-label>
+   </ion-col>
+   <ion-col size="8">
+    @if (editFlag) {
+    <ion-input type="text" color="primary" [(ngModel)]="editParams['fname']" name="fname"></ion-input>
+    }@else {
+    <ion-label class="user-name">{{userData['fname'] || 'N/A'}}</ion-label>
+    }
+   </ion-col>
   </ion-row>
+  <ion-row class="d-flex ion-justify-content-center ion-align-items-center">
+   <ion-col size="4">
+    <ion-label class="label-name">Last Name: </ion-label>
+   </ion-col>
+   <ion-col size="8">
+    @if (editFlag) {
+    <ion-input type="text" color="primary" [(ngModel)]="editParams['lname']" name="fname"></ion-input>
+    }@else {
+    <ion-label class="user-name">{{userData['lname'] || 'N/A'}}</ion-label>
+    }
+   </ion-col>
+  </ion-row>
+  <ion-row class="d-flex ion-justify-content-center ion-align-items-center">
+   <ion-col size="4">
+    <ion-label class="label-name">Email: </ion-label>
+   </ion-col>
+   <ion-col size="8">
+    @if (editFlag) {
+    <ion-input type="email" color="primary" [(ngModel)]="editParams['email']" name="fname"></ion-input>
+    }@else {
+    <ion-label class="user-name">{{userData['email'] || 'N/A'}}</ion-label>
+    }
+   </ion-col>
+  </ion-row>
+  <ion-row class="d-flex ion-justify-content-center ion-align-items-center">
+   <ion-col size="4">
+    <ion-label class="label-name">Mobile: </ion-label>
+   </ion-col>
+   <ion-col size="8">
+    @if (editFlag) {
+    <ion-input type="num" color="primary" [(ngModel)]="editParams['mobile']" name="fname"></ion-input>
+    }@else {
+    <ion-label class="user-name">{{userData['mobile'] || 'N/A'}}</ion-label>
+    }
+   </ion-col>
+  </ion-row>
+  <ion-row class="d-flex ion-justify-content-center ion-align-items-center">
+   <ion-col size="6" class="d-flex ion-justify-content-center ion-align-items -center">
+    @if (!editFlag) {
+    <ion-button size="small" expand="block" (click)="onEditProfile()">Edit Profile</ion-button>
+    }@else {
+    <ion-button size="small" color="danger" expand="block" (click)="onCancel()">Cancel</ion-button>
+    <ion-button size="small" color="success" expand="block" (click)="updateProfile()">Edit Profile</ion-button>
+
+    }
+   </ion-col>
+  </ion-row>
+ </div>
+
+ <ion-row>
+  <ion-col size="12">
+   <ion-button size="small" expand="block" (click)="onLogout()">Logout</ion-button>
+  </ion-col>
+ </ion-row>
 </ion-content>
 
 
@@ -27,7 +96,13 @@
    Select Image
   </ion-button>
 
-  <img *ngIf="selectedFile" [src]="selectedFileUrl" alt="Preview" class="image-preview" />
+  @if (!selectedFile && userData['user_profile']) {
+  <img [src]="userData['user_profile']" alt="Preview" class="image-preview" />
+  <ion-button size="small" color="danger" (click)="deleteUserProfile()">Delete</ion-button>
+  }
+  @if(selectedFile){
+  <img [src]="selectedFileUrl" alt="Preview" class="image-preview" />
+  }
 
   <ion-row>
    <ion-col size="6">
@@ -37,5 +112,6 @@
     <ion-button size="small" color="danger" (click)="closeModal()">Close</ion-button>
    </ion-col>
   </ion-row>
+
  </div>
 </div>

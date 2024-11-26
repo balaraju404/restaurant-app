@@ -142,3 +142,10 @@ ion-skeleton-text {
  --background: rgba(188, 0, 255, 0.065);
  --background-rgb: 188, 0, 255;
 }
+
+ion-refresher {
+ --ion-text-color: black;
+ ion-spinner{
+  color: black;
+ }
+}

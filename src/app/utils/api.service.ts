@@ -19,8 +19,14 @@ export class APIservice {
   const params = { 'user_name': userName, 'login_name': loginName, 'password': loginPassword, 'role_id': roleId };
   return this.http.post(this.apiUrl + 'user/create', params);
  }
+ updateUser(params: any) {
+  return this.http.put(this.apiUrl + 'user/update', params);
+ }
  postUserProfile(params: any) {
   return this.http.post(this.apiUrl + 'user/user_profile', params);
+ }
+ deleteUserProfile(params: any) {
+  return this.http.post(this.apiUrl + 'user/delete_user_profile', params);
  }
  getUsers(params: any = {}) {
   return this.http.post(this.apiUrl + 'user/getUsers', params);

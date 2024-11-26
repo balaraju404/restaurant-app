@@ -15,7 +15,11 @@ export class LayoutPage implements OnInit {
   ngOnInit() {
     const userData = DBManagerService.getData(Constants.USER_DATA_KEY)
     if (userData) {
-      // this.router.navigate(['/layout/home'])
+      const pageArr = this.router.url.split('/')
+      const page = pageArr[pageArr.length - 1]
+      if (page == 'layout') {
+        this.router.navigate(['/layout/home'])
+      }
     } else {
       this.router.navigate(['/login'])
     }
