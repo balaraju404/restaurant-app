@@ -1,8 +1,8 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.restaurant.app',
-  appName: 'Restaurant',
+  appId: 'com.gbr-food.app',
+  appName: 'GBR Food App',
   webDir: 'www',
   // server: {
   //   androidScheme: 'https',
