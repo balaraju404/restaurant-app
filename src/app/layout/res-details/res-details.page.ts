@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { AlertService } from 'src/app/utils/alert.service';
 import { APIservice } from 'src/app/utils/api.service';
 import { Constants } from 'src/app/utils/constants.service';
 import { DBManagerService } from 'src/app/utils/db-manager.service';
@@ -12,6 +11,8 @@ import { LoadingService } from 'src/app/utils/loading.service';
  styleUrls: ['./res-details.page.scss'],
 })
 export class ResDetailsPage implements OnInit {
+ showAlertMdl: boolean = false;
+ alertMdlData: any = {}
  skeleton_data: any = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
  isCatLoading: boolean = true
  isLoading: boolean = true
@@ -39,7 +40,8 @@ export class ResDetailsPage implements OnInit {
      }
     }
    }, error: err => {
-    AlertService.showAlert('Alert', err.message || JSON.stringify(err))
+    this.alertMdlData = { 'title': '', 'img': 'danger.png', 'msg': err.message || JSON.stringify(err), 'btn_text': 'Ok', 'btn_cls': 'danger' }
+    this.showAlertMdl = true
    }, complete: () => {
     this.isCatLoading = false
     if (this.categoryData.length > 0) {
@@ -59,13 +61,14 @@ export class ResDetailsPage implements OnInit {
      this.productData = res['data'] || []
     } else {
      this.productData = []
-     AlertService.showAlert("Alert", res['msg'] || JSON.stringify(res))
+     this.alertMdlData = { 'title': '', 'img': 'danger.png', 'msg': res['msg'] || JSON.stringify(res), 'btn_text': 'Ok', 'btn_cls': 'danger' }
+     this.showAlertMdl = true
     }
    }, error: err => {
     this.productData = []
-    AlertService.showAlert('Alert', err.message || JSON.stringify(err))
+    this.alertMdlData = { 'title': '', 'img': 'danger.png', 'msg': err.message || JSON.stringify(err), 'btn_text': 'Ok', 'btn_cls': 'danger' }
+    this.showAlertMdl = true
    }, complete: () => {
-    // this.isLoading = false
     if (this.productData.length > 0) {
      this.getUserCartData()
     } else {
@@ -83,7 +86,8 @@ export class ResDetailsPage implements OnInit {
      this.modifyProductsData(res['data'])
     }
    }, error: err => {
-    AlertService.showAlert('Alert', err.message || JSON.stringify(err))
+    this.alertMdlData = { 'title': '', 'img': 'danger.png', 'msg': err.message || JSON.stringify(err), 'btn_text': 'Ok', 'btn_cls': 'danger' }
+    this.showAlertMdl = true
    }, complete: () => {
     this.isLoading = false
    }
@@ -106,14 +110,17 @@ export class ResDetailsPage implements OnInit {
   this.apiService.postCartData(params).subscribe({
    next: (res: any) => {
     if (res['status']) {
-     AlertService.showAlert('Success', res['msg'])
+     this.alertMdlData = { 'title': '', 'img': 'success.png', 'msg': res['msg'] || 'Item Added to Cart', 'btn_text': 'Ok', 'btn_cls': 'success' }
+     this.showAlertMdl = true
     } else {
      this.getUserCartData()
-     AlertService.showAlert('Alert', res['msg'] || JSON.stringify(res))
+     this.alertMdlData = { 'title': '', 'img': 'danger.png', 'msg': res['msg'] || JSON.stringify(res), 'btn_text': 'Ok', 'btn_cls': 'danger' }
+     this.showAlertMdl = true
     }
    }, error: err => {
     this.getUserCartData()
-    AlertService.showAlert('Alert', err.message || JSON.stringify(err))
+    this.alertMdlData = { 'title': '', 'img': 'danger.png', 'msg': err.message || JSON.stringify(err), 'btn_text': 'Ok', 'btn_cls': 'danger' }
+    this.showAlertMdl = true
    }, complete: async () => {
     await this.loadingService.hideLoading()
    }
@@ -126,7 +133,6 @@ export class ResDetailsPage implements OnInit {
  }
  onSearchChange(event: any) {
   let searchValue = event.target.value.toLowerCase()
-  console.log(searchValue);
   if (searchValue.length >= 3) {
    this.searchData = this.productData.filter((m: any) => m.product_name.toLowerCase().includes(searchValue)) || [];
    this.searchFlag = true
@@ -135,39 +141,18 @@ export class ResDetailsPage implements OnInit {
    this.searchFlag = false
   }
  }
-
- viewDetails(event: any) {
-  this.productDetails = event;
-  this.isViewDetails = true;
-  this.imageRotater();
-
- }
-
- closeModal() {
-  this.modalController.dismiss();
- }
-
- handleRefresh(event: any) {
-  this.categoryData = []
-  this.productData = []
-  this.isLoading = true
-  this.getCategory()
-  setTimeout(() => {
-   event.target.complete();
-  }, 2000);
- }
-
  eventHandler(event: any, i: number) {
   if (event['product_qty'] > 0 && event['product_qty'] <= 5) {
    event['product_qty'] = event['product_qty'] + i;
    event['product_qty'] = event['product_qty'] == 0 ? 1 : (event['product_qty'] == 6 ? 5 : event['product_qty']);
   }
  }
+ viewDetails(event: any) {
+  this.productDetails = event;
+  this.isViewDetails = true;
+  this.imageRotater();
 
- dismissAlertModal() {
-  this.isViewDetails = false;
  }
-
  async imageRotater() {
   if (!Array.isArray(this.productDetails['images']) || this.productDetails['images'].length === 0) {
    console.log("No images to rotate");
@@ -177,5 +162,24 @@ export class ResDetailsPage implements OnInit {
    this.productDetails['product_img'] = this.productDetails['images'][i]['image'];
    await new Promise(resolve => setTimeout(resolve, 2000));
   }
+ }
+ dismissProductModal() {
+  this.isViewDetails = false;
+ }
+ dismissAlertModal() {
+  this.alertMdlData = {}
+  this.showAlertMdl = false
+ }
+ closeModal() {
+  this.modalController.dismiss();
+ }
+ handleRefresh(event: any) {
+  this.categoryData = []
+  this.productData = []
+  this.isLoading = true
+  this.getCategory()
+  setTimeout(() => {
+   event.target.complete();
+  }, 2000);
  }
 }

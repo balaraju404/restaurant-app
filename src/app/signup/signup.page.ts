@@ -16,6 +16,7 @@ export class SignupPage implements OnInit {
  password: string = '';
  constructor(private readonly apiService: APIservice, private readonly router: Router) { }
  ngOnInit() {
+  console.log('sign up');
  }
  submit() {
   if (this.username.length < 6)

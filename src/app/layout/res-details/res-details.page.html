@@ -118,12 +118,20 @@
 
 <div *ngIf="isViewDetails" class="modal-container">
  <div class="modal-content-container">
-  <ion-icon name="close" class="text-black close"></ion-icon>
+  <ion-icon name="close" class="text-black close" (click)="dismissProductModal()"></ion-icon>
   <ion-text color="secondary">
    <p class="text-black">{{productDetails['product_name']}}</p>
    <img [src]="productDetails['product_img']" alt="">
    <p class="text-justify text-black">{{productDetails['description']}}</p>
   </ion-text>
-  <ion-button size="small" (click)="dismissAlertModal()">close</ion-button>
+  <ion-button size="small" (click)="dismissProductModal()">Close</ion-button>
+ </div>
+</div>
+
+<div *ngIf="showAlertMdl && alertMdlData" class="modal-container">
+ <div class="modal-content-container">
+  <img src="assets/images/{{alertMdlData['img']}}" alt="Approved" />
+  <span class="multi_lines_text">{{alertMdlData['msg']}}</span>
+  <ion-button class="{{alertMdlData['btn_cls']}}" (click)="dismissAlertModal()">{{alertMdlData['btn_text']}}</ion-button>
  </div>
 </div>

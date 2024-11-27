@@ -115,3 +115,13 @@
 
  </div>
 </div>
+
+
+<div *ngIf="showAlertMdl && alertMdlData" class="modal-container">
+ <div class="modal-content-container">
+  <img src="assets/images/{{alertMdlData['img']}}" alt="Approved" />
+  <span class="multi_lines_text">{{alertMdlData['msg']}}</span>
+  <ion-button class="{{alertMdlData['btn_cls']}}"
+   (click)="dismissAlertModal()">{{alertMdlData['btn_text']}}</ion-button>
+ </div>
+</div>

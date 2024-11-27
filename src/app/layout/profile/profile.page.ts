@@ -5,6 +5,7 @@ import { APIservice } from 'src/app/utils/api.service';
 import { Constants } from 'src/app/utils/constants.service';
 import { DBManagerService } from 'src/app/utils/db-manager.service';
 import { LoadingService } from 'src/app/utils/loading.service';
+import { ToastService } from 'src/app/utils/toast.service';
 
 @Component({
  selector: 'app-profile',
@@ -12,6 +13,8 @@ import { LoadingService } from 'src/app/utils/loading.service';
  styleUrls: ['./profile.page.scss'],
 })
 export class ProfilePage implements OnInit {
+ showAlertMdl: boolean = false;
+ alertMdlData: any = {}
  isLoading: boolean = false;
  userData: any = {};
  editFlag: boolean = false;
@@ -19,11 +22,13 @@ export class ProfilePage implements OnInit {
  imageModal: boolean = false
  selectedFileUrl: any = null;
  selectedFile: any;
- constructor(private readonly apiService: APIservice, private readonly router: Router, private readonly loadingService: LoadingService) { }
+ constructor(private readonly apiService: APIservice,
+  private readonly router: Router,
+  private readonly loadingService: LoadingService,
+  private readonly toastService: ToastService) { }
 
  ngOnInit() {
   this.userData = DBManagerService.getData(Constants.USER_DATA_KEY)
-  console.log(this.userData);
  }
 
  onInput(event: Event) {
@@ -71,40 +76,36 @@ export class ProfilePage implements OnInit {
  }
 
  async updateProfile() {
-  console.log(this.editParams);
-
+  let msgText = ''
   if (this.editParams['fname'].length < 4) {
-   AlertService.showAlert('Alert', 'First Name should be at least 4 characters long')
-   return;
+   msgText = 'First name should be at least 4 characters long'
+  } else if (this.editParams['lname'].length < 4) {
+   msgText = 'Last name should be at least 4 characters long'
+  } else if (!Constants.REGEXP_NUMERIC.test(this.editParams['mobile'])) {
+   msgText = 'Invalid mobile number'
+  } else if (this.editParams['mobile'].length != 10) {
+   msgText = 'Mobile number should be 10 digits long'
+  } else if (this.editParams['email'].length == 0 || !Constants.REGEXP_EMAIL.test(this.editParams['email'])) {
+   msgText = 'Invalid email address'
   }
-  if (this.editParams['lname'].length < 4) {
-   AlertService.showAlert('Alert', 'Last Name should be at least 4 characters long')
-   return;
-  }
-  if (!Constants.REGEXP_NUMERIC.test(this.editParams['mobile'])) {
-   AlertService.showAlert('Alert', 'Enter valid mobile number')
-   return;
-  }
-  if (this.editParams['mobile'].length != 10) {
-   AlertService.showAlert('Alert', 'Mobile Number must be 10 digits long')
-   return;
-  }
-  if (this.editParams['email'].length == 0 || !Constants.REGEXP_EMAIL.test(this.editParams['email'])) {
-   AlertService.showAlert('Alert', 'Enter valid email address')
-   return;
+  if (msgText.length > 0) {
+   this.toastService.showToastWithCloseButton(msgText, 'warning', 'top', 2000)
+   return
   }
   await this.loadingService.showLoading()
   this.apiService.updateUser(this.editParams).subscribe({
    next: (res: any) => {
     if (res['status']) {
      this.getUserInfo()
-     AlertService.showAlert('Success', res['msg'])
+     this.toastService.showToastWithCloseButton(res['msg'], 'success', 'top', 2000)
      this.onCancel()
     } else {
-     AlertService.showAlert('Error', res['msg'] || JSON.stringify(res))
+     this.alertMdlData = { 'title': '', 'img': 'danger.png', 'msg': res['msg'] || JSON.stringify(res), 'btn_text': 'Ok', 'btn_cls': 'danger' }
+     this.showAlertMdl = true
     }
    }, error: err => {
-    AlertService.showAlert('Error', err.message || JSON.stringify(err))
+    this.alertMdlData = { 'title': '', 'img': 'danger.png', 'msg': err.message || JSON.stringify(err), 'btn_text': 'Ok', 'btn_cls': 'danger' }
+    this.showAlertMdl = true
    }, complete: async () => {
     await this.loadingService.hideLoading()
    }
@@ -112,7 +113,8 @@ export class ProfilePage implements OnInit {
  }
  async updateUserProfile() {
   if (!this.selectedFile) {
-   AlertService.showAlert('Alert', 'Select a profile picture')
+   const msgText = 'Please select a profile picture'
+   this.toastService.showToastWithCloseButton(msgText, 'warning', 'top', 20000)
    return;
   }
   const user_id = this.userData['user_id']
@@ -125,13 +127,15 @@ export class ProfilePage implements OnInit {
    next: (res: any) => {
     if (res['status']) {
      this.getUserInfo()
-     AlertService.showAlert('Success', res['msg'])
+     this.toastService.showToastWithCloseButton(res['msg'], 'success', 'top', 2000)
      this.onClear()
     } else {
-     AlertService.showAlert('Error', res['msg'] || JSON.stringify(res))
+     this.alertMdlData = { 'title': '', 'img': 'danger.png', 'msg': res['msg'] || JSON.stringify(res), 'btn_text': 'Ok', 'btn_cls': 'danger' }
+     this.showAlertMdl = true
     }
    }, error: err => {
-    AlertService.showAlert('Error', err.message || JSON.stringify(err))
+    this.alertMdlData = { 'title': '', 'img': 'danger.png', 'msg': err.message || JSON.stringify(err), 'btn_text': 'Ok', 'btn_cls': 'danger' }
+    this.showAlertMdl = true
    }, complete: async () => {
     await this.loadingService.hideLoading()
    }
@@ -146,12 +150,14 @@ export class ProfilePage implements OnInit {
      next: (res: any) => {
       if (res['status']) {
        this.getUserInfo()
-       AlertService.showAlert('Success', res['msg'])
+       this.toastService.showToastWithCloseButton(res['msg'], 'success', 'top', 2000)
       } else {
-       AlertService.showAlert('Error', res['msg'] || JSON.stringify(res))
+       this.alertMdlData = { 'title': '', 'img': 'danger.png', 'msg': res['msg'] || JSON.stringify(res), 'btn_text': 'Ok', 'btn_cls': 'danger' }
+       this.showAlertMdl = true
       }
      }, error: err => {
-      AlertService.showAlert('Error', err.message || JSON.stringify(err))
+      this.alertMdlData = { 'title': '', 'img': 'danger.png', 'msg': err.message || JSON.stringify(err), 'btn_text': 'Ok', 'btn_cls': 'danger' }
+      this.showAlertMdl = true
      },
      complete: async () => {
       await this.loadingService.hideLoading()
@@ -168,14 +174,19 @@ export class ProfilePage implements OnInit {
      DBManagerService.setData(res['data'][0], Constants.USER_DATA_KEY)
      this.userData = DBManagerService.getData(Constants.USER_DATA_KEY)
     } else {
-     AlertService.showAlert('Error', res['msg'] || JSON.stringify(res))
+     this.alertMdlData = { 'title': '', 'img': 'danger.png', 'msg': res['msg'] || JSON.stringify(res), 'btn_text': 'Ok', 'btn_cls': 'danger' }
+     this.showAlertMdl = true
     }
    }, error: err => {
-    AlertService.showAlert('Error', err.message || JSON.stringify(err))
+    this.alertMdlData = { 'title': '', 'img': 'danger.png', 'msg': err.message || JSON.stringify(err), 'btn_text': 'Ok', 'btn_cls': 'danger' }
+    this.showAlertMdl = true
    }
   })
  }
-
+ dismissAlertModal() {
+  this.alertMdlData = {}
+  this.showAlertMdl = false
+ }
  handleRefresh(event: any) {
   this.getUserInfo()
   setTimeout(() => {
