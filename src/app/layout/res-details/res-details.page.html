@@ -10,20 +10,22 @@
 
 <ion-content [fullscreen]="true">
  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
-  <ion-refresher-content></ion-refresher-content>
+  <ion-refresher-content pullingIcon="chevron-down-circle-outline" pullingText="Pull to refresh"
+   refreshingSpinner="circles" refreshingText="Refreshing...">
+  </ion-refresher-content>
  </ion-refresher>
  <div class="d-flex">
   <div class="cat-menu-div">
    <ion-row class="ion-no-margin ion-no-padding">
     @for(item of categoryData;track $index){
     <ion-col size="12" (click)="onChangeCategory(item['cat_id'])"
-     class="ion-no-margin ion-no-padding {{selectedCatID==item['cat_id']?'selected-category':''}}">
+     class="ion-no-margin ion-no-padding {{selectedCatID===item['cat_id']?'selected-category':''}}">
      <ion-card-content class="box ion-no-margin" color="blue">
       <ion-row class="ion-justify-content-center">
        <img [src]="item['cat_img']" alt="" />
       </ion-row>
       <ion-row class="ion-justify-content-center">
-       {{item['cat_name']}}
+       <span class="cat-name">{{item['cat_name']}}</span>
       </ion-row>
      </ion-card-content>
     </ion-col>
@@ -36,11 +38,12 @@
    <ion-searchbar color="light" (ionInput)="onSearchChange($event)" placeholder="Search here..."></ion-searchbar>
    <div class="product">
     <ion-row>
-     @for(product of productData;track $index){
+     @for(product of searchFlag ? searchData : productData;track $index){
      <ion-col size="12">
       <ion-card color="white">
-       <ion-card-header
-        class="ion-no-margin ion-no-padding ion-justify-content-center">{{product['product_name']}}</ion-card-header>
+       <ion-card-header class="ion-no-margin ion-no-padding ion-justify-content-center">
+        {{product['product_name']}}
+       </ion-card-header>
        <ion-card-content class="ion-no-margin d-flex ion-no-padding ion-justify-content-center">
         <ion-col>
          <ion-row>
@@ -55,19 +58,19 @@
           <p>price : &#8377;{{product['price']}}</p>
           <ion-row class="cg1">
            <ion-icon name="remove" class="minus" (click)="eventHandler(product,-1)"></ion-icon>
-           <p class="text-bold">{{product['quantity']}}</p>
+           <p class="text-bold">{{product['product_qty']}}</p>
            <ion-icon name="add" class="plus" (click)="eventHandler(product,1)"></ion-icon>
           </ion-row>
          </ion-row>
          <ion-row>
           <ion-button size="small" class="" (click)="viewDetails(product)">view details</ion-button>
-          <ion-button size="small" class="">Add cart</ion-button>
+          <ion-button size="small" class="" (click)="postCartData(product)">Add cart</ion-button>
          </ion-row>
         </ion-col>
        </ion-card-content>
       </ion-card>
      </ion-col>
-     } @if (!isLoading && productData.length==0) {
+     } @if (!isLoading && (searchFlag?searchData.length===0: productData.length===0)) {
      <span>No Data Found</span>
      } @if (isLoading) {
      <ng-container [ngTemplateOutlet]="skeletonTemplate"></ng-container>

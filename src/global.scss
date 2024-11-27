@@ -144,8 +144,18 @@ ion-skeleton-text {
 }
 
 ion-refresher {
+ background: #fff;
  --ion-text-color: black;
- ion-spinner{
+
+ ion-refresher-content {
+  background: #fff;
+
+  .refresher-pulling {
+   background: #fff;
+  }
+ }
+
+ ion-spinner {
   color: black;
  }
 }

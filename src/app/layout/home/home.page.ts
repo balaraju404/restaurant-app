@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { APIservice } from 'src/app/utils/api.service';
 import { ResDetailsPage } from '../res-details/res-details.page';
+import { DBManagerService } from 'src/app/utils/db-manager.service';
+import { Constants } from 'src/app/utils/constants.service';
 
 @Component({
  selector: 'app-home',
@@ -9,6 +11,7 @@ import { ResDetailsPage } from '../res-details/res-details.page';
  styleUrls: ['home.page.scss'],
 })
 export class HomePage implements OnInit {
+ userData: any = {}
  skeleton_data: any = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
  isLoading: boolean = true
  showAlertMdl: boolean = false;
@@ -17,6 +20,7 @@ export class HomePage implements OnInit {
  backUpdata: any = []
  constructor(private readonly apiService: APIservice, private readonly modalController: ModalController) { }
  ngOnInit() {
+  this.userData = DBManagerService.getData(Constants.USER_DATA_KEY)
   this.getRestaurantsData()
  }
  getRestaurantsData() {
@@ -58,5 +62,13 @@ export class HomePage implements OnInit {
  dismissAlertModal() {
   this.showAlertMdl = false;
   this.alertMdlData = {}
+ }
+ handleRefresh(event: any) {
+  this.restaurantsData = []
+  this.isLoading = true
+  this.getRestaurantsData()
+  setTimeout(() => {
+   event.target.complete();
+  }, 2000);
  }
 }

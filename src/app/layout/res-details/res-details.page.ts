@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { AlertService } from 'src/app/utils/alert.service';
 import { APIservice } from 'src/app/utils/api.service';
+import { Constants } from 'src/app/utils/constants.service';
+import { DBManagerService } from 'src/app/utils/db-manager.service';
+import { LoadingService } from 'src/app/utils/loading.service';
 
 @Component({
  selector: 'app-res-details',
@@ -16,7 +20,10 @@ export class ResDetailsPage implements OnInit {
  productData: any = []
  selectedCatID: any = ''
  isViewDetails: boolean = false;
- constructor(private readonly apiService: APIservice, private readonly modalController: ModalController) { }
+ productDetails: any;
+ searchFlag: boolean = false
+ searchData: any = []
+ constructor(private readonly apiService: APIservice, private readonly modalController: ModalController, private readonly loadingService: LoadingService) { }
 
  ngOnInit() {
   this.getCategory();
@@ -32,6 +39,7 @@ export class ResDetailsPage implements OnInit {
      }
     }
    }, error: err => {
+    AlertService.showAlert('Alert', err.message || JSON.stringify(err))
    }, complete: () => {
     this.isCatLoading = false
     if (this.categoryData.length > 0) {
@@ -47,29 +55,87 @@ export class ResDetailsPage implements OnInit {
   const params = { res_id: this.resData['_id'], cat_id: this.selectedCatID }
   this.apiService.getResProducts(params).subscribe({
    next: (res: any) => {
-    this.isLoading = false
-    console.log(res)
-    this.productData = res['data'].map((item: any) => {
-     item['quantity'] = 1;
-     return item;
-    });
-
+    if (res['status']) {
+     this.productData = res['data'] || []
+    } else {
+     this.productData = []
+     AlertService.showAlert("Alert", res['msg'] || JSON.stringify(res))
+    }
    }, error: err => {
+    this.productData = []
+    AlertService.showAlert('Alert', err.message || JSON.stringify(err))
+   }, complete: () => {
+    // this.isLoading = false
+    if (this.productData.length > 0) {
+     this.getUserCartData()
+    } else {
+     this.isLoading = false
+    }
+   }
+  })
+ }
+ getUserCartData() {
+  const user_id = DBManagerService.getData(Constants.USER_DATA_KEY)['user_id'];
+  const params = { user_id: user_id, res_id: this.resData['_id'], cat_id: this.selectedCatID }
+  this.apiService.getUserCartData(params).subscribe({
+   next: (res: any) => {
+    if (res['status']) {
+     this.modifyProductsData(res['data'])
+    }
+   }, error: err => {
+    AlertService.showAlert('Alert', err.message || JSON.stringify(err))
+   }, complete: () => {
     this.isLoading = false
    }
   })
  }
-
+ modifyProductsData(data: any[]) {
+  this.productData.map((item: any) => {
+   const index = data.findIndex((ele: any) => ele['res_id'] == item['res_id'] && ele['product_id'] == item['product_id'])
+   if (index != - 1) {
+    item['product_qty'] = data[index]['product_qty'];
+   } else {
+    item['product_qty'] = 1;
+   }
+  })
+ }
+ async postCartData(item: any) {
+  const user_id = DBManagerService.getData(Constants.USER_DATA_KEY)['user_id'];
+  const params = { user_id: user_id, res_id: item['res_id'], cat_id: item['cat_id'], product_id: item['product_id'], product_qty: item['product_qty'], status: 1 };
+  await this.loadingService.showLoading()
+  this.apiService.postCartData(params).subscribe({
+   next: (res: any) => {
+    if (res['status']) {
+     AlertService.showAlert('Success', res['msg'])
+    } else {
+     this.getUserCartData()
+     AlertService.showAlert('Alert', res['msg'] || JSON.stringify(res))
+    }
+   }, error: err => {
+    this.getUserCartData()
+    AlertService.showAlert('Alert', err.message || JSON.stringify(err))
+   }, complete: async () => {
+    await this.loadingService.hideLoading()
+   }
+  })
+ }
  onChangeCategory(id: any) {
   this.selectedCatID = id
   this.productData = []
   this.getProduct()
  }
  onSearchChange(event: any) {
-
+  let searchValue = event.target.value.toLowerCase()
+  console.log(searchValue);
+  if (searchValue.length >= 3) {
+   this.searchData = this.productData.filter((m: any) => m.product_name.toLowerCase().includes(searchValue)) || [];
+   this.searchFlag = true
+  } else {
+   this.searchData = []
+   this.searchFlag = false
+  }
  }
 
- productDetails: any;
  viewDetails(event: any) {
   this.productDetails = event;
   this.isViewDetails = true;
@@ -80,7 +146,7 @@ export class ResDetailsPage implements OnInit {
  closeModal() {
   this.modalController.dismiss();
  }
- // afs
+
  handleRefresh(event: any) {
   this.categoryData = []
   this.productData = []
@@ -92,9 +158,9 @@ export class ResDetailsPage implements OnInit {
  }
 
  eventHandler(event: any, i: number) {
-  if (event['quantity'] > 0 && event['quantity'] <= 5) {
-   event['quantity'] = event['quantity'] + i;
-   event['quantity'] = event['quantity'] == 0 ? 1 : (event['quantity'] == 6 ? 5 : event['quantity']);
+  if (event['product_qty'] > 0 && event['product_qty'] <= 5) {
+   event['product_qty'] = event['product_qty'] + i;
+   event['product_qty'] = event['product_qty'] == 0 ? 1 : (event['product_qty'] == 6 ? 5 : event['product_qty']);
   }
  }
 
@@ -112,5 +178,4 @@ export class ResDetailsPage implements OnInit {
    await new Promise(resolve => setTimeout(resolve, 2000));
   }
  }
-
 }

@@ -1,51 +1,57 @@
 <ion-content>
-  <div class="home-header-div">
-    <ion-row>
-      <ion-col size="12">
-        <span>Welcome, User Name</span>
-      </ion-col>
-    </ion-row>
-  </div>
-  <ion-searchbar color="light" (ionInput)="onSearchChange($event)" placeholder="Search here..."></ion-searchbar>
-  <ion-row class="text-black">
-    @for(item of restaurantsData;track $index){
-    <ion-col size="6">
-      <ion-card-content class="box" (click)="openRestaurantModal(item)">
-        <ion-row class="ion-justify-content-center">
-          <img [src]="item['res_logo']" alt=""/>
-        </ion-row>
-        <ion-row class="ion-justify-content-center">
-          {{item['restaurant_name']}}
-        </ion-row>
-      </ion-card-content>
-    </ion-col>
-    } @if (isLoading) {
-    <ng-container [ngTemplateOutlet]="skeletonTemplate"></ng-container>
-    }
+ <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+  <ion-refresher-content pullingIcon="chevron-down-circle-outline" pullingText="Pull to refresh"
+   refreshingSpinner="circles" refreshingText="Refreshing...">
+  </ion-refresher-content>
+ </ion-refresher>
+
+ <div class="home-header-div">
+  <ion-row>
+   <ion-col size="12">
+    <span>Welcome, {{(!userData['fname']&&!userData['lname'])?'N/A':(userData['fname']+' '+userData['lname'])}}</span>
+   </ion-col>
   </ion-row>
+ </div>
+ <ion-searchbar color="light" (ionInput)="onSearchChange($event)" placeholder="Search here..."></ion-searchbar>
+ <ion-row class="text-black">
+  @for(item of restaurantsData;track $index){
+  <ion-col size="6">
+   <ion-card-content class="box" (click)="openRestaurantModal(item)">
+    <ion-row class="ion-justify-content-center">
+     <img [src]="item['res_logo']" alt="" />
+    </ion-row>
+    <ion-row class="ion-justify-content-center">
+     {{item['restaurant_name']}}
+    </ion-row>
+   </ion-card-content>
+  </ion-col>
+  } @if (isLoading) {
+  <ng-container [ngTemplateOutlet]="skeletonTemplate"></ng-container>
+  }
+ </ion-row>
 </ion-content>
 
 <ng-template #skeletonTemplate>
-  <ng-container *ngFor="let item of skeleton_data">
-    <ion-col size="6">
-      <ion-card-content class="box">
-        <ion-row class="ion-justify-content-center">
-          <ion-thumbnail>
-            <ion-skeleton-text [animated]="true"></ion-skeleton-text>
-          </ion-thumbnail>
-        </ion-row>
-        <ion-row class="ion-justify-content-center">
-          <ion-skeleton-text [animated]="true" style="width: 80px"></ion-skeleton-text>
-        </ion-row>
-      </ion-card-content>
-    </ion-col>
-  </ng-container>
+ <ng-container *ngFor="let item of skeleton_data">
+  <ion-col size="6">
+   <ion-card-content class="box">
+    <ion-row class="ion-justify-content-center">
+     <ion-thumbnail>
+      <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+     </ion-thumbnail>
+    </ion-row>
+    <ion-row class="ion-justify-content-center">
+     <ion-skeleton-text [animated]="true" style="width: 80px"></ion-skeleton-text>
+    </ion-row>
+   </ion-card-content>
+  </ion-col>
+ </ng-container>
 </ng-template>
 
 <div *ngIf="showAlertMdl && alertMdlData" class="modal-container">
-  <div class="modal-content-container">
-    <img src="assets/images/{{alertMdlData['img']}}" alt="Approved" />
-    <span class="multi_lines_text">{{alertMdlData['msg']}}</span>
-    <ion-button class="{{alertMdlData['btn_cls']}}" (click)="dismissAlertModal()">{{alertMdlData['btn_text']}}</ion-button>
-  </div>
+ <div class="modal-content-container">
+  <img src="assets/images/{{alertMdlData['img']}}" alt="Approved" />
+  <span class="multi_lines_text">{{alertMdlData['msg']}}</span>
+  <ion-button class="{{alertMdlData['btn_cls']}}" (click)="dismissAlertModal()">{{alertMdlData['btn_text']}}</ion-button>
+ </div>
 </div>
