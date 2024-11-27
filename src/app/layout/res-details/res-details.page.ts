@@ -11,6 +11,7 @@ import { LoadingService } from 'src/app/utils/loading.service';
  styleUrls: ['./res-details.page.scss'],
 })
 export class ResDetailsPage implements OnInit {
+ userData: any = {}
  showAlertMdl: boolean = false;
  alertMdlData: any = {}
  skeleton_data: any = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
@@ -26,7 +27,8 @@ export class ResDetailsPage implements OnInit {
  searchData: any = []
  constructor(private readonly apiService: APIservice, private readonly modalController: ModalController, private readonly loadingService: LoadingService) { }
 
- ngOnInit() {
+ async ngOnInit() {
+  this.userData = await DBManagerService.getData(Constants.USER_DATA_KEY)
   this.getCategory();
  }
  getCategory() {
@@ -77,8 +79,8 @@ export class ResDetailsPage implements OnInit {
    }
   })
  }
- getUserCartData() {
-  const user_id = DBManagerService.getData(Constants.USER_DATA_KEY)['user_id'];
+ async getUserCartData() {
+  const user_id = this.userData['user_id'];
   const params = { user_id: user_id, res_id: this.resData['_id'], cat_id: this.selectedCatID }
   this.apiService.getUserCartData(params).subscribe({
    next: (res: any) => {
@@ -104,7 +106,7 @@ export class ResDetailsPage implements OnInit {
   })
  }
  async postCartData(item: any) {
-  const user_id = DBManagerService.getData(Constants.USER_DATA_KEY)['user_id'];
+  const user_id = this.userData['user_id'];
   const params = { user_id: user_id, res_id: item['res_id'], cat_id: item['cat_id'], product_id: item['product_id'], product_qty: item['product_qty'], status: 1 };
   await this.loadingService.showLoading()
   this.apiService.postCartData(params).subscribe({

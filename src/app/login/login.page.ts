@@ -17,8 +17,8 @@ export class LoginPage implements OnInit {
  loginPassword: string = ''
 
  constructor(private readonly apiService: APIservice, private readonly router: Router) { }
- ngOnInit() {
-  const userData = DBManagerService.getData(Constants.USER_DATA_KEY)
+ async ngOnInit() {
+  const userData = await DBManagerService.getData(Constants.USER_DATA_KEY)
   if (userData) {
    this.router.navigate(['/layout/home'])
   }
@@ -37,11 +37,11 @@ export class LoginPage implements OnInit {
  checkUser() {
   this.isLoading = true
   this.apiService.loginCheck(this.loginName, this.loginPassword).subscribe({
-   next: (res: any) => {
+   next: async (res: any) => {
     this.isLoading = false
     if (res['status']) {
      const data = JSON.parse(JSON.stringify(res['data']))
-     DBManagerService.setData(data, Constants.USER_DATA_KEY)
+     await DBManagerService.setData(data, Constants.USER_DATA_KEY)
      this.router.navigate(['/layout/home'])
     } else {
      this.alertMdlData = { 'title': '', 'img': 'danger.png', 'msg': res['msg'] || JSON.stringify(res), 'btn_text': 'Ok', 'btn_cls': 'danger' }

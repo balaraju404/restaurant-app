@@ -19,8 +19,8 @@ export class HomePage implements OnInit {
  restaurantsData: any = []
  backUpdata: any = []
  constructor(private readonly apiService: APIservice, private readonly modalController: ModalController) { }
- ngOnInit() {
-  this.userData = DBManagerService.getData(Constants.USER_DATA_KEY)
+ async ngOnInit() {
+  this.userData = await DBManagerService.getData(Constants.USER_DATA_KEY)
   this.getRestaurantsData()
  }
  getRestaurantsData() {

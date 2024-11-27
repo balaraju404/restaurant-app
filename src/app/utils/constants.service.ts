@@ -13,8 +13,9 @@ export class Constants {
  static readonly USER_DATA_KEY = 'login_user_data'
  static readonly RES_USER_SELECTED_KEY = 'restaurant_user_selected_data'
 
- static isRestaurantUsers() {
-  const role_id = DBManagerService.getData(Constants.USER_DATA_KEY)['role_id']
+ static async isRestaurantUsers() {
+  const userData: any = await DBManagerService.getData(Constants.USER_DATA_KEY)
+  const role_id = userData['role_id']
   return role_id == 2 || role_id == 4
  }
 

@@ -27,8 +27,8 @@ export class ProfilePage implements OnInit {
   private readonly loadingService: LoadingService,
   private readonly toastService: ToastService) { }
 
- ngOnInit() {
-  this.userData = DBManagerService.getData(Constants.USER_DATA_KEY)
+ async ngOnInit() {
+  this.userData = await DBManagerService.getData(Constants.USER_DATA_KEY)
  }
 
  onInput(event: Event) {
@@ -70,8 +70,8 @@ export class ProfilePage implements OnInit {
   this.selectedFileUrl = null
   this.imageModal = false
  }
- onLogout() {
-  localStorage.clear()
+ async onLogout() {
+  await DBManagerService.clearAll()
   this.router.navigate(['/login'])
  }
 
@@ -169,10 +169,10 @@ export class ProfilePage implements OnInit {
  getUserInfo() {
   const user_id = this.userData['user_id']
   this.apiService.getUsers({ user_id: user_id }).subscribe({
-   next: (res: any) => {
+   next: async (res: any) => {
     if (res['status']) {
-     DBManagerService.setData(res['data'][0], Constants.USER_DATA_KEY)
-     this.userData = DBManagerService.getData(Constants.USER_DATA_KEY)
+     await DBManagerService.setData(res['data'][0], Constants.USER_DATA_KEY)
+     this.userData = await DBManagerService.getData(Constants.USER_DATA_KEY)
     } else {
      this.alertMdlData = { 'title': '', 'img': 'danger.png', 'msg': res['msg'] || JSON.stringify(res), 'btn_text': 'Ok', 'btn_cls': 'danger' }
      this.showAlertMdl = true
