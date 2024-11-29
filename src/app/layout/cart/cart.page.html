@@ -1,3 +1,114 @@
 <ion-content>
-<span>Cart Page</span>
+ <span class="page-title-span">Cart Page</span>
+ @if (userCartData.length === 0) {
+ <div class="no-data-div">
+  <span>No Products found.</span>
+ </div>
+ }@else {
+ <div class="cart-container">
+  <div class="cart-products-container">
+   <ion-list>
+    <ion-item *ngFor="let item of userCartData; let index = index">
+     <ion-grid>
+      <ion-row>
+       <ion-col size="3">
+        <img class="product-image" [src]="item['product_img']" alt="product img" class="">
+       </ion-col>
+       <ion-col size="9">
+        <div>
+         <span>{{ item['product_name'] }}</span><br>
+         <span class="text-muted">Price: &#8377; {{ item['price'] }}</span>
+        </div>
+        <div class="ion-text-center">
+         <ion-button fill="outline" size="small" color="secondary" class="me-2" (click)="handleQuantity(item, 0)">
+          -
+         </ion-button>
+         <span class="product_qty-span">{{ item['product_qty'] }}</span>
+         <ion-button fill="outline" size="small" color="secondary" class="ms-2" (click)="handleQuantity(item, 1)">
+          +
+         </ion-button>
+         <ion-button fill="outline" size="small" color="danger" class="ms-2" (click)="deleteItem(item['cart_id'])">
+          <ion-icon name="trash-outline"></ion-icon>
+         </ion-button>
+        </div>
+       </ion-col>
+      </ion-row>
+     </ion-grid>
+    </ion-item>
+   </ion-list>
+  </div>
+ </div>
+ }
 </ion-content>
+
+<!-- 
+<div class="col-12 mt-4">
+    <div class="row mb-4 align-items-center">
+      <h4 class="text-left">Cart Page</h4>
+    </div>
+  
+    <div class="col-md-12 row">
+      <div class="col-md-7 overflow-auto mb-4">
+        @if (userCartData.length === 0) {
+        <div>
+          <p>No Products found.</p>
+        </div>
+        }
+        @for (item of userCartData; track $index) {
+        <div class="card text-center my-3 px-3 py-1 shadow-sm border-0 custom-card flex-row">
+          <img [src]="item['product_img']" alt="product img" class="img-fluid rounded-circle mx-auto"
+            style="height: 100px; width: 100px; object-fit: cover;">
+  
+          <div class="card-body">
+            <h5 class="card-title">{{ item['product_name'] }}</h5>
+            <p class="text-muted mb-1">Price: &#8377; {{ item['price'] }}</p>
+          </div>
+  
+          <div class="d-grid gap-2">
+            <div class="d-flex justify-content-center align-items-center mb-3">
+              <button class="btn btn-outline-secondary btn-sm me-2" (click)="handleQuantity(item,0)">-</button>
+              <span class="mx-2">{{ item['product_qty'] }}</span>
+              <button class="btn btn-outline-secondary btn-sm ms-2" (click)="handleQuantity(item,1)">+</button>
+              <button class="btn btn-outline-danger btn-sm ms-2" (click)="deleteItem(item['cart_id'])">
+                <i class="fa-regular fa-trash-can"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        }
+      </div>
+  
+      <div class="col-md-4 mt-3">
+        <table class="table table-bordered table-striped table-hover table-sm text-center custom-table">
+          <thead class="thead-dark">
+            <tr>
+              <th>Sno</th>
+              <th>Name</th>
+              <th>Price</th>
+              <th>Qty</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (item of userCartData; track $index; let i = $index) {
+            <tr class="text-nowrap">
+              <td>{{ i + 1 }}</td>
+              <td>{{ item['product_name'] }}</td>
+              <td>&#8377; {{ item['price'] }}</td>
+              <td>{{ item['product_qty'] }}</td>
+            </tr>
+            }
+            <tr class="total-row">
+              <td colspan="2"><strong>Total</strong></td>
+              <td colspan="2">&#8377; {{ getTotalPrice() }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="text-center mt-4">
+          <button class="btn btn-success payment-btn" [disabled]="userCartData.length==0" (click)="placeOrder()">Place Order</button>
+        </div>
+        <button (click)="getcurrentLocation()">get current location</button>
+      </div>
+    </div>
+  </div>
+  
+  <app-custom-loader [isLoader]="isLoading"></app-custom-loader> -->
