@@ -25,7 +25,7 @@ export class AlertModel {
  public status: AlertType = AlertType.Success;
  public title: string = '';
  public message: string = '';
- public position: AlertPositionType = AlertPositionType.TopRight;
+ public position: AlertPositionType = AlertPositionType.TopCenter;
  public duration: number = 3000;
  public buttons: any[] = [];
 
@@ -33,7 +33,7 @@ export class AlertModel {
   status: AlertType,
   title: string,
   message: string,
-  position: AlertPositionType = AlertPositionType.TopRight,
+  position: AlertPositionType = AlertPositionType.TopCenter,
   duration: number = 3000
  ) {
   this.isShown = true;
