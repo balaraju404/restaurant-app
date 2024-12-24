@@ -137,4 +137,10 @@ export class CartPage implements OnInit {
   })
  }
 
+ handleRefresh(event: any) {
+  this.getUserCartData()
+  setTimeout(() => {
+   event.target.complete();
+  }, 2000);
+ }
 }

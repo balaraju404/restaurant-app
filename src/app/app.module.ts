@@ -11,8 +11,8 @@ import { CustomAlertModule } from './utils/custom-componets/custom-alert.module'
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule,CustomAlertModule],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy },provideHttpClient()],
+  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, CustomAlertModule, IonicModule],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, provideHttpClient()],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

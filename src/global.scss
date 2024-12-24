@@ -47,6 +47,121 @@ ion-content {
  display: flex;
 }
 
+.d-flex-column {
+ display: flex;
+ flex-direction: column;
+}
+
+.d-flex-row {
+ display: flex;
+ flex-direction: row;
+}
+
+.d-flex-row-reverse {
+ display: flex;
+ flex-direction: row-reverse;
+}
+
+.d-flex-column-reverse {
+ display: flex;
+ flex-direction: column-reverse;
+}
+
+.d-flex-wrap {
+ display: flex;
+ flex-wrap: wrap;
+}
+
+.d-flex-wrap-reverse {
+ display: flex;
+ flex-wrap: wrap-reverse;
+}
+
+.d-flex-nowrap {
+ display: flex;
+ flex-wrap: nowrap;
+}
+
+.d-flex-nowrap-reverse {
+ display: flex;
+ flex-wrap: nowrap-reverse;
+}
+
+.d-flex-grow {
+ display: flex;
+ flex-grow: 1;
+}
+
+.d-flex-shrink {
+ display: flex;
+ flex-shrink: 1;
+}
+
+.d-flex-basis {
+ display: flex;
+ flex-basis: 100px;
+}
+
+.d-flex-basis-auto {
+ display: flex;
+ flex-basis: auto;
+}
+
+.d-flex-basis-content {
+ display: flex;
+ flex-basis: content;
+}
+
+.d-flex-basis-0 {
+ display: flex;
+ flex-basis: 0;
+}
+
+.d-flex-basis-inherit {
+ display: flex;
+ flex-basis: inherit;
+}
+
+.d-flex-basis-initial {
+ display: flex;
+ flex-basis: initial;
+}
+
+.d-flex-basis-unset {
+ display: flex;
+ flex-basis: unset;
+}
+
+.d-flex-basis-none {
+ display: flex;
+ flex-basis: none;
+}
+
+.gap-1 {
+ gap: 0.5rem;
+}
+
+.gap-2 {
+ gap: 1rem;
+}
+
+.gap-3 {
+ gap: 1.5rem;
+}
+
+.gap-4 {
+ gap: 2rem;
+}
+
+.gap-5 {
+ gap: 2.5rem;
+}
+
+.gap-6 {
+ gap: 3rem;
+}
+
+
 .text-white {
  color: white;
 }
