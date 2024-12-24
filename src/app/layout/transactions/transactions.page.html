@@ -1,3 +1,64 @@
 <ion-content>
-<span>Transactions Page</span>
+ <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+  <ion-refresher-content pullingIcon="chevron-down-circle-outline" pullingText="Pull to refresh"
+   refreshingSpinner="circles" refreshingText="Refreshing...">
+  </ion-refresher-content>
+ </ion-refresher>
+
+ <div class="container mt-4">
+  <h2 class="text-center mb-4 text-primary">Transactions</h2>
+  <ion-list>
+   <ion-item *ngFor="let item of orders_data; let i = index">
+    <ion-card class="custom-card">
+     <ion-card-header class="custom-card-header">
+      <ion-card-title>Order #{{ item.trans_id }}</ion-card-title>
+     </ion-card-header>
+
+     <ion-card-content>
+      <ion-label *ngIf="roleId === 2">
+       <p class="mb-1"><strong>User Name:</strong> {{ item.user_name }}</p>
+      </ion-label>
+      <ion-label *ngIf="roleId === 3">
+       <p class="mb-1"><strong>Restaurant Name:</strong> {{ item.restaurant_name }}</p>
+      </ion-label>
+
+      <ion-card-subtitle class="text-secondary">
+       <strong>Total Price:</strong> &#8377; {{ item.total_price }}
+      </ion-card-subtitle>
+
+      <ion-list class="scrollable-product-list">
+       <ion-item *ngFor="let product of item.products_data; let j = index">
+        <ion-label>
+         <h6 class="mb-0 text-info">Product: {{ product.product_name }}</h6>
+         <p class="mb-0 text-muted"><strong>Quantity:</strong> {{ product.product_qty }}</p>
+         <p class="mb-0 text-muted"><strong>Price:</strong> &#8377; {{ product.price }}</p>
+        </ion-label>
+        <ion-badge color="info">Qty: {{ product.product_qty }}</ion-badge>
+       </ion-item>
+      </ion-list>
+
+      <div class="button-container">
+       <ion-button *ngIf="item.status === 1" color="primary" expand="full" size="small">
+        Pending
+       </ion-button>
+       <ion-button *ngIf="item.status === 2" color="success" expand="full" size="small">
+        Accepted
+       </ion-button>
+       <ion-button *ngIf="item.status === 3" color="danger" expand="full" size="small">
+        Rejected
+       </ion-button>
+       <ion-button *ngIf="item.status === 4" color="warning" expand="full" size="small">
+        Failed
+       </ion-button>
+      </div>
+     </ion-card-content>
+
+     <!-- Replaced footer with a custom label section -->
+     <ion-card-subtitle class="custom-footer-subtitle">
+      <strong>Order Date:</strong> {{ item.transaction_date }}
+     </ion-card-subtitle>
+    </ion-card>
+   </ion-item>
+  </ion-list>
+ </div>
 </ion-content>
