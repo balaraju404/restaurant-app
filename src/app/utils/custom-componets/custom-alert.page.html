@@ -1,5 +1,5 @@
-@if(alert_model!['isShown']){
-<div class="modal-content" [ngClass]="[getAlertClass(), getAlertPositionClass(), alert_model['fadeClass']]">
+@if (alert_model && alert_model['isShown']) {
+<div class="modal-content" [ngClass]="[getAlertClass(), getAlertPositionClass(), alert_model.fadeClass]">
  <ion-col size="2">
   <ion-icon [name]="getAlertIcon()"></ion-icon>
  </ion-col>

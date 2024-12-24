@@ -52,20 +52,27 @@ export class AlertModel {
  styleUrls: ['./custom-alert.page.scss']
 })
 export class CustomAlertComponent implements OnInit {
- @Input() alert_model: AlertModel = new AlertModel(AlertType.Success, 'Default Title', 'Default message');
+ @Input() alert_model!: AlertModel;
+
  constructor() { }
+
  ngOnInit(): void {
-  setTimeout(() => {
-   this.closeModal();
-  }, this.alert_model['duration'] || 3000);
+  if (this.alert_model) {
+   setTimeout(() => {
+    this.closeModal();
+   }, this.alert_model.duration || 3000);
+  }
  }
 
  closeModal() {
-  this.alert_model.fadeClass = 'fade-out';
-  setTimeout(() => {
-   this.alert_model.isShown = false;
-   this.alert_model.fadeClass = '';
-  }, 500);
+  if (this.alert_model) {
+   this.alert_model.fadeClass = 'fade-out';
+
+   setTimeout(() => {
+    this.alert_model.isShown = false;
+    this.alert_model.fadeClass = '';
+   }, 500);
+  }
  }
 
  // Dynamically get the class based on the alert type
