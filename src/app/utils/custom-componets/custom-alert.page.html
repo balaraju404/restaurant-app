@@ -1,0 +1,13 @@
+@if(alert_model!['isShown']){
+<div class="modal-content" [ngClass]="[getAlertClass(), getAlertPositionClass(), alert_model['fadeClass']]">
+ <ion-col size="2">
+  <ion-icon [name]="getAlertIcon()"></ion-icon>
+ </ion-col>
+ <ion-col size="8" class="ion-no-padding">
+  <p>{{ alert_model.message }}</p>
+ </ion-col>
+ <ion-col size="2">
+  <ion-icon name="close" (click)="closeModal()" (keypress)="closeModal()"></ion-icon>
+ </ion-col>
+</div>
+}

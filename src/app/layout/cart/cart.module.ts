@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { CartPageRoutingModule } from './cart-routing.module';
 
 import { CartPage } from './cart.page';
+import { CustomAlertModule } from 'src/app/utils/custom-componets/custom-alert.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    CartPageRoutingModule
+    CartPageRoutingModule,
+    CustomAlertModule
   ],
   declarations: [CartPage]
 })

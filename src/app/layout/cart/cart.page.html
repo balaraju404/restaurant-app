@@ -1,44 +1,49 @@
 <ion-content>
- <span class="page-title-span">Cart Page</span>
- @if (userCartData.length === 0) {
- <div class="no-data-div">
-  <span>No Products found.</span>
- </div>
- }@else {
- <div class="cart-container">
-  <div class="cart-products-container">
-   <ion-list>
-    <ion-item *ngFor="let item of userCartData; let index = index">
-     <ion-grid>
-      <ion-row>
-       <ion-col size="3">
-        <img class="product-image" [src]="item['product_img']" alt="product img" class="">
-       </ion-col>
-       <ion-col size="9">
-        <div>
-         <span>{{ item['product_name'] }}</span><br>
-         <span class="text-muted">Price: &#8377; {{ item['price'] }}</span>
-        </div>
-        <div class="ion-text-center">
-         <ion-button fill="outline" size="small" color="secondary" class="me-2" (click)="handleQuantity(item, 0)">
-          -
-         </ion-button>
-         <span class="product_qty-span">{{ item['product_qty'] }}</span>
-         <ion-button fill="outline" size="small" color="secondary" class="ms-2" (click)="handleQuantity(item, 1)">
-          +
-         </ion-button>
-         <ion-button fill="outline" size="small" color="danger" class="ms-2" (click)="deleteItem(item['cart_id'])">
-          <ion-icon name="trash-outline"></ion-icon>
-         </ion-button>
-        </div>
-       </ion-col>
-      </ion-row>
-     </ion-grid>
-    </ion-item>
-   </ion-list>
+  <span class="page-title-span">Cart Page</span>
+  @if (userCartData.length === 0) {
+  <div class="no-data-div">
+    <span>No Products found.</span>
   </div>
- </div>
- }
+  }@else {
+  <div class="cart-container">
+    <div class="cart-products-container">
+      <ion-list>
+        <ion-item *ngFor="let item of userCartData; let index = index">
+          <ion-grid>
+            <ion-row>
+              <ion-col size="3">
+                <img class="product-image" [src]="item['product_img']" alt="product img" class="">
+              </ion-col>
+              <ion-col size="9">
+                <div>
+                  <span>{{ item['product_name'] }}</span><br>
+                  <span class="text-muted">Price: &#8377; {{ item['price'] }}</span>
+                </div>
+                <div class="ion-text-center">
+                  <ion-button fill="outline" size="small" color="secondary" class="me-2"
+                    (click)="handleQuantity(item, 0)">
+                    -
+                  </ion-button>
+                  <span class="product_qty-span">{{ item['product_qty'] }}</span>
+                  <ion-button fill="outline" size="small" color="secondary" class="ms-2"
+                    (click)="handleQuantity(item, 1)">
+                    +
+                  </ion-button>
+                  <ion-button fill="outline" size="small" color="danger" class="ms-2"
+                    (click)="deleteItem(item['cart_id'])">
+                    <ion-icon name="trash-outline"></ion-icon>
+                  </ion-button>
+                </div>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-item>
+      </ion-list>
+    </div>
+  </div>
+  }
+
+
 </ion-content>
 
 <!-- 
@@ -112,3 +117,5 @@
   </div>
   
   <app-custom-loader [isLoader]="isLoading"></app-custom-loader> -->
+
+<app-custom-alert [alert_model]="alert_mdl"></app-custom-alert>

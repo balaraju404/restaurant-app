@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { APIservice } from 'src/app/utils/api.service';
 import { Constants } from 'src/app/utils/constants.service';
+import { AlertModel, AlertPositionType, AlertType } from 'src/app/utils/custom-componets/custom-alert.page';
 import { DBManagerService } from 'src/app/utils/db-manager.service';
 
 @Component({
@@ -12,6 +13,7 @@ export class CartPage implements OnInit {
  isLoading: boolean = false
  userData: any = {}
  userCartData: any[] = []
+ alert_mdl!: AlertModel;
 
  constructor(private readonly apiService: APIservice
   // ,private socketService: SocketService
@@ -66,13 +68,13 @@ export class CartPage implements OnInit {
     this.isLoading = false
     if (res['status']) {
      this.getUserCartData()
-     alert(res['msg'])
+     this.alert_mdl = new AlertModel(AlertType.Success, 'Success!', res['msg']);
     } else {
-     alert(res['msg'] || JSON.stringify(res))
+     this.alert_mdl = new AlertModel(AlertType.Error, 'Success!', res['msg'] || JSON.stringify(res));
     }
    }, error: error => {
     this.isLoading = false
-    alert(JSON.stringify(error))
+    this.alert_mdl = new AlertModel(AlertType.Error, 'Success!', error.error['message'] || JSON.stringify(error));
    }
   })
  }
