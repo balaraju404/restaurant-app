@@ -271,8 +271,16 @@ ion-content {
  }
 }
 
+ion-thumbnail {
+ ion-skeleton-text {
+  --border-radius: 50%;
+  --background: rgba(188, 0, 255, 0.065);
+  --background-rgb: 188, 0, 255;
+ }
+}
+
 ion-skeleton-text {
- --border-radius: 9999px;
+ --border-radius: 0.1rem;
  --background: rgba(188, 0, 255, 0.065);
  --background-rgb: 188, 0, 255;
 }

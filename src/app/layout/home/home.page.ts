@@ -18,11 +18,26 @@ export class HomePage implements OnInit {
  alertMdlData: any = {}
  restaurantsData: any = []
  backUpdata: any = []
+ curWeatherImg: string = ''
  constructor(private readonly apiService: APIservice, private readonly modalController: ModalController) { }
  async ngOnInit() {
   this.userData = await DBManagerService.getData(Constants.USER_DATA_KEY)
+  this.getCurrentWeatherImg()
   this.getRestaurantsData()
  }
+ getCurrentWeatherImg() {
+  const curHour = new Date().getHours();
+  if (curHour >= 6 && curHour < 12) {
+   this.curWeatherImg = 'morning';
+  } else if (curHour >= 12 && curHour < 16) {
+   this.curWeatherImg = 'afternoon';
+  } else if (curHour >= 16 && curHour <= 18) {
+   this.curWeatherImg = 'evening';
+  } else {
+   this.curWeatherImg = 'night';
+  }
+ }
+
  getRestaurantsData() {
   this.isLoading = true
   this.apiService.getRestaurants().subscribe({
@@ -66,6 +81,7 @@ export class HomePage implements OnInit {
  handleRefresh(event: any) {
   this.restaurantsData = []
   this.isLoading = true
+  this.getCurrentWeatherImg()
   this.getRestaurantsData()
   setTimeout(() => {
    event.target.complete();

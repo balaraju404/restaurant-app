@@ -112,7 +112,7 @@ export class ResDetailsPage implements OnInit {
   this.apiService.postCartData(params).subscribe({
    next: (res: any) => {
     if (res['status']) {
-    Constants.cartCountSubject.next(true)
+     Constants.cartCountSubject.next(true)
      this.alertMdlData = { 'title': '', 'img': 'success.png', 'msg': res['msg'] || 'Item Added to Cart', 'btn_text': 'Ok', 'btn_cls': 'success' }
      this.showAlertMdl = true
     } else {
@@ -151,9 +151,11 @@ export class ResDetailsPage implements OnInit {
   }
  }
  viewDetails(event: any) {
-  this.productDetails = event;
+  this.productDetails = JSON.parse(JSON.stringify(event));
+  this.productDetails['curIndex'] = 0
+  this.updateCurrentImage()
   this.isViewDetails = true;
-  this.imageRotater();
+  // this.imageRotater();
 
  }
  async imageRotater() {
@@ -162,8 +164,27 @@ export class ResDetailsPage implements OnInit {
    return;
   }
   for (let i = 0; i < this.productDetails['images'].length; i++) {
-   this.productDetails['product_img'] = this.productDetails['images'][i]['image'];
+   this.productDetails['product_imgs'] = this.productDetails['images'][i]['image'];
    await new Promise(resolve => setTimeout(resolve, 2000));
+  }
+ }
+ incImg() {
+  if (this.productDetails['images'].length > 0) {
+   this.productDetails['curIndex'] = (this.productDetails['curIndex'] + 1) % this.productDetails['images'].length;
+   this.updateCurrentImage();
+  }
+ }
+
+ decImg() {
+  if (this.productDetails['images'].length > 0) {
+   this.productDetails['curIndex'] = (this.productDetails['curIndex'] - 1 + this.productDetails['images'].length) % this.productDetails['images'].length;
+   this.updateCurrentImage();
+  }
+ }
+
+ private updateCurrentImage() {
+  if (this.productDetails?.['images'] && this.productDetails['images'].length > 0) {
+   this.productDetails['cur_img'] = this.productDetails['images'][this.productDetails['curIndex']]['image'];
   }
  }
  dismissProductModal() {

@@ -7,8 +7,10 @@
 
  <div class="home-header-div">
   <ion-row>
-   <ion-col size="12">
-    <span>Welcome, {{(!userData['fname']&&!userData['lname'])?'N/A':(userData['fname']+' '+userData['lname'])}}</span>
+   <ion-col size="12" class="d-flex ion-align-items-center ion-justify-content-between gap-1">
+    <span>Welcome, {{(!userData['fname']&&!userData['lname'])?'N/A':(userData['fname']+'
+     '+userData['lname'])}}</span>
+    <img src="assets/images/{{curWeatherImg}}.png" style="height: 2rem; width: 2rem;">
    </ion-col>
   </ion-row>
  </div>
@@ -52,6 +54,7 @@
  <div class="modal-content-container">
   <img src="assets/images/{{alertMdlData['img']}}" alt="Approved" />
   <span class="multi_lines_text">{{alertMdlData['msg']}}</span>
-  <ion-button class="{{alertMdlData['btn_cls']}}" (click)="dismissAlertModal()">{{alertMdlData['btn_text']}}</ion-button>
+  <ion-button class="{{alertMdlData['btn_cls']}}"
+   (click)="dismissAlertModal()">{{alertMdlData['btn_text']}}</ion-button>
  </div>
 </div>
