@@ -20,8 +20,23 @@
   }
 
   ion-button {
-   --ion-color-secondary: white !important;
+   --ion-color-secondary: white;
    --ion-color-secondary-shade: rgba(181, 179, 179, 0.78);
+   --ion-color-secondary-contrast: black;
+   ion-spinner{
+    margin-left: 0.5rem;
+    color: black;
+   }
+  }
+
+  /* Dark theme styles */
+  :host-context(.dark) ion-button {
+   --ion-color-secondary: black;
+   --ion-color-secondary-shade: rgba(255, 255, 255, 0.7);
+   /* Lighter shade */
+   --background: var(--ion-color-secondary);
+   --color: black;
+   /* Text color for dark mode */
   }
  }
 }
