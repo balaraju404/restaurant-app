@@ -1,7 +1,7 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
- appId: 'com.gbr-food.app',
+ appId: 'com.gbr-food.android',
  appName: 'GBR Food App',
  webDir: 'www',
  // server: {
@@ -15,11 +15,12 @@ const config: CapacitorConfig = {
    "saveToGallery": false
   },
   SplashScreen: {
+   launchAutoHide: true,
    launchShowDuration: 3000,
-   launchAutoHide: false,     
-   backgroundColor: "#ffffff", 
-   splashFullScreen: true,    
-   splashImmersive: true,  
+   backgroundColor: "#ffffff",
+   splashFullScreen: true,
+   splashImmersive: true,
+   androidScaleType: 'CENTER_CROP',
   }
  }
 

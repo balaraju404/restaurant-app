@@ -9,16 +9,8 @@ import { SplashScreen } from '@capacitor/splash-screen';
 })
 export class AppComponent {
  constructor(private platform: Platform) {
-  this.initializeApp();
- }
-
- initializeApp() {
   this.platform.ready().then(() => {
-   SplashScreen.show();
-
-   setTimeout(() => {
-    SplashScreen.hide();
-   }, 3000);
+   SplashScreen.hide();
   });
  }
 }
