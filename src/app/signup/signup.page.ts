@@ -19,12 +19,12 @@ export class SignupPage implements OnInit {
   console.log('sign up');
  }
  submit() {
-  if (this.username.length < 6)
+  if (this.username.length < 5)
    AlertService.showAlert('Alert', 'Username should atleast 6 letters');
-  // else if (this.loginname.length < 6)
-  //  AlertService.showAlert('Alert', 'Loginname should atleast 6 letters');
-  // else if (this.password.length < 6)
-  //  AlertService.showAlert('Alert', 'Password should atleast 6 characters');
+  else if (this.loginname.length < 5)
+   AlertService.showAlert('Alert', 'Loginname should atleast 6 letters');
+  else if (this.password.length < 5)
+   AlertService.showAlert('Alert', 'Password should atleast 6 characters');
   else {
    this.createUser()
   }

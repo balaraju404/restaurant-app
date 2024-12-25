@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { DBManagerService } from "./db-manager.service";
 import { environment } from "../../environments/environment";
+import { Subject } from "rxjs";
 
 @Injectable({
  providedIn: 'root',
@@ -18,6 +19,7 @@ export class Constants {
   const role_id = userData['role_id']
   return role_id == 2 || role_id == 4
  }
+ static cartCountSubject = new Subject()
 
  static readonly REGEXP_NUMERIC = /^[0-9\s]*$/
  static readonly REGEXP_EMAIL = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/

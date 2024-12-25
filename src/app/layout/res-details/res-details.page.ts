@@ -112,6 +112,7 @@ export class ResDetailsPage implements OnInit {
   this.apiService.postCartData(params).subscribe({
    next: (res: any) => {
     if (res['status']) {
+    Constants.cartCountSubject.next(true)
      this.alertMdlData = { 'title': '', 'img': 'success.png', 'msg': res['msg'] || 'Item Added to Cart', 'btn_text': 'Ok', 'btn_cls': 'success' }
      this.showAlertMdl = true
     } else {

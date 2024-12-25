@@ -96,6 +96,9 @@ export class APIservice {
  getUserCartData(params: any) {
   return this.http.post(this.apiUrl + 'cart/details', params)
  }
+ getCartCount(params: any) {
+  return this.http.post(this.apiUrl + 'cart/userCartCount', params)
+ }
  postCartData(params: any) {
   return this.http.post(this.apiUrl + 'cart/add', params)
  }

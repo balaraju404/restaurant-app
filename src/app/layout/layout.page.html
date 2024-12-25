@@ -1,7 +1,14 @@
 <ion-header [translucent]="true">
  <ion-toolbar>
   <ion-title>
-   GBR Food App
+   <ion-row class="title-row">
+    <ion-col size="auto">
+     <img class="app-icon" src="assets/images/app-icon.png" alt="app-icon">
+    </ion-col>
+    <ion-col size="auto">
+     GBR Food App
+    </ion-col>
+   </ion-row>
   </ion-title>
  </ion-toolbar>
 </ion-header>
@@ -13,17 +20,18 @@
 <ion-footer>
  <ion-toolbar>
   <ion-row justify-content="space-between" align-items="center">
-   <ion-col size="2" class="ion-text-center" (click)="onNavigatePage('home')">
+   <ion-col size="2" class="ion-text-center" [class.active]="isActive('home')" (click)="onNavigatePage('home')">
     <ion-icon name="home-outline" size="large" aria-label="Home"></ion-icon>
    </ion-col>
-   <ion-col size="4" class="ion-text-center" (click)="onNavigatePage('cart')">
+   <ion-col size="4" class="ion-text-center" [class.active]="isActive('cart')" (click)="onNavigatePage('cart')">
     <ion-icon name="cart-outline" size="large" aria-label="Cart"></ion-icon>
-    <ion-badge>0</ion-badge>
+    <ion-badge>{{cartCount}}</ion-badge>
    </ion-col>
-   <ion-col size="3" class="ion-text-center" (click)="onNavigatePage('transactions')">
-    <ion-icon name="swap-horizontal" size="large" aria-label="Swap"></ion-icon>
+   <ion-col size="3" class="ion-text-center" [class.active]="isActive('transactions')"
+    (click)="onNavigatePage('transactions')">
+    <ion-icon name="bag-handle-outline" size="large" aria-label="Order List"></ion-icon>
    </ion-col>
-   <ion-col size="3" class="ion-text-center" (click)="onNavigatePage('profile')">
+   <ion-col size="3" class="ion-text-center" [class.active]="isActive('profile')" (click)="onNavigatePage('profile')">
     <ion-icon name="person-circle" size="large" aria-label="Profile"></ion-icon>
    </ion-col>
   </ion-row>

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AlertService } from 'src/app/utils/alert.service';
 import { APIservice } from 'src/app/utils/api.service';
 import { Constants } from 'src/app/utils/constants.service';
 import { DBManagerService } from 'src/app/utils/db-manager.service';
@@ -10,6 +11,7 @@ import { DBManagerService } from 'src/app/utils/db-manager.service';
 })
 export class TransactionsPage implements OnInit {
  isLoading: boolean = false
+ skeleton_data: any = [1, 2, 3, 4, 5, 6]
  orders_data: any[] = []
  userData: any = {}
  roleId: any;
@@ -36,7 +38,7 @@ export class TransactionsPage implements OnInit {
    }
   }, error => {
    this.isLoading = false
-   alert(JSON.stringify(error))
+   AlertService.showAlert('Alert', JSON.stringify(error))
   })
  }
  handleOrder(params: any, status: boolean) {
@@ -45,17 +47,18 @@ export class TransactionsPage implements OnInit {
   this.apiService.handleOrder(params).subscribe((res: any) => {
    this.isLoading = false
    if (res['status']) {
-    alert(res['msg'])
+    AlertService.showAlert('Alert', res['msg'])
     this.getOrdersData()
    } else {
-    alert(res['msg'] || JSON.parse(res))
+    AlertService.showAlert('Alert', res['msg'] || JSON.parse(res))
    }
   }, error => {
    this.isLoading = false
-   alert(JSON.stringify(error))
+   AlertService.showAlert('Alert', JSON.stringify(error))
   })
  }
  handleRefresh(event: any) {
+  this.orders_data = []
   this.getOrdersData()
   setTimeout(() => {
    event.target.complete();

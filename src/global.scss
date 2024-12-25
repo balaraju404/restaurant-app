@@ -43,6 +43,20 @@ ion-content {
  }
 }
 
+.page-title-span {
+ font-family: 'Arial', sans-serif;
+ font-size: 1.2rem;
+ font-weight: 600;
+ color: #2C3E50;
+ text-align: center;
+ padding: 0.5rem 0;
+ border-bottom: 0.1rem solid #FF6347;
+ background-color: #FCFCFC;
+ letter-spacing: 0.05rem;
+ text-transform: uppercase;
+ margin: 0;
+}
+
 .d-flex {
  display: flex;
 }

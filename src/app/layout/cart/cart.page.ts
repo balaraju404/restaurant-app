@@ -93,6 +93,7 @@ export class CartPage implements OnInit {
    next: async (res: any) => {
     await this.loadingService.hideLoading()
     if (res['status']) {
+     Constants.cartCountSubject.next(true)
      this.getUserCartData()
      this.alert_mdl = new AlertModel(AlertType.Success, '', res['msg']);
     } else {

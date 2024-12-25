@@ -6,36 +6,53 @@
  </ion-refresher>
 
  <div class="container mt-4">
-  <h2 class="text-center mb-4 text-primary">Transactions</h2>
+  <!-- Page Title -->
+  <p class="page-title-span">Orders Page</p>
   <ion-list>
    <ion-item *ngFor="let item of orders_data; let i = index">
     <ion-card class="custom-card">
      <ion-card-header class="custom-card-header">
-      <ion-card-title>Order #{{ item.trans_id }}</ion-card-title>
+      <ion-card-title>Order: #{{ item.trans_id }}</ion-card-title>
      </ion-card-header>
 
      <ion-card-content>
-      <ion-label *ngIf="roleId === 2">
+      <ion-label *ngIf="roleId == 2">
        <p class="mb-1"><strong>User Name:</strong> {{ item.user_name }}</p>
       </ion-label>
-      <ion-label *ngIf="roleId === 3">
+      <ion-label *ngIf="roleId == 3">
        <p class="mb-1"><strong>Restaurant Name:</strong> {{ item.restaurant_name }}</p>
       </ion-label>
 
       <ion-card-subtitle class="text-secondary">
        <strong>Total Price:</strong> &#8377; {{ item.total_price }}
       </ion-card-subtitle>
+      <ion-list class="horizontal-list">
+       @for(product of item.products_data;track $index; let j = $index){
+       <ion-item *ngIf="j<=2">
+        <ng-container *ngIf="j < 2">
+         <img class="product-image" [src]="product['product_img']" alt="prod img">
+        </ng-container>
+        <ng-container *ngIf="j === 2 && item.products_data.length > 3">
+         +{{ item.products_data.length - 2 }}
+        </ng-container>
+       </ion-item>
+       }
+       <ion-item>
+        <ion-icon name="chevron-forward-circle" class="chevron-icon"></ion-icon>
+       </ion-item>
+      </ion-list>
 
-      <ion-list class="scrollable-product-list">
+
+      <!-- <ion-list class="scrollable-product-list">
        <ion-item *ngFor="let product of item.products_data; let j = index">
         <ion-label>
-         <h6 class="mb-0 text-info">Product: {{ product.product_name }}</h6>
-         <p class="mb-0 text-muted"><strong>Quantity:</strong> {{ product.product_qty }}</p>
-         <p class="mb-0 text-muted"><strong>Price:</strong> &#8377; {{ product.price }}</p>
+         <h6 class="text-info">Product: {{ product.product_name }}</h6>
+         <p class="text-muted"><strong>Quantity:</strong> {{ product.product_qty }}</p>
+         <p class="text-muted"><strong>Price:</strong> &#8377; {{ product.price }}</p>
         </ion-label>
         <ion-badge color="info">Qty: {{ product.product_qty }}</ion-badge>
        </ion-item>
-      </ion-list>
+      </ion-list> -->
 
       <div class="button-container">
        <ion-button *ngIf="item.status === 1" color="primary" expand="full" size="small">
@@ -60,5 +77,58 @@
     </ion-card>
    </ion-item>
   </ion-list>
+  @if (!isLoading && (orders_data.length===0)) {
+  <span>No Data Found</span>
+  } @if (isLoading) {
+  <ng-container [ngTemplateOutlet]="skeletonTemplate"></ng-container>
+  }
  </div>
 </ion-content>
+
+<ng-template #skeletonTemplate>
+ <ng-container *ngFor="let item of skeleton_data">
+  <ion-item>
+   <ion-card class="custom-card">
+    <ion-card-header class="custom-card-header">
+     <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+    </ion-card-header>
+
+    <ion-card-content>
+     <ion-label>
+      <ion-skeleton-text [animated]="true" style="width: 10rem"></ion-skeleton-text>
+     </ion-label>
+
+     <ion-card-subtitle class="text-secondary">
+      <ion-skeleton-text [animated]="true" style="width: 10rem"></ion-skeleton-text>
+     </ion-card-subtitle>
+
+     <ion-list class="horizontal-list">
+      <ion-item>
+       <ion-thumbnail slot="start">
+        <ion-skeleton-text [animated]="true" style="width: 3rem ; height: 3rem"></ion-skeleton-text>
+       </ion-thumbnail>
+      </ion-item>
+      <ion-item>
+       <ion-thumbnail slot="start">
+        <ion-skeleton-text [animated]="true" style="width: 3rem ; height: 3rem"></ion-skeleton-text>
+       </ion-thumbnail>
+      </ion-item>
+      <ion-item>
+       <ion-thumbnail slot="start">
+        <ion-skeleton-text [animated]="true" style="width: 3rem ; height: 3rem"></ion-skeleton-text>
+       </ion-thumbnail>
+      </ion-item>
+     </ion-list>
+
+     <div class="button-container">
+      <ion-skeleton-text [animated]="true" style="height: 1.5rem;"></ion-skeleton-text>
+     </div>
+    </ion-card-content>
+
+    <ion-card-subtitle class="custom-footer-subtitle">
+     <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+    </ion-card-subtitle>
+   </ion-card>
+  </ion-item>
+ </ng-container>
+</ng-template>

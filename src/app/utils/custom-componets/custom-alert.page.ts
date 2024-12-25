@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 
 // Enum for alert types
 export enum AlertType {
@@ -57,6 +57,14 @@ export class CustomAlertComponent implements OnInit {
  constructor() { }
 
  ngOnInit(): void {
+  this.setupAlert()
+ }
+ ngOnChanges(changes: SimpleChanges): void {
+  if (changes['alert_model']) {
+   this.setupAlert();
+  }
+ }
+ setupAlert(): void {
   if (this.alert_model) {
    setTimeout(() => {
     this.closeModal();
