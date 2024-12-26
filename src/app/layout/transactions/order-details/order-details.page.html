@@ -1,0 +1,146 @@
+<ion-header [translucent]="true">
+ <ion-toolbar class="ion-padding-horizontal">
+  <ion-title>Order Details</ion-title>
+  <ion-icon slot="end" name="close-circle-outline" size="large" (click)="dismiss()"></ion-icon>
+ </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+ <ion-grid>
+  <!-- Order ID and Restaurant Name -->
+  <ion-row class="">
+   <ion-col size="12">
+    <ion-card class="order-card">
+     <ion-card-header>
+      <ion-card-title class="order-title">Order ID: {{ ordersData.trans_id }}</ion-card-title>
+      <ion-card-subtitle>{{ ordersData.restaurant_name }}</ion-card-subtitle>
+     </ion-card-header>
+    </ion-card>
+   </ion-col>
+  </ion-row>
+
+  <!-- Order Status Section -->
+  <ion-row class="">
+   <ion-col size="12">
+    <ion-card class="status-card">
+     <ion-card-header>
+     </ion-card-header>
+
+     <ion-card-content>
+      <ion-row align-items="center" class="status-row">
+
+       <!-- Status Indicators -->
+       <div
+        *ngIf="ordersData.status === 1 || ordersData.status === 2 || ordersData.status === 5 || ordersData.status === 6">
+        <ion-row class="status-row">
+         <!-- Pending: Waiting for confirmation -->
+         <ion-col size="4" class="status-icon-container">
+          <div class="status-icon-circle"
+           [ngClass]="{ 'pending': ordersData.status === 1, 'completed': ordersData.status !== 1 }">
+           <ion-icon name="{{ordersData.status===1?'hourglass':'checkmark-circle'}}"
+            color="{{ ordersData.status === 1 ? 'warning' : 'success' }}" size="large"></ion-icon>
+          </div>
+          <p class="status-text">{{ordersData.status===1?'Waiting for confirmation':'Accepted'}}</p>
+         </ion-col>
+
+         <!-- Accepted: Order has been accepted -->
+         <ion-col size="4" class="status-icon-container">
+          <div class="status-icon-circle"
+           [ngClass]="{ 'pending': ordersData.status === 2, 'completed': ordersData.status !== 2 }">
+           <ion-icon name="{{ordersData.status>=5?'cube':'hourglass'}}"
+            color="{{ordersData.status===2?'warning':( ordersData.status >=5 ?'success':'primary')}}" size="large"></ion-icon>
+          </div>
+          <p class="status-text">{{ordersData.status===2?'Packing...':(ordersData.status >= 5?'Packed':'')}}</p>
+         </ion-col>
+
+         <!-- Packed: Order is packed -->
+         <ion-col size="4" class="status-icon-container">
+          <div class="status-icon-circle"
+           [ngClass]="{ 'pending': ordersData.status === 5, 'completed': ordersData.status !== 5 }">
+           <ion-icon name="{{ordersData.status===6?'alert-circle-outline':'hourglass'}}"
+            color="{{ ordersData.status === 5 ? 'warning' : 'primary' }}" size="large"></ion-icon>
+          </div>
+          <p class="status-text">{{ordersData.status === 5?'On the Way':ordersData.status === 6? 'Out of delivery': ''}}</p>
+         </ion-col>
+        </ion-row>
+       </div>
+
+       <!-- Additional Order Statuses -->
+       <ion-col size="12" *ngIf="ordersData.status === 3" class="status-col">
+        <ion-icon name="close-circle" color="danger" size="large"></ion-icon>
+        <p class="status-text">Order Rejected by Restaurant</p>
+       </ion-col>
+
+       <ion-col size="12" *ngIf="ordersData.status === 4" class="status-col">
+        <ion-icon name="thumbs-up" color="success" size="large"></ion-icon>
+        <p class="status-text">Order Canceled by User</p>
+       </ion-col>
+
+       <ion-col size="12" *ngIf="ordersData.status === 7" class="status-col">
+        <ion-icon name="checkmark-circle" color="success" size="large"></ion-icon>
+        <p class="status-text">Order Delivered.</p>
+       </ion-col>
+
+       <ion-col size="12" *ngIf="ordersData.status === 8" class="status-col">
+        <ion-icon name="cash" color="secondary" size="large"></ion-icon>
+        <p class="status-text">Order Refunded</p>
+       </ion-col>
+
+      </ion-row>
+     </ion-card-content>
+    </ion-card>
+   </ion-col>
+  </ion-row>
+
+  <!-- Product Details -->
+  <ion-row>
+   <ion-col size="12">
+    <ion-card class="product-card">
+     <ion-card-header>
+      <ion-card-title>Products</ion-card-title>
+     </ion-card-header>
+
+     <ion-card-content>
+      <ion-list>
+       <ion-item *ngFor="let product of ordersData.products_data">
+        <ion-avatar slot="start">
+         <img [src]="product.product_img" alt="{{ product.product_name }}">
+        </ion-avatar>
+        <ion-label>
+         <h3>{{ product.product_name }}</h3>
+         <p class="product-description">{{ product.description.slice(0, 65) }}...</p>
+         <div class="product-quantity-price">
+          <p>Quantity: {{ product.product_qty }}</p>
+          <p>₹{{ product.price }}</p>
+         </div>
+        </ion-label>
+       </ion-item>
+      </ion-list>
+     </ion-card-content>
+    </ion-card>
+   </ion-col>
+  </ion-row>
+
+  <!-- Order Summary Section -->
+  <ion-row class="ion-margin-top">
+   <ion-col size="12">
+    <ion-card class="summary-card">
+     <ion-card-header>
+      <ion-card-title>Order Summary</ion-card-title>
+     </ion-card-header>
+     <ion-card-content>
+      <ion-row>
+       <ion-col size="6">
+        <p><strong>Total Items:</strong> {{ getTotalItems() }}</p>
+       </ion-col>
+       <ion-col size="6">
+        <p><strong>Total Amount:</strong> ₹{{ getTotalAmount() }}</p>
+       </ion-col>
+      </ion-row>
+     </ion-card-content>
+    </ion-card>
+   </ion-col>
+  </ion-row>
+
+ </ion-grid>
+</ion-content>

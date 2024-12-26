@@ -6,10 +6,9 @@
  </ion-refresher>
 
  <div class="container mt-4">
-  <!-- Page Title -->
   <p class="page-title-span">Orders Page</p>
   <ion-list>
-   <ion-item *ngFor="let item of orders_data; let i = index">
+   <ion-item *ngFor="let item of orders_data; let i = index" (click)="openOrderDetailsModal(item)">
     <ion-card class="custom-card">
      <ion-card-header class="custom-card-header">
       <ion-card-title>Order: #{{ item.trans_id }}</ion-card-title>
@@ -42,35 +41,13 @@
        </ion-item>
       </ion-list>
 
-
-      <!-- <ion-list class="scrollable-product-list">
-       <ion-item *ngFor="let product of item.products_data; let j = index">
-        <ion-label>
-         <h6 class="text-info">Product: {{ product.product_name }}</h6>
-         <p class="text-muted"><strong>Quantity:</strong> {{ product.product_qty }}</p>
-         <p class="text-muted"><strong>Price:</strong> &#8377; {{ product.price }}</p>
-        </ion-label>
-        <ion-badge color="info">Qty: {{ product.product_qty }}</ion-badge>
-       </ion-item>
-      </ion-list> -->
-
       <div class="button-container">
-       <ion-button *ngIf="item.status === 1" color="primary" expand="full" size="small">
-        Pending
-       </ion-button>
-       <ion-button *ngIf="item.status === 2" color="success" expand="full" size="small">
-        Accepted
-       </ion-button>
-       <ion-button *ngIf="item.status === 3" color="danger" expand="full" size="small">
-        Rejected
-       </ion-button>
-       <ion-button *ngIf="item.status === 4" color="warning" expand="full" size="small">
-        Failed
+       <ion-button [color]="getButtonColor(item.status)" expand="full" size="small">
+        {{ getButtonLabel(item.status) }}
        </ion-button>
       </div>
-     </ion-card-content>
 
-     <!-- Replaced footer with a custom label section -->
+     </ion-card-content>
      <ion-card-subtitle class="custom-footer-subtitle">
       <strong>Order Date:</strong> {{ item.display_order_date }}
      </ion-card-subtitle>
