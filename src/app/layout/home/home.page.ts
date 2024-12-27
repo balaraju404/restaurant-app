@@ -4,6 +4,7 @@ import { APIservice } from 'src/app/utils/api.service';
 import { ResDetailsPage } from '../res-details/res-details.page';
 import { DBManagerService } from 'src/app/utils/db-manager.service';
 import { Constants } from 'src/app/utils/constants.service';
+import { SocketService } from 'src/app/utils/socket-io.service';
 
 @Component({
  selector: 'app-home',
@@ -19,9 +20,13 @@ export class HomePage implements OnInit {
  restaurantsData: any = []
  backUpdata: any = []
  curWeatherImg: string = ''
- constructor(private readonly apiService: APIservice, private readonly modalController: ModalController) { }
+ constructor(private readonly apiService: APIservice, private readonly modalController: ModalController,private readonly socketService:SocketService) { }
  async ngOnInit() {
   this.userData = await DBManagerService.getData(Constants.USER_DATA_KEY)
+  this.socketService.getOrderUpdates().subscribe((res:any)=>{
+    console.log(res)
+  })
+  this.socketService.sendOrderData({})
   this.getCurrentWeatherImg()
   this.getRestaurantsData()
  }
