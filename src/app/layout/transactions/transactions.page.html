@@ -59,6 +59,11 @@
   } @if (isLoading) {
   <ng-container [ngTemplateOutlet]="skeletonTemplate"></ng-container>
   }
+  @if(orders_data.length !== count){
+  <ion-row class="d-flex ion-justify-content-end ion-margin">
+   <ion-button size="small" (click)="loadMoreOrders()">Load More</ion-button>
+  </ion-row>
+  }
  </div>
 </ion-content>
 

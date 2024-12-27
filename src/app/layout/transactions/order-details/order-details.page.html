@@ -6,6 +6,12 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+ <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+  <ion-refresher-content pullingIcon="chevron-down-circle-outline" pullingText="Pull to refresh"
+   refreshingSpinner="circles" refreshingText="Refreshing...">
+  </ion-refresher-content>
+ </ion-refresher>
+
  <ion-grid>
   <!-- Order ID and Restaurant Name -->
   <ion-row class="">
@@ -13,7 +19,8 @@
     <ion-card class="order-card">
      <ion-card-header>
       <ion-card-title class="order-title">Order ID: {{ ordersData.trans_id }}</ion-card-title>
-      <ion-card-subtitle>{{ ordersData.restaurant_name }}</ion-card-subtitle>
+      <ion-card-subtitle>Restaurant Name:{{ ordersData.restaurant_name }}</ion-card-subtitle>
+      <ion-card-subtitle>Order Date: {{ ordersData.display_order_date }}</ion-card-subtitle>
      </ion-card-header>
     </ion-card>
    </ion-col>
@@ -32,6 +39,19 @@
        <!-- Status Indicators -->
        <div
         *ngIf="ordersData.status === 1 || ordersData.status === 2 || ordersData.status === 5 || ordersData.status === 6">
+        <ion-row>
+         <ion-col size="12">
+          @if (ordersData.status===1) {
+          <ion-text color="success">Order Placed. Waiting for confirmation.</ion-text>
+          }@else if (ordersData.status===2) {
+          <ion-text color="success">Order Confirmed. Waiting for preparation.</ion-text>
+          } @else if (ordersData.status===5) {
+          <ion-text color="success">Order Packed. Order on the way.</ion-text>
+          } @else if (ordersData.status===6) {
+          <ion-text color="success">Order Out of Delivery Area.</ion-text>
+          }
+         </ion-col>
+        </ion-row>
         <ion-row class="status-row">
          <!-- Pending: Waiting for confirmation -->
          <ion-col size="4" class="status-icon-container">
@@ -47,8 +67,9 @@
          <ion-col size="4" class="status-icon-container">
           <div class="status-icon-circle"
            [ngClass]="{ 'pending': ordersData.status === 2, 'completed': ordersData.status !== 2 }">
-           <ion-icon name="{{ordersData.status>=5?'cube':'hourglass'}}"
-            color="{{ordersData.status===2?'warning':( ordersData.status >=5 ?'success':'primary')}}" size="large"></ion-icon>
+           <ion-icon name="{{ordersData.status===2?'hourglass':'cube'}}"
+            color="{{ordersData.status===2?'warning':( ordersData.status >=5 ?'success':'primary')}}"
+            size="large"></ion-icon>
           </div>
           <p class="status-text">{{ordersData.status===2?'Packing...':(ordersData.status >= 5?'Packed':'')}}</p>
          </ion-col>
@@ -57,10 +78,11 @@
          <ion-col size="4" class="status-icon-container">
           <div class="status-icon-circle"
            [ngClass]="{ 'pending': ordersData.status === 5, 'completed': ordersData.status !== 5 }">
-           <ion-icon name="{{ordersData.status===6?'alert-circle-outline':'hourglass'}}"
+           <ion-icon name="{{ordersData.status===5?'hourglass':'alert-circle-outline'}}"
             color="{{ ordersData.status === 5 ? 'warning' : 'primary' }}" size="large"></ion-icon>
           </div>
-          <p class="status-text">{{ordersData.status === 5?'On the Way':ordersData.status === 6? 'Out of delivery': ''}}</p>
+          <p class="status-text">{{ordersData.status === 5?'On the Way':ordersData.status === 6? 'Out of delivery': ''}}
+          </p>
          </ion-col>
         </ion-row>
        </div>
@@ -79,11 +101,13 @@
        <ion-col size="12" *ngIf="ordersData.status === 7" class="status-col">
         <ion-icon name="checkmark-circle" color="success" size="large"></ion-icon>
         <p class="status-text">Order Delivered.</p>
+        <p>Delivered on: {{ordersData.delivered_date}}</p>
        </ion-col>
 
        <ion-col size="12" *ngIf="ordersData.status === 8" class="status-col">
         <ion-icon name="cash" color="secondary" size="large"></ion-icon>
         <p class="status-text">Order Refunded</p>
+        <p>Delivered on: {{ordersData.refunded_date}}</p>
        </ion-col>
 
       </ion-row>

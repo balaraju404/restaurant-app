@@ -23,15 +23,13 @@
 .horizontal-list {
  display: flex;
  flex-direction: row;
- /* Arrange items in a row */
  flex-wrap: nowrap;
- /* Prevent wrapping of items */
  overflow-x: auto;
 }
 
 ion-card {
+ width: 100%;
  box-shadow: 0 0 0.4rem -0.2rem #00000070;
- // background: #f3d49b;
 }
 
 ion-item {

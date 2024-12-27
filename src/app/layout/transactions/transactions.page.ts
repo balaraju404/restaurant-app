@@ -15,6 +15,7 @@ export class TransactionsPage implements OnInit {
  isLoading: boolean = false
  skeleton_data: any = [1, 2, 3, 4, 5, 6]
  orders_data: any[] = []
+ count: number = 0
  userData: any = {}
  roleId: any;
  params: any = {}
@@ -22,6 +23,8 @@ export class TransactionsPage implements OnInit {
  async ngOnInit() {
   this.userData = await DBManagerService.getData(Constants.USER_DATA_KEY)
   this.roleId = this.userData['role_id']
+  this.params['page_num'] = 0
+  this.params['page_limit'] = 10
   this.getOrdersData()
  }
 
@@ -36,7 +39,8 @@ export class TransactionsPage implements OnInit {
   this.apiService.getResOrders(this.params).subscribe((res: any) => {
    this.isLoading = false
    if (res['status']) {
-    this.orders_data = res['data']
+    this.orders_data = [...this.orders_data, ...res['data']]
+    this.count = res['count']
    }
   }, error => {
    this.isLoading = false
@@ -59,6 +63,10 @@ export class TransactionsPage implements OnInit {
    AlertService.showAlert('Alert', JSON.stringify(error))
   })
  }
+ loadMoreOrders() {
+  this.params['page_num'] = this.params['page_num'] + 1
+  this.getOrdersData()
+ }
  async openOrderDetailsModal(item: any) {
   const modal = await this.modalController.create({
    component: OrderDetailsPage,
@@ -79,7 +87,7 @@ export class TransactionsPage implements OnInit {
    case 6: return 'tertiary'; // Out of Delivery: Orange
    case 7: return 'success'; // Delivered: Green
    case 8: return 'medium';  // Refunded: Purple
-   default: return 'light'; 
+   default: return 'light';
   }
  }
 
@@ -99,6 +107,8 @@ export class TransactionsPage implements OnInit {
  }
  handleRefresh(event: any) {
   this.orders_data = []
+  this.params['page_num'] = 0
+  this.count = 0
   this.getOrdersData()
   setTimeout(() => {
    event.target.complete();

@@ -19,7 +19,7 @@ export class LayoutPage implements OnInit {
  async ngOnInit() {
   this.userData = await DBManagerService.getData(Constants.USER_DATA_KEY)
   if (this.userData) {
-   this.getCartCount()
+   await this.getCartCount()
    Constants.cartCountSubject.subscribe(() => {
     this.getCartCount()
    })
