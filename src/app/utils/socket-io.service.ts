@@ -8,17 +8,12 @@ const SOCKET_URL = Constants.NODE_URL
  providedIn: 'root'
 })
 export class SocketService {
- private socket: Socket;
+ private socket!: Socket;
  private orderSubject = new BehaviorSubject<any>(null);
 
- constructor() {
-  this.socket = io(SOCKET_URL);
-  console.log(this.socket);
-
-  this.socket.on('orderData', (data: any) => {
-   console.log('Received order data:', data);
-   this.orderSubject.next(data);
-  });
+ constructor() { }
+ createConnection(user_id: any) {
+  this.socket = io(SOCKET_URL, { auth: { user_id: user_id } });
  }
 
  sendOrderData(orderData: any) {

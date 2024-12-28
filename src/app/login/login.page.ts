@@ -42,7 +42,11 @@ export class LoginPage implements OnInit {
     if (res['status']) {
      const data = JSON.parse(JSON.stringify(res['data']))
      await DBManagerService.setData(data, Constants.USER_DATA_KEY)
-     this.router.navigate(['/layout/home'])
+     if (data && data['role_id'] && data['role_id'] != 0) {
+      this.router.navigate(['/layout/home'])
+     } else {
+      this.router.navigate(['/select-role'])
+     }
     } else {
      this.alertMdlData = { 'title': '', 'img': 'danger.png', 'msg': res['msg'] || JSON.stringify(res), 'btn_text': 'Ok', 'btn_cls': 'danger' }
      this.showAlertMdl = true

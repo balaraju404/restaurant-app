@@ -1,12 +1,14 @@
 .signup-container {
  width: 100vw;
- height: 100vh;
+ height: 92.5vh;
  display: flex;
- justify-content: center;
+ flex-direction: column;
+ // justify-content: center;
  align-items: center;
  background: #2e0e4f; //rebeccapurple;
- ion-card{
-  background:  #80808052;
+
+ ion-card {
+  background: #80808052;
  }
 }
 
@@ -32,4 +34,33 @@ ion-text h1 {
 ion-text p {
  font-size: 16px;
  margin-bottom: 20px;
+}
+
+.icon-img {
+ height: 3rem;
+ width: 3rem;
+}
+
+a {
+ text-decoration: none;
+}
+
+.submit-btn-container {
+ ion-button {
+  --ion-color-secondary: white;
+  --ion-color-secondary-shade: rgba(181, 179, 179, 0.78);
+  --ion-color-secondary-contrast: black;
+
+  ion-spinner {
+   margin-left: 0.5rem;
+   color: black;
+  }
+ }
+
+ :host-context(.dark) ion-button {
+  --ion-color-secondary: black;
+  --ion-color-secondary-shade: rgba(255, 255, 255, 0.7);
+  --background: var(--ion-color-secondary);
+  --color: black;
+ }
 }

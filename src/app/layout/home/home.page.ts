@@ -23,10 +23,6 @@ export class HomePage implements OnInit {
  constructor(private readonly apiService: APIservice, private readonly modalController: ModalController,private readonly socketService:SocketService) { }
  async ngOnInit() {
   this.userData = await DBManagerService.getData(Constants.USER_DATA_KEY)
-  this.socketService.getOrderUpdates().subscribe((res:any)=>{
-    console.log(res)
-  })
-  this.socketService.sendOrderData({})
   this.getCurrentWeatherImg()
   this.getRestaurantsData()
  }

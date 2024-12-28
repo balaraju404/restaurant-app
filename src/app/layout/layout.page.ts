@@ -4,6 +4,7 @@ import { DBManagerService } from '../utils/db-manager.service';
 import { Constants } from '../utils/constants.service';
 import { APIservice } from '../utils/api.service';
 import { AlertService } from '../utils/alert.service';
+import { SocketService } from '../utils/socket-io.service';
 
 @Component({
  selector: 'app-layout',
@@ -14,11 +15,12 @@ export class LayoutPage implements OnInit {
  cartCount: number = 0
  userData: any = {}
  curPage: string = ''
- constructor(private readonly router: Router, private readonly apiService: APIservice) { }
+ constructor(private readonly router: Router, private readonly apiService: APIservice, private readonly socketService: SocketService) { }
 
  async ngOnInit() {
   this.userData = await DBManagerService.getData(Constants.USER_DATA_KEY)
   if (this.userData) {
+   await this.socketService.createConnection(this.userData['user_id'])
    await this.getCartCount()
    Constants.cartCountSubject.subscribe(() => {
     this.getCartCount()

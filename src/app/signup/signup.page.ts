@@ -11,12 +11,16 @@ import { Router } from '@angular/router';
 export class SignupPage implements OnInit {
  isLoading: boolean = false
  isdisplay: boolean = true;
+ role_id: number = 0;
  username: string = '';
  loginname: string = '';
  password: string = '';
  constructor(private readonly apiService: APIservice, private readonly router: Router) { }
  ngOnInit() {
   console.log('sign up');
+ }
+ selectRole(role: number) {
+  this.role_id = role
  }
  submit() {
   if (this.username.length < 5)
@@ -32,7 +36,7 @@ export class SignupPage implements OnInit {
 
  createUser() {
   this.isLoading = true
-  this.apiService.userCreate(this.username, this.loginname, this.password, 3).subscribe({
+  this.apiService.userCreate(this.username, this.loginname, this.password, this.role_id).subscribe({
    next: (res: any) => {
     this.isLoading = false
     if (res['status']) {

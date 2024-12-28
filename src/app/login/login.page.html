@@ -8,7 +8,7 @@
  <div class="login-container">
   <div class="login-content">
    <div class="login-header">
-    <h2>Login</h2>
+    <h2 class="text-white">Login</h2>
    </div>
    <div class="login-form">
     <ion-row>
@@ -17,13 +17,13 @@
        [(ngModel)]="loginName" (keydown.enter)="doLogin()"></ion-input>
      </ion-col>
      <ion-col size="2" class="d-flex ion-justify-content-center ion-align-items-center">
-      <ion-icon slot="end" name="person"></ion-icon>
+      <ion-icon name="person" class="text-white"></ion-icon>
      </ion-col>
     </ion-row>
     <ion-row>
      <ion-col size="12">
       <ion-input type="password" placeholder="Enter password" [(ngModel)]="loginPassword" (keydown.enter)="doLogin()">
-       <ion-input-password-toggle slot="end"></ion-input-password-toggle>
+       <ion-input-password-toggle slot="end" color="light"></ion-input-password-toggle>
       </ion-input>
      </ion-col>
     </ion-row>
@@ -39,7 +39,7 @@
     </ion-row>
     <ion-row>
      <ion-col size="12">
-      <p>
+      <p class="text-white">
        Create an new account?
        <a href="/signup">Signup</a>
       </p>
