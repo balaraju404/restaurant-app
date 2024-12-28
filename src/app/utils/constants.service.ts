@@ -9,10 +9,11 @@ import { Subject } from "rxjs";
 export class Constants {
 
  // static NODE_URL = environment.NODE_URL
- static readonly NODE_URL = 'https://13.51.59.98/' // 'https://restaurant-node-mongo.vercel.app/'
+ static readonly NODE_URL = 'http://localhost:3099/' //'https://13.51.59.98/' // 'https://restaurant-node-mongo.vercel.app/'
  static readonly API_URL = Constants.NODE_URL + 'api/'
  static readonly USER_DATA_KEY = 'login_user_data'
  static readonly RES_USER_SELECTED_KEY = 'restaurant_user_selected_data'
+ static readonly FALLBACK_RESTAURANT_LOGO = 'assets/images/restaurant.png'
 
  static async isRestaurantUsers() {
   const userData: any = await DBManagerService.getData(Constants.USER_DATA_KEY)

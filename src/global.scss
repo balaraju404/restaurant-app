@@ -36,6 +36,19 @@
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import "@ionic/angular/css/palettes/dark.system.css";
 
+ion-header,ion-footer {
+ background: linear-gradient(135deg, #6a5acd, #4b0082);
+ion-toolbar{
+ --background:#f2f0f000;
+}
+ ion-title {
+  color: white;
+ }
+
+ ion-icon {
+  color: white;
+ }
+}
 
 ion-content {
  &::part(background) {

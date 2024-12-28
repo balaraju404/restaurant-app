@@ -20,7 +20,8 @@ export class HomePage implements OnInit {
  restaurantsData: any = []
  backUpdata: any = []
  curWeatherImg: string = ''
- constructor(private readonly apiService: APIservice, private readonly modalController: ModalController,private readonly socketService:SocketService) { }
+ fallbackResImg:any = Constants.FALLBACK_RESTAURANT_LOGO
+ constructor(private readonly apiService: APIservice, private readonly modalController: ModalController, private readonly socketService: SocketService) { }
  async ngOnInit() {
   this.userData = await DBManagerService.getData(Constants.USER_DATA_KEY)
   this.getCurrentWeatherImg()
@@ -79,7 +80,8 @@ export class HomePage implements OnInit {
   this.showAlertMdl = false;
   this.alertMdlData = {}
  }
- handleRefresh(event: any) {
+ async handleRefresh(event: any) {
+  this.userData = await DBManagerService.getData(Constants.USER_DATA_KEY)
   this.restaurantsData = []
   this.isLoading = true
   this.getCurrentWeatherImg()

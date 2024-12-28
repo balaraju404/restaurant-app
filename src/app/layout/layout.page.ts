@@ -20,20 +20,26 @@ export class LayoutPage implements OnInit {
  async ngOnInit() {
   this.userData = await DBManagerService.getData(Constants.USER_DATA_KEY)
   if (this.userData) {
-   await this.socketService.createConnection(this.userData['user_id'])
-   await this.getCartCount()
-   Constants.cartCountSubject.subscribe(() => {
-    this.getCartCount()
-   })
    this.router.events.subscribe((event) => {
     if (event instanceof NavigationEnd) {
      this.curPage = event.urlAfterRedirects.split('/').pop() || '';
     }
    });
-   const pageArr = this.router.url.split('/')
-   this.curPage = pageArr[pageArr.length - 1]
-   if (this.curPage == 'layout') {
-    this.router.navigate(['/layout/home'])
+   const role_id = this.userData['role_id']
+   if (role_id == 1) {
+   } else if (role_id == 2) {
+   } else if (role_id == 3) {
+    await this.socketService.createConnection(this.userData['user_id'])
+    await this.getCartCount()
+
+    Constants.cartCountSubject.subscribe(() => {
+     this.getCartCount()
+    })
+    const pageArr = this.router.url.split('/')
+    this.curPage = pageArr[pageArr.length - 1]
+    if (this.curPage == 'layout') {
+     this.router.navigate(['/layout/home'])
+    }
    }
   } else {
    this.router.navigate(['/login'])

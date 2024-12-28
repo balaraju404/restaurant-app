@@ -1,0 +1,40 @@
+<ion-header [translucent]="true">
+ <ion-toolbar color="trasparent" class="ion-padding-horizontal">
+  <ion-title class="text-white">Create Restaurant</ion-title>
+  <ion-icon class="text-white" slot="end" size="large" name="close-circle-outline" (click)="dismiss()"></ion-icon>
+ </ion-toolbar>
+</ion-header>
+
+<ion-content>
+ <ion-grid class="ion-padding">
+  <ion-card class="custom-card">
+   <!-- Restaurant Name Field -->
+   <ion-item lines="full" class="form-item">
+    <ion-icon name="restaurant" slot="start" color="primary"></ion-icon>
+    <ion-label position="stacked" class="ion-text-color-primary">Restaurant Name</ion-label>
+    <ion-input type="text" [(ngModel)]="restaurant.res_name" placeholder="Enter restaurant name" required></ion-input>
+   </ion-item>
+
+   <!-- Restaurant Logo Field with ion-input for file -->
+   <ion-item lines="full" class="form-item">
+    <ion-icon name="image" slot="start" color="primary"></ion-icon>
+    <ion-label position="stacked" class="ion-text-color-primary">Restaurant Logo</ion-label>
+    <ion-input type="file" accept="image/*" (change)="onFileChange($event)" required></ion-input>
+   </ion-item>
+
+   <!-- Description Field -->
+   <ion-item lines="full" class="form-item">
+    <ion-icon name="document-text" slot="start" color="primary"></ion-icon>
+    <ion-label position="stacked" class="ion-text-color-primary">Description</ion-label>
+    <ion-textarea [(ngModel)]="restaurant.description" rows="4" placeholder="Provide a short description"
+     required></ion-textarea>
+   </ion-item>
+
+   <!-- Create Button -->
+   <ion-item lines="none" class="form-item">
+    <ion-icon name="add-circle" slot="start" color="primary"></ion-icon>
+    <ion-button expand="full" color="primary" size="small" (click)="createRestaurant()">Create Restaurant</ion-button>
+   </ion-item>
+  </ion-card>
+ </ion-grid>
+</ion-content>

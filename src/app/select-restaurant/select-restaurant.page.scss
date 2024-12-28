@@ -1,0 +1,71 @@
+ion-toolbar {
+ padding: 0;
+}
+
+.loading-container {
+ display: flex;
+ flex-direction: column;
+ justify-content: center;
+ align-items: center;
+ height: 100%;
+ padding: 20px;
+ background-color: #f7f7f7;
+}
+
+.loading-icon {
+ color: #ff5733;
+}
+
+.loading-text {
+ font-size: 1.5rem;
+ font-weight: bold;
+ color: #333;
+ margin-top: 10px;
+}
+
+.spinner-custom {
+ --spinner-color: #ff5733;
+ /* Custom spinner color */
+}
+
+.restaurant-img {
+ max-width: 100%;
+ height: auto;
+ border-radius: 8px;
+}
+
+ion-card-title {
+ font-size: 1.1rem;
+ font-weight: bold;
+ color: #333;
+}
+
+ion-button {
+ margin-top: 10px;
+}
+
+ion-content::part(background) {
+ // background-image: linear-gradient(135deg, #6a5acd, #4b0082);
+}
+
+ion-header {
+ background: linear-gradient(135deg, #6a5acd, #4b0082);
+
+ ion-title {
+  color: white;
+ }
+
+ ion-icon {
+  color: white;
+ }
+}
+ion-card{
+ box-shadow: 0 0 0;
+}
+
+ion-row {
+ img {
+  height: 3rem;
+  width: 3rem;
+ }
+}

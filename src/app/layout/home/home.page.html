@@ -20,7 +20,7 @@
   <ion-col size="6">
    <ion-card-content class="box" (click)="openRestaurantModal(item)">
     <ion-row class="ion-justify-content-center">
-     <img [src]="item['res_logo']" alt="" />
+     <img [src]="item['res_logo'] || fallbackResImg" alt="" />
     </ion-row>
     <ion-row class="ion-justify-content-center">
      {{item['restaurant_name']}}

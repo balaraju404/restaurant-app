@@ -37,11 +37,13 @@ export class APIservice {
  getRestaurants(params = {}) {
   return this.http.post(this.apiUrl + 'restaurant/getAll', params);
  }
- restaurantCreate(res_name: string, files: any, description: string) {
+ restaurantCreate(res_name: string, files: any, description: string, user_id: any = '', role_id: any = 0) {
   const formData = new FormData;
   formData.append('restaurant_name', res_name)
-  formData.append('res_logo', files[0])
+  formData.append('res_logo', files)
   formData.append('description', description)
+  formData.append('user_id', user_id)
+  formData.append('role_id', role_id)
   return this.http.post(this.apiUrl + 'restaurant/create', formData);
  }
  assignuserToRestaurant(res_id: any, user_id: any, role_id: any) {

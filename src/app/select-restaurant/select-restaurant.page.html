@@ -1,0 +1,55 @@
+<ion-header [translucent]="true">
+ <ion-toolbar color="trasparent" class="ion-padding-horizontal">
+  <ion-title class="text-white">Select Restaurant</ion-title>
+  <ion-icon class="text-white" slot="end" size="large" name="exit-outline" (click)="onLogout()"></ion-icon>
+ </ion-toolbar>
+</ion-header>
+
+<ion-content>
+ <!-- Loading Screen - Visible when data is being fetched -->
+ <div *ngIf="intialLoad" class="loading-container ion-text-center">
+  <ion-icon name="restaurant-outline" size="large" class="loading-icon"></ion-icon>
+  <p class="loading-text">Loading User Restaurant...</p>
+  <ion-spinner name="crescent" class="ion-margin-top spinner-custom"></ion-spinner>
+ </div>
+
+ <!-- Content when initial load is complete -->
+ <div *ngIf="!intialLoad">
+  <ion-grid>
+   <!-- Button to create new restaurant -->
+   <ion-card>
+    <ion-row>
+     <ion-col size="12">
+      <ion-button expand="full" color="primary" (click)="openCreateRestaurantModal()">Create New Restaurant</ion-button>
+     </ion-col>
+    </ion-row>
+   </ion-card>
+
+   <!-- Loop through the list of restaurants -->
+   <ion-row *ngFor="let item of userResList;">
+    <ion-col size="12" size-md="6" size-lg="4">
+     <ion-card (click)="selectRestaurant(item)">
+      <ion-row>
+       <ion-col size="4" class="ion-text-center">
+        <img src="{{item['res_logo'] || fallbackResIcon}}" alt="Restaurant Logo" class="restaurant-img" />
+       </ion-col>
+       <ion-col size="8">
+        <ion-card-title>{{ item['restaurant_name'] }}</ion-card-title>
+        <ion-card-subtitle>{{item['role_name']}}</ion-card-subtitle>
+       </ion-col>
+      </ion-row>
+     </ion-card>
+    </ion-col>
+   </ion-row>
+
+   <!-- No restaurants found message -->
+   <ion-card *ngIf="userResList.length === 0">
+    <ion-row>
+     <ion-col size="12" class="ion-text-center">
+      <p>No Restaurants Found</p>
+     </ion-col>
+    </ion-row>
+   </ion-card>
+  </ion-grid>
+ </div>
+</ion-content>

@@ -1,14 +1,11 @@
-/* In your tabs.page.scss or global styles */
 ion-col.active {
  color: var(--ion-color-primary);
- /* Change to any color you prefer */
 }
 
 ion-col.active ion-icon {
  transform: scale(1.2);
- /* Optionally scale the icon */
- color: var(--ion-color-primary);
- /* Ensure icon color matches */
+ color: purple; // var(--ion-color-primary);
+ filter: drop-shadow(0 0 0.5rem -0.2rem rgba(0, 0, 0, 0.5));
 }
 
 

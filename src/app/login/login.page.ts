@@ -43,7 +43,11 @@ export class LoginPage implements OnInit {
      const data = JSON.parse(JSON.stringify(res['data']))
      await DBManagerService.setData(data, Constants.USER_DATA_KEY)
      if (data && data['role_id'] && data['role_id'] != 0) {
-      this.router.navigate(['/layout/home'])
+      if (data['role_id'] == 2) {
+       this.router.navigate(['/select-restaurant'])
+      } else if (data['role_id'] == 3) {
+       this.router.navigate(['/layout/home'])
+      }
      } else {
       this.router.navigate(['/select-role'])
      }
