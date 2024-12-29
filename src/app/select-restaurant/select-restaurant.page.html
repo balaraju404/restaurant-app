@@ -6,6 +6,12 @@
 </ion-header>
 
 <ion-content>
+ <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+  <ion-refresher-content pullingIcon="chevron-down-circle-outline" pullingText="Pull to refresh"
+   refreshingSpinner="circles" refreshingText="Refreshing...">
+  </ion-refresher-content>
+ </ion-refresher>
+
  <!-- Loading Screen - Visible when data is being fetched -->
  <div *ngIf="intialLoad" class="loading-container ion-text-center">
   <ion-icon name="restaurant-outline" size="large" class="loading-icon"></ion-icon>

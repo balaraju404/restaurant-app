@@ -31,6 +31,16 @@ export class APIservice {
  getUsers(params: any = {}) {
   return this.http.post(this.apiUrl + 'user/getUsers', params);
  }
+
+ // dashboard
+ getRestaurantDashboardCount(params: any) {
+  return this.http.post(this.apiUrl + 'dashboard/resOrdersCount', params);
+ }
+ getCartCount(params: any) {
+  return this.http.post(this.apiUrl + 'dashboard/userCartCount', params)
+ }
+
+ // restaurant
  getRestaurant(res_id: any) {
   return this.http.post(this.apiUrl + 'restaurant/' + res_id, {});
  }
@@ -45,6 +55,9 @@ export class APIservice {
   formData.append('user_id', user_id)
   formData.append('role_id', role_id)
   return this.http.post(this.apiUrl + 'restaurant/create', formData);
+ }
+ updateRestaurant(params: any) {
+  return this.http.put(this.apiUrl + 'restaurant/update', params);
  }
  assignuserToRestaurant(res_id: any, user_id: any, role_id: any) {
   const params = { res_id: res_id, user_id: user_id, role_id: role_id }
@@ -97,9 +110,6 @@ export class APIservice {
  }
  getUserCartData(params: any) {
   return this.http.post(this.apiUrl + 'cart/details', params)
- }
- getCartCount(params: any) {
-  return this.http.post(this.apiUrl + 'cart/userCartCount', params)
  }
  postCartData(params: any) {
   return this.http.post(this.apiUrl + 'cart/add', params)

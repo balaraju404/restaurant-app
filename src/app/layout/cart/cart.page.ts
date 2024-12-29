@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { AlertService } from 'src/app/utils/alert.service';
 import { APIservice } from 'src/app/utils/api.service';
 import { Constants } from 'src/app/utils/constants.service';
-import { AlertModel, AlertPositionType, AlertType } from 'src/app/utils/custom-componets/custom-alert.page';
+import { AlertModel, AlertPositionType, AlertType } from 'src/app/utils/custom-componets/alert-component/custom-alert.page';
 import { DBManagerService } from 'src/app/utils/db-manager.service';
 import { LoadingService } from 'src/app/utils/loading.service';
 
@@ -85,23 +86,24 @@ export class CartPage implements OnInit {
   })
  }
  async deleteItem(cart_id: any) {
-  if (!confirm('Are you sure , you want to delete item ?')) {
-   return
-  }
-  await this.loadingService.showLoading()
-  this.apiService.deleteCartItem(cart_id).subscribe({
-   next: async (res: any) => {
-    await this.loadingService.hideLoading()
-    if (res['status']) {
-     Constants.cartCountSubject.next(true)
-     this.getUserCartData()
-     this.alert_mdl = new AlertModel(AlertType.Success, '', res['msg']);
-    } else {
-     this.alert_mdl = new AlertModel(AlertType.Error, '', res['msg'] || JSON.stringify(res));
-    }
-   }, error: async error => {
-    await this.loadingService.hideLoading()
-    this.alert_mdl = new AlertModel(AlertType.Error, '', error.error['message'] || JSON.stringify(error));
+  AlertService.showConfirmAlert('Alert', 'Are you sure , you want to delete item ?', 'Confirm', async (num: number) => {
+   if (num == 1) {
+    await this.loadingService.showLoading()
+    this.apiService.deleteCartItem(cart_id).subscribe({
+     next: async (res: any) => {
+      await this.loadingService.hideLoading()
+      if (res['status']) {
+       Constants.cartCountSubject.next(true)
+       this.getUserCartData()
+       this.alert_mdl = new AlertModel(AlertType.Success, '', res['msg']);
+      } else {
+       this.alert_mdl = new AlertModel(AlertType.Error, '', res['msg'] || JSON.stringify(res));
+      }
+     }, error: async error => {
+      await this.loadingService.hideLoading()
+      this.alert_mdl = new AlertModel(AlertType.Error, '', error.error['message'] || JSON.stringify(error));
+     }
+    })
    }
   })
  }

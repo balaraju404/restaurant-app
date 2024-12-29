@@ -12,8 +12,8 @@ export class SocketService {
  private orderSubject = new BehaviorSubject<any>(null);
 
  constructor() { }
- createConnection(user_id: any) {
-  this.socket = io(SOCKET_URL, { auth: { user_id: user_id } });
+ createConnection(user_id: any, role_id: any, res_id: any) {
+  this.socket = io(SOCKET_URL, { auth: { user_id: user_id, role_id: role_id, res_id: res_id } });
  }
 
  sendOrderData(orderData: any) {

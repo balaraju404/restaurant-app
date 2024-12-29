@@ -25,8 +25,12 @@ export class SelectRestaurantPage implements OnInit {
 
  async ngOnInit() {
   this.userData = await DBManagerService.getData(Constants.USER_DATA_KEY)
-  console.log(this.userData);
-  this.getUserRestaurants()
+  const resData = await DBManagerService.getData(Constants.RES_USER_SELECTED_KEY)  
+  if (resData) {
+   this.router.navigate(['/layout'])
+  } else {
+   this.getUserRestaurants()
+  }
  }
  async getUserRestaurants() {
   if (!this.intialLoad) {
@@ -68,5 +72,11 @@ export class SelectRestaurantPage implements OnInit {
  async onLogout() {
   await DBManagerService.clearAll()
   this.router.navigate(['/login'])
+ }
+ async handleRefresh(event: any) {
+  this.getUserRestaurants()
+  setTimeout(() => {
+   event.target.complete();
+  }, 2000);
  }
 }

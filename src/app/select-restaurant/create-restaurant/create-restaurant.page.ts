@@ -42,12 +42,13 @@ export class CreateRestaurantPage implements OnInit {
    next: (res: any) => {
     console.log(res);
     if (res['status']) {
+     this.dismiss()
      AlertService.showAlert('Alert', res['msg'])
     } else {
      AlertService.showAlert('Alert', res['msg'] || JSON.stringify(res))
     }
    }, error: err => {
-    AlertService.showAlert("Error", JSON.stringify(err))
+    AlertService.showAlert("Error", JSON.stringify(err['error']?.['errors'] || err))
    }
   })
  }

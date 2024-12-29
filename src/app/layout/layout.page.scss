@@ -29,3 +29,30 @@ ion-badge {
  margin-right: 0.5rem;
  box-shadow: 0 0 0.5rem -0.2rem #0000003d;
 }
+
+.pagelist-modal-container {
+ background: rgba(0, 0, 0, 0.43);
+ position: absolute;
+ top: 0;
+ left: 0;
+ height: 100%;
+ width: 100%;
+ z-index: 11;
+
+ .pageslist {
+  margin-top: 10vh;
+  height: 75vh;
+  overflow-y: scroll;
+
+  img {
+   width: 2.5rem;
+   height: 2.5rem;
+  }
+
+  p {
+   font-size: 1rem;
+   font-weight: bold;
+
+  }
+ }
+}

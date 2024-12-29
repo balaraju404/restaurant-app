@@ -2,11 +2,16 @@
  <ion-toolbar>
   <ion-title>
    <ion-row class="title-row">
+    @if (isResUser) {
     <ion-col size="auto">
-     <img class="app-icon" src="assets/images/app-icon.png" alt="app-icon">
+     <ion-icon name="arrow-back-outline" (click)="gotoSelectRestaurant()"></ion-icon>
+    </ion-col>
+    }
+    <ion-col size="auto">
+     <img class="app-icon" src="{{isResUser?(userData['res_logo'] || fallbackResImg):appIcon}}" alt="app-icon">
     </ion-col>
     <ion-col size="auto">
-     GBR Food App
+     {{isResUser?resData['restaurant_name']:'GBR Food App'}}
     </ion-col>
    </ion-row>
   </ion-title>
@@ -19,6 +24,27 @@
 
 <ion-footer>
  <ion-toolbar>
+  @if(isResUser){
+  <ion-row justify-content="space-between" align-items="center">
+   <ion-col size="2" class="ion-text-center" [class.active]="isActive('restaurant-home')" (click)="onNavigatePage('restaurant-home')">
+    <ion-icon name="home-outline" size="large" aria-label="Home"></ion-icon>
+   </ion-col>
+   <ion-col size="3" class="ion-text-center" [class.active]="isActive('cart')" (click)="onNavigatePage('cart')">
+    <ion-icon name="bag-handle-outline" size="large" aria-label="Cart"></ion-icon>
+    <ion-badge>{{cartCount}}</ion-badge>
+   </ion-col>
+   <ion-col size="2" class="ion-text-center" (click)="openPagesList()">
+    <ion-icon name="filter-circle-outline" size="large" aria-label="Order List"></ion-icon>
+   </ion-col>
+   <ion-col size="2" class="ion-text-center" [class.active]="isActive('transactions')"
+    (click)="onNavigatePage('transactions')">
+    <ion-icon name="swap-horizontal-outline" size="large" aria-label="Order List"></ion-icon>
+   </ion-col>
+   <ion-col size="2" class="ion-text-center" [class.active]="isActive('profile')" (click)="onNavigatePage('profile')">
+    <ion-icon name="person-circle" size="large" aria-label="Profile"></ion-icon>
+   </ion-col>
+  </ion-row>
+  }@else {
   <ion-row justify-content="space-between" align-items="center">
    <ion-col size="2" class="ion-text-center" [class.active]="isActive('home')" (click)="onNavigatePage('home')">
     <ion-icon name="home-outline" size="large" aria-label="Home"></ion-icon>
@@ -35,5 +61,30 @@
     <ion-icon name="person-circle" size="large" aria-label="Profile"></ion-icon>
    </ion-col>
   </ion-row>
+  }
  </ion-toolbar>
 </ion-footer>
+
+@if (pageListStatus) {
+<div class="pagelist-modal-container">
+ <div class="pageslist">
+  @for (item of pagesList; track $index) {
+  <ion-card (click)="openPageModal(item['num'])">
+   <ion-row>
+    <ion-col size="3">
+     <img src="assets/images/{{item['img']}}" alt="">
+    </ion-col>
+    <ion-col size="9">
+     <p>{{item['name']}}</p>
+    </ion-col>
+   </ion-row>
+  </ion-card>
+  }
+ </div>
+ <ion-row>
+  <ion-col size="12" class="d-flex ion-justify-content-center">
+   <ion-icon name="close-circle-outline" size="large" (click)="closePageListModal()"></ion-icon>
+  </ion-col>
+ </ion-row>
+</div>
+}
