@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { AlertService } from 'src/app/utils/alert.service';
 import { APIservice } from 'src/app/utils/api.service';
+import { Constants } from 'src/app/utils/constants.service';
 import { LoadingService } from 'src/app/utils/loading.service';
 
 @Component({
@@ -11,9 +12,11 @@ import { LoadingService } from 'src/app/utils/loading.service';
 })
 export class OrderDetailsPage implements OnInit {
  @Input() ordersData: any = {}
+ isResUser: boolean = false
  constructor(private readonly modalController: ModalController, private readonly apiService: APIservice, private readonly loadingService: LoadingService) { }
 
- ngOnInit() {
+ async ngOnInit() {
+  this.isResUser = await Constants.isRestaurantUsers()
  }
  async getOrderData() {
   await this.loadingService.showLoading()
