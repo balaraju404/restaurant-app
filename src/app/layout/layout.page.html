@@ -8,7 +8,7 @@
     </ion-col>
     }
     <ion-col size="auto">
-     <img class="app-icon" src="{{isResUser?(userData['res_logo'] || fallbackResImg):appIcon}}" alt="app-icon">
+     <img class="app-icon" src="{{isResUser?(resData['res_logo'] || fallbackResImg):appIcon}}" alt="app-icon">
     </ion-col>
     <ion-col size="auto">
      {{isResUser?resData['restaurant_name']:'GBR Food App'}}
