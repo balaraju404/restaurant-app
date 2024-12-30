@@ -1,0 +1,19 @@
+<ion-header [translucent]="true">
+ <ion-toolbar color="">
+  <ion-buttons slot="start">
+   <ion-icon name="arrow-back-outline" size="large" (click)="dismiss()"></ion-icon>
+  </ion-buttons>
+  <ion-title>Create Products</ion-title>
+ </ion-toolbar>
+</ion-header>
+
+<ion-content>
+ <!-- Refresh Area -->
+ <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+  <ion-refresher-content pullingIcon="chevron-down-circle-outline" pullingText="Pull to refresh"
+   refreshingSpinner="circles" refreshingText="Refreshing..."></ion-refresher-content>
+ </ion-refresher>
+
+ <!-- Custom Alert -->
+ <app-custom-alert [alert_model]="alert_mdl"></app-custom-alert>
+</ion-content>

@@ -7,6 +7,10 @@ import { AlertService } from '../utils/alert.service';
 import { SocketService } from '../utils/socket-io.service';
 import { ModalController } from '@ionic/angular';
 import { RestaurantProfilePage } from './pages/restaurant-profile/restaurant-profile.page';
+import { AddCategoriesPage } from './pages/add-categories/add-categories.page';
+import { ResCategoriesPage } from './pages/res-categories/res-categories.page';
+import { CreateProductsPage } from './pages/create-products/create-products.page';
+import { ResProductsPage } from './pages/res-products/res-products.page';
 
 @Component({
  selector: 'app-layout',
@@ -26,8 +30,9 @@ export class LayoutPage implements OnInit {
  pagesList: any = [
   { 'name': 'Restaurant Profile', 'img': 'restaurant.png', 'num': 1 },
   { 'name': 'Add Categories', 'img': 'restaurant.png', 'num': 2 },
-  { 'name': 'Create Products', 'img': 'restaurant.png', 'num': 3 },
-  { 'name': 'Handle Products', 'img': 'restaurant.png', 'num': 4 },
+  { 'name': 'Restaurant Categories', 'img': 'restaurant.png', 'num': 3 },
+  { 'name': 'Create Products', 'img': 'restaurant.png', 'num': 4 },
+  { 'name': 'Products Page', 'img': 'restaurant.png', 'num': 5 },
  ]
  constructor(private readonly router: Router,
   private readonly apiService: APIservice,
@@ -79,6 +84,14 @@ export class LayoutPage implements OnInit {
   let page: any = ''
   if (num == 1) {
    page = RestaurantProfilePage
+  } else if (num == 2) {
+   page = AddCategoriesPage
+  } else if (num == 3) {
+   page = ResCategoriesPage
+  } else if (num == 4) {
+   page = CreateProductsPage
+  } else if (num == 5) {
+   page = ResProductsPage
   }
   const modal = await this.modalController.create({
    component: page,

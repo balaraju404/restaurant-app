@@ -46,6 +46,14 @@ const routes: Routes = [
     path: 'res-categories',
     loadChildren: () => import('./pages/res-categories/res-categories.module').then( m => m.ResCategoriesPageModule)
   },
+  {
+    path: 'create-products',
+    loadChildren: () => import('./pages/create-products/create-products.module').then( m => m.CreateProductsPageModule)
+  },
+  {
+    path: 'res-products',
+    loadChildren: () => import('./pages/res-products/res-products.module').then( m => m.ResProductsPageModule)
+  },
 
 ];
 
