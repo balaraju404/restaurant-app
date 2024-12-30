@@ -20,17 +20,17 @@ export class Constants {
 
  static async isRestaurantUsers() {
   const userData: any = await DBManagerService.getData(Constants.USER_DATA_KEY)
-  const role_id = userData['role_id']
+  const role_id = userData?.['role_id'] || 0
   return role_id == 2 || role_id == 4
  }
  static async isAdmin() {
   const userData: any = await DBManagerService.getData(Constants.USER_DATA_KEY)
-  const role_id = userData['role_id']
+  const role_id = userData?.['role_id'] || 0
   return role_id == 1
  }
  static async isUser() {
   const userData: any = await DBManagerService.getData(Constants.USER_DATA_KEY)
-  const role_id = userData['role_id']
+  const role_id = userData?.['role_id'] || 0
   return role_id == 3
  }
  static cartCountSubject = new Subject()
