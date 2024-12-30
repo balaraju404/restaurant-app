@@ -7,14 +7,16 @@ import { IonicModule } from '@ionic/angular';
 import { RestaurantProfilePageRoutingModule } from './restaurant-profile-routing.module';
 
 import { RestaurantProfilePage } from './restaurant-profile.page';
+import { CustomAlertModule } from "../../../utils/custom-componets/alert-component/custom-alert.module";
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    RestaurantProfilePageRoutingModule
-  ],
-  declarations: [RestaurantProfilePage]
+ imports: [
+  CommonModule,
+  FormsModule,
+  IonicModule,
+  RestaurantProfilePageRoutingModule,
+  CustomAlertModule
+ ],
+ declarations: [RestaurantProfilePage]
 })
-export class RestaurantProfilePageModule {}
+export class RestaurantProfilePageModule { }

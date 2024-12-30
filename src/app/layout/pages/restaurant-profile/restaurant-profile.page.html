@@ -1,81 +1,114 @@
 <ion-header [translucent]="true">
  <ion-toolbar>
-   <ion-title>Restaurant Profile</ion-title>
-   <ion-icon slot="start" name="arrow-back-outline" size="large" (click)="dismiss()"></ion-icon>
+  <ion-title>Restaurant Profile</ion-title>
+  <ion-icon slot="start" name="arrow-back-outline" size="large" (click)="dismiss()"></ion-icon>
  </ion-toolbar>
 </ion-header>
 
 <ion-content>
  <!-- Refresh Area -->
  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
-   <ion-refresher-content pullingIcon="chevron-down-circle-outline" pullingText="Pull to refresh"
-     refreshingSpinner="circles" refreshingText="Refreshing...">
-   </ion-refresher-content>
+  <ion-refresher-content pullingIcon="chevron-down-circle-outline" pullingText="Pull to refresh"
+   refreshingSpinner="circles" refreshingText="Refreshing..."></ion-refresher-content>
  </ion-refresher>
 
  <!-- Profile Image Section -->
  <div class="img-container">
-   <ion-row class="d-flex ion-justify-content-center ion-align-items-center">
-     <ion-col size="6" class="d-flex ion-justify-content-center ion-align-items-center">
-       <img class="profile-img" [src]="resData['res_logo'] || fallbackResImg" alt="Restaurant Logo" />
-       <ion-icon name="create-outline" size="small" (click)="onEditImage()" class="edit-icon"></ion-icon>
-     </ion-col>
-   </ion-row>
+  <ion-row class="d-flex ion-justify-content-center ion-align-items-center">
+   <ion-col size="6" class="d-flex ion-justify-content-center ion-align-items-center">
+    <img class="profile-img" [src]="resData['res_logo'] || fallbackResImg" alt="Restaurant Logo" />
+    <ion-icon name="create-outline" size="small" (click)="onEditImage()" class="edit-icon"></ion-icon>
+   </ion-col>
+  </ion-row>
+ </div>
+
+ <!-- Status Section -->
+ <div class="status-section">
+  <ion-row>
+   <ion-col size="12" class="status-container">
+    <ion-icon [name]="resStatusList[resData['status'] || 0]['icon']"
+     [color]="resStatusList[resData['status'] || 0]['color']" size="large" class="status-icon"></ion-icon>
+    <ion-label class="status-label" [style.color]="resStatusList[resData['status'] || 0]['color']">
+     {{ resStatusList[resData['status'] || 0]['name'] }}
+    </ion-label>
+   </ion-col>
+  </ion-row>
  </div>
 
  <!-- Restaurant Data Section -->
  <div class="user-data-container">
-   <ion-row class="ion-justify-content-between">
-     <ion-col size="4">
-       <ion-label class="label-name">Name: </ion-label>
-     </ion-col>
-     <ion-col size="8">
-       <ion-input *ngIf="editFlag" type="text" color="primary" [(ngModel)]="editParams['restaurant_name']"></ion-input>
-       <ion-label *ngIf="!editFlag">{{ resData['restaurant_name'] || 'N/A' }}</ion-label>
-     </ion-col>
-   </ion-row>
+  <ion-row class="ion-justify-content-between">
+   <ion-col size="4">
+    <ion-label class="label-name">Name: </ion-label>
+   </ion-col>
+   <ion-col size="8">
+    <ion-input *ngIf="editFlag" type="text" color="primary" [(ngModel)]="editParams['restaurant_name']"></ion-input>
+    <ion-label *ngIf="!editFlag">{{ resData['restaurant_name'] || 'N/A' }}</ion-label>
+   </ion-col>
+  </ion-row>
 
-   <ion-row class="ion-justify-content-between">
-     <ion-col size="4">
-       <ion-label class="label-name">Description: </ion-label>
-     </ion-col>
-     <ion-col size="8">
-       <ion-input *ngIf="editFlag" type="text" color="primary" [(ngModel)]="editParams['description']"></ion-input>
-       <ion-label *ngIf="!editFlag">{{ resData['description'] || 'N/A' }}</ion-label>
-     </ion-col>
-   </ion-row>
+  <ion-row class="ion-justify-content-between">
+   <ion-col size="4">
+    <ion-label class="label-name">Description: </ion-label>
+   </ion-col>
+   <ion-col size="8">
+    <ion-input *ngIf="editFlag" type="text" color="primary" [(ngModel)]="editParams['description']"></ion-input>
+    <ion-label *ngIf="!editFlag">{{ resData['description'] || 'N/A' }}</ion-label>
+   </ion-col>
+  </ion-row>
 
-   <!-- Edit Profile Buttons -->
-   <ion-row class="ion-justify-content-center ion-align-items-center">
-     <ion-col size="6">
-       <ion-button *ngIf="!editFlag" size="small" expand="block" (click)="onEditProfile()">Edit Profile</ion-button>
-       <ion-button *ngIf="editFlag" size="small" color="danger" expand="block" (click)="onCancel()">Cancel</ion-button>
-       <ion-button *ngIf="editFlag" size="small" color="success" expand="block" (click)="updateProfile()">Save Changes</ion-button>
-     </ion-col>
-   </ion-row>
+  <!-- Open Status Section -->
+  <ion-row class="toggle-container">
+   <ion-col size="4">
+    <ion-label class="label-name">Open Status:</ion-label>
+   </ion-col>
+   <ion-col size="8" class="toggle-status">
+    <ion-toggle [checked]="resData['is_open'] == 1" (ionChange)="onToggleOpenStatus($event)"></ion-toggle>
+    <ion-label>
+     {{ resData['is_open'] == 1 ? 'Open' : 'Closed' }}
+    </ion-label>
+   </ion-col>
+  </ion-row>
+
+  <!-- Edit Profile Buttons -->
+  <ion-row class="ion-justify-content-center ion-align-items-center">
+   <ion-col size="6">
+    <ion-button *ngIf="!editFlag" size="small" expand="block" (click)="onEditProfile()">Edit Profile</ion-button>
+    <ion-button *ngIf="editFlag" size="small" color="danger" expand="block" (click)="onCancel()">Cancel</ion-button>
+    <ion-button *ngIf="editFlag" size="small" color="success" expand="block" (click)="updateProfile()">Save
+     Changes</ion-button>
+   </ion-col>
+  </ion-row>
  </div>
 </ion-content>
 
-<!-- Modal for Image Upload -->
 <div *ngIf="imageModal" class="modal-container">
  <div class="modal-content-container">
-   <input type="file" accept="image/*" id="fileInput" (change)="onInput($event)" hidden />
-   <ion-button size="small" color="primary" expand="block" (click)="triggerFileInput()">
-     <ion-icon name="camera-outline" slot="start"></ion-icon>
-     Select Image
-   </ion-button>
+  <input type="file" accept="image/*" id="fileInput" (change)="onInput($event)" hidden />
 
-   <div *ngIf="selectedFile">
-     <img [src]="selectedFileUrl" alt="Preview" class="image-preview" />
-   </div>
+  <ion-button size="small" color="primary" expand="block" (click)="triggerFileInput()">
+   <ion-icon name="camera-outline" slot="start"></ion-icon>
+   Select Image
+  </ion-button>
 
-   <ion-row>
-     <ion-col size="6">
-       <ion-button size="small" color="success" expand="block" (click)="updateResLogo()">Upload</ion-button>
-     </ion-col>
-     <ion-col size="6">
-       <ion-button size="small" color="danger" expand="block" (click)="closeModal()">Close</ion-button>
-     </ion-col>
-   </ion-row>
+  @if (!selectedFile && resData['res_logo']) {
+  <img [src]="resData['res_logo']" alt="Preview" class="image-preview" />
+  <!-- <ion-button size="small" color="danger" (click)="deleteUserProfile()">Delete</ion-button> -->
+  }
+  @if(selectedFile){
+  <img [src]="selectedFileUrl" alt="Preview" class="image-preview" />
+  }
+
+  <ion-row>
+   <ion-col size="6">
+    <ion-button size="small" color="success" (click)="updateResLogo()">Upload</ion-button>
+   </ion-col>
+   <ion-col size="6">
+    <ion-button size="small" color="danger" (click)="closeModal()">Close</ion-button>
+   </ion-col>
+  </ion-row>
+
  </div>
 </div>
+
+<app-custom-alert [alert_model]="alert_mdl"></app-custom-alert>

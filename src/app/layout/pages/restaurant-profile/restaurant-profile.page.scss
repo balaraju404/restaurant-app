@@ -1,40 +1,44 @@
 .img-container {
- display: flex;
- justify-content: center;
- align-items: center;
- margin-top: 2rem;
+ margin-top: 1rem;
 }
 
 .profile-img {
- // height: 10rem;
- width: 10rem;
+ width: 8rem;
  border-radius: 50%;
- // border: 2px solid #ccc;
- box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+ border: 3px solid #f1f1f1;
  margin: 1rem;
+ box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .edit-icon {
- color: black;
  position: absolute;
- bottom: 1.3rem;
- right: 2.5rem;
- background:white;
+ bottom: 1.5rem;
+ right: 2rem;
+ background-color: white;
  border-radius: 50%;
+ padding: 0.2rem;
 }
 
-ion-button {
- &:hover {
-   transform: scale(1.05);
-   transition: transform 0.3s ease;
- }
+.status-section {
+ margin-top: 1rem;
+ text-align: center;
+}
+
+.status-container {
+ display: flex;
+ align-items: center;
+ justify-content: center;
+}
+
+.status-icon {
+ margin-right: 0.5rem;
 }
 
 .user-data-container {
- margin: 2rem 1rem;
- padding: 1.5rem;
+ margin: 1.5rem 1rem;
+ padding: 1rem;
  border-radius: 1rem;
- background-color: #f9f9f9;
+ background: #f9f9f9;
  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
@@ -43,48 +47,52 @@ ion-button {
  color: #333;
 }
 
-ion-input {
- border-radius: 8px;
- padding: 0.5rem;
- background-color: #f1f1f1;
-}
-
-ion-input:focus {
- background-color: #fff;
- border: 1px solid #077126;
-}
-
-.image-preview {
- max-width: 100%;
- height: auto;
- border: 2px solid #ccc;
- border-radius: 8px;
+.toggle-container {
  margin-top: 1rem;
-}
-
-.modal-container {
  display: flex;
- justify-content: center;
  align-items: center;
- position: fixed;
- top: 0;
- left: 0;
- right: 0;
- bottom: 0;
- background-color: rgba(0, 0, 0, 0.5);
- z-index: 1000;
 }
 
-.modal-content-container {
- background-color: white;
- padding: 1.5rem;
- border-radius: 1rem;
- width: 90%;
- max-width: 500px;
- text-align: center;
- box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+.toggle-status {
+ display: flex;
+ align-items: center;
+ gap: 1rem;
 }
 
-.modal-content-container ion-button {
- margin-top: 1rem;
+ion-button:hover {
+ transform: scale(1.05);
+ transition: transform 0.3s ease;
+}
+
+ion-toggle {
+ padding: 12px;
+
+ --handle-width: 25px;
+ --handle-height: 27px;
+ --handle-max-height: auto;
+ --handle-spacing: 6px;
+
+ contain: none;
+}
+
+ion-toggle::part(track),
+ion-toggle.toggle-checked::part(track) {
+ height: 10px;
+ width: 65px;
+
+ background: #ddd;
+
+ /* Required for iOS handle to overflow the height of the track */
+ overflow: visible;
+}
+
+ion-toggle::part(handle) {
+ background: #eb7769;
+
+ border-radius: 4px;
+ box-shadow: none;
+}
+
+ion-toggle.toggle-checked::part(handle) {
+ background: #95c34e;
 }
