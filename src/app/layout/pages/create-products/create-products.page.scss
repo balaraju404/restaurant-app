@@ -1,0 +1,70 @@
+ion-item {
+ --inner-padding-end: 1rem;
+ --inner-padding-start: 1rem;
+}
+
+ion-label {
+ font-size: 0.875rem;
+ font-weight: bold;
+ margin-bottom: 0.3125rem;
+ display: block;
+}
+
+input[type="file"] {
+ display: block;
+ width: 100%;
+ padding: 0.5rem;
+ border: 0.0625rem solid #ccc;
+ border-radius: 0.3125rem;
+ margin-top: 0.3125rem;
+ font-size: 0.875rem;
+ background-color: #f9f9f9;
+}
+
+ion-item p {
+ font-size: 0.75rem;
+ color: #888;
+ margin-top: 0.3125rem;
+ font-style: italic;
+ padding-left: 0.625rem;
+}
+
+.select-cat-modal {
+ position: absolute;
+ top: 0;
+ left: 0;
+ width: 100%;
+ height: 100%;
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ background: rgba(0, 0, 0, 0.5);
+ z-index: 1000;
+}
+
+ion-card {
+ width: 90%;
+ max-width: 31.25rem;
+ border-radius: 0.625rem;
+}
+
+ion-card-header {
+ background-color: var(--ion-color-primary);
+ color: white;
+ padding: 0.9375rem;
+ text-align: center;
+}
+
+.cat-container {
+ max-height: 25rem;
+ overflow-y: scroll;
+ padding: 0.9375rem;
+}
+
+.add-category-text {
+ margin-left: 0.3125rem;
+}
+
+.ion-no-padding ion-item {
+ padding: 0.625rem;
+}

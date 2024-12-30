@@ -29,7 +29,7 @@ export class ResCategoriesPage implements OnInit {
  async getResCategoriesData() {
   await this.loadingService.showLoading()
   const res_id = this.resData['res_id']
-  this.apiService.getResCategories(res_id).subscribe({
+  this.apiService.getResCategories({res_id}).subscribe({
    next: async (res: any) => {
     if (res['status']) {
      await this.loadingService.hideLoading()

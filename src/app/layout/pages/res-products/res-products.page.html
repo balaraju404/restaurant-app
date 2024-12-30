@@ -14,6 +14,58 @@
    refreshingSpinner="circles" refreshingText="Refreshing..."></ion-refresher-content>
  </ion-refresher>
 
+ <div class="d-flex">
+  <div class="cat-container">
+   @for (item of resCatData; track $index) {
+   <ion-card class="{{selectedCatId===item['cat_id']?'active':''}}" (click)="onClickCategory(item['cat_id'])">
+    <ion-row class="d-flex ion-justify-content-center">
+     <img [src]="item['cat_img']" alt="">
+    </ion-row>
+    <ion-row class="d-flex ion-justify-content-center">
+     <p>{{item['cat_name']}}</p>
+    </ion-row>
+   </ion-card>
+   }
+  </div>
+  <div class="products-container">
+   @for (item of productsData; track $index) {
+   <ion-card>
+    <ion-card-header color="secondary">
+     <ion-row>
+      <ion-col size="8">
+       <p>{{item['product_name']}}</p>
+      </ion-col>
+      <ion-col size="4">
+       <ion-button size="small">Edit</ion-button>
+      </ion-col>
+     </ion-row>
+    </ion-card-header>
+    <ion-card-content>
+     <ion-row>
+      <ion-col size="6">
+       <img src="{{item['product_img']}}" alt="{{item['product_name']}} Image" class="product-img" />
+      </ion-col>
+      <ion-col size="6">
+       <p><strong>Description:</strong> {{item['description'] || 'N/A'}}</p>
+      </ion-col>
+     </ion-row>
+     <p><strong>Price:</strong> ₹{{item['price']}}</p>
+     <p><strong>Category:</strong> {{item['cat_name']}}</p>
+    </ion-card-content>
+   </ion-card>
+   }
+   @if(productsData.length === 0) {
+   <ion-card class="no-products-card">
+    <ion-icon name="alert-circle-outline" color="danger" class="no-products-icon"></ion-icon>
+    <p class="no-products-text">No products found.</p>
+   </ion-card>
+   }
+
+  </div>
+
+
+ </div>
+
  <!-- Custom Alert -->
  <app-custom-alert [alert_model]="alert_mdl"></app-custom-alert>
 </ion-content>

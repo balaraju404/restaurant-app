@@ -81,8 +81,7 @@ export class APIservice {
   const params = { res_id: res_id, cat_id: cat_id }
   return this.http.post(this.apiUrl + 'res_categories/add', params);
  }
- getResCategories(res_id: any) {
-  const params = { res_id: res_id };
+ getResCategories(params: any) {
   return this.http.post(this.apiUrl + 'res_categories/details', params);
  }
  getResProducts(data: any) {

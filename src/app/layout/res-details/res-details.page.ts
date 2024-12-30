@@ -33,7 +33,8 @@ export class ResDetailsPage implements OnInit {
  }
  getCategory() {
   this.isCatLoading = true
-  this.apiService.getResCategories(this.resData['_id']).subscribe({
+  const res_id = this.resData['_id']
+  this.apiService.getResCategories({ res_id }).subscribe({
    next: (res: any) => {
     if (res['status']) {
      this.categoryData = res['data'] || [];
