@@ -1,0 +1,67 @@
+<ion-header [translucent]="true">
+ <ion-toolbar color="">
+  <ion-buttons slot="start">
+   <ion-icon name="arrow-back-outline" size="large" (click)="dismiss()"></ion-icon>
+  </ion-buttons>
+  <ion-title>Restaurant Categories</ion-title>
+ </ion-toolbar>
+</ion-header>
+
+<ion-content>
+ <!-- Refresh Area -->
+ <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+  <ion-refresher-content pullingIcon="chevron-down-circle-outline" pullingText="Pull to refresh"
+   refreshingSpinner="circles" refreshingText="Refreshing...">
+  </ion-refresher-content>
+ </ion-refresher>
+
+ <ion-grid class="ion-padding">
+  <ion-row>
+   <ion-col size="12">
+    <p class="ion-text-center category-title">
+     <strong>Categories List</strong>
+    </p>
+
+    <!-- Categories Data -->
+    <ng-container *ngIf="resCatData.length > 0; else noDataTemplate">
+     <ion-card *ngFor="let item of resCatData; let i = index" class="ion-margin-bottom category-card">
+      <ion-card-header class="category-card-header">
+       <ion-row class="ion-align-items-center">
+        <ion-col size="8">
+         <ion-card-title class="category-card-title">
+          {{ item.cat_name }}
+         </ion-card-title>
+        </ion-col>
+        <ion-col size="4" class="ion-text-end">
+         <ion-button size="small" color="success">Edit</ion-button>
+        </ion-col>
+       </ion-row>
+      </ion-card-header>
+      <ion-card-content>
+       <ion-row>
+        <ion-col size="6" class="ion-text-center">
+         <img [src]="item['cat_img']" alt="Category" class="category-image">
+        </ion-col>
+        <ion-col size="6">
+         <p class="ion-text-wrap">{{ item['description'] || 'No description available.' }}</p>
+        </ion-col>
+       </ion-row>
+      </ion-card-content>
+     </ion-card>
+    </ng-container>
+
+    <!-- No Data Template -->
+    <ng-template #noDataTemplate>
+     <ion-card class="no-data-card">
+      <ion-card-content class="ion-text-center">
+       <p class="no-data-text"><em>No categories found to display.</em></p>
+      </ion-card-content>
+     </ion-card>
+    </ng-template>
+   </ion-col>
+  </ion-row>
+ </ion-grid>
+
+ <!-- Custom Alert -->
+ <app-custom-alert [alert_model]="alert_mdl"></app-custom-alert>
+</ion-content>

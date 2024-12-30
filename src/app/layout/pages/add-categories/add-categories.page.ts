@@ -15,7 +15,6 @@ import { LoadingService } from 'src/app/utils/loading.service';
 export class AddCategoriesPage implements OnInit {
  resData: any = {}
  catData: any = []
- resCatData: any = []
  searchText: string = ''
  selectedCatIds: any = []
  alert_mdl!: AlertModel;
