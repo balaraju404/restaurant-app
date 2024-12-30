@@ -67,8 +67,8 @@ export class APIservice {
   const params = { 'user_id': user_id };
   return this.http.post(this.apiUrl + 'assign_restaurant_users/details', params)
  }
- getCategories() {
-  return this.http.post(this.apiUrl + 'categories/details', {})
+ getCategories(params: any = {}) {
+  return this.http.post(this.apiUrl + 'categories/details', params)
  }
  createCategory(cat_name: string, cat_img: any, description: string) {
   const formData = new FormData;
