@@ -39,7 +39,6 @@ export class SelectRestaurantPage implements OnInit {
   const user_id = this.userData['user_id']
   this.apiService.getUserRestaurants(user_id).subscribe({
    next: (res: any) => {
-    console.log(res);
     if (res['status']) {
      this.userResList = res['data']
     } else {

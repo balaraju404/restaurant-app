@@ -19,7 +19,6 @@ export class CreateRestaurantPage implements OnInit {
   private readonly modalController: ModalController,
   private readonly apiService: APIservice) { }
  async ngOnInit() {
-  console.log('create');
   this.userData = await DBManagerService.getData(Constants.USER_DATA_KEY)
  }
  onFileChange(event: any) {
@@ -27,9 +26,8 @@ export class CreateRestaurantPage implements OnInit {
   if (file) {
    if (file.type.startsWith('image/')) {
     this.file = file;
-    console.log('File selected:', this.file);
    } else {
-    alert('Please select an image file.');
+    AlertService.showAlert('Error','Please select an image file.');
     this.file = null;
     event.target.value = ''
    }
@@ -40,7 +38,6 @@ export class CreateRestaurantPage implements OnInit {
   const user_id = this.userData.user_id;
   this.apiService.restaurantCreate(res_name, this.file, description, user_id, 2).subscribe({
    next: (res: any) => {
-    console.log(res);
     if (res['status']) {
      this.dismiss()
      AlertService.showAlert('Alert', res['msg'])

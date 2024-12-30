@@ -118,6 +118,7 @@ export class LayoutPage implements OnInit {
  }
  async gotoSelectRestaurant() {
   await DBManagerService.removeData(Constants.RES_USER_SELECTED_KEY)
-  this.router.navigate(['/select-restaurant'])
+  //   this.router.navigate(['/select-restaurant'])
+  location.href = '/select-restaurant'
  }
 }

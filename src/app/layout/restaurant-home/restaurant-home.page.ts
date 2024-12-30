@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ViewWillEnter,ViewDidEnter } from '@ionic/angular';
 import { APIservice } from 'src/app/utils/api.service';
 import { Constants } from 'src/app/utils/constants.service';
 import { DBManagerService } from 'src/app/utils/db-manager.service';
@@ -18,7 +19,12 @@ export class RestaurantHomePage implements OnInit {
  dashboardCount: any = {}
  constructor(private readonly apiService: APIservice) { }
 
- async ngOnInit() {
+ ngOnInit() {
+  console.log('oninit');
+  
+ }
+ async ionViewDidEnter() {
+  console.log('ionViewWillEnter');
   this.resData = await DBManagerService.getData(Constants.RES_USER_SELECTED_KEY)
   this.getCurrentWeatherImg()
   this.getDashboardCount()
