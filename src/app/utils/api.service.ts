@@ -36,8 +36,25 @@ export class APIservice {
  getRestaurantDashboardCount(params: any) {
   return this.http.post(this.apiUrl + 'dashboard/resOrdersCount', params);
  }
+ getResActiveOrdersCount(params: any) {
+  return this.http.post(this.apiUrl + 'dashboard/resActiveCount', params)
+ }
  getCartCount(params: any) {
   return this.http.post(this.apiUrl + 'dashboard/userCartCount', params)
+ }
+
+ //  notifications
+ getNotifications(params: any = {}) {
+  return this.http.post(this.apiUrl + 'notifications/details', params);
+ }
+ getNotificationsCount(params: any = {}) {
+  return this.http.post(this.apiUrl + 'notifications/count', params);
+ }
+ getNotificationsSend(params: any = {}) {
+  return this.http.post(this.apiUrl + 'notifications/send', params);
+ }
+ getNotificationsUpdate(params: any = {}) {
+  return this.http.post(this.apiUrl + 'notifications/update', params);
  }
 
  // restaurant

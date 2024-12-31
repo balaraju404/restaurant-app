@@ -9,7 +9,7 @@ import { DBManagerService } from 'src/app/utils/db-manager.service';
  templateUrl: './restaurant-home.page.html',
  styleUrls: ['./restaurant-home.page.scss'],
 })
-export class RestaurantHomePage implements OnInit {
+export class RestaurantHomePage {
  skeleton_data: any = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
  resData: any = {}
  curWeatherImg: string = ''
@@ -19,12 +19,7 @@ export class RestaurantHomePage implements OnInit {
  dashboardCount: any = {}
  constructor(private readonly apiService: APIservice) { }
 
- ngOnInit() {
-  console.log('oninit');
-  
- }
  async ionViewDidEnter() {
-  console.log('ionViewWillEnter');
   this.resData = await DBManagerService.getData(Constants.RES_USER_SELECTED_KEY)
   this.getCurrentWeatherImg()
   this.getDashboardCount()

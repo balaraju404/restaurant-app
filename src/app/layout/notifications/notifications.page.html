@@ -1,0 +1,20 @@
+<ion-header [translucent]="true">
+ <ion-toolbar color="">
+  <ion-title>Notifications</ion-title>
+ </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+ @for (item of notificationsData; track $index) {
+ <ion-card (click)="onOpenNotification(item)">
+  <ion-card-header>
+   <ion-card-subtitle> {{ item.title }} </ion-card-subtitle>
+  </ion-card-header>
+  <ion-card-content>
+   <ion-item>
+    <ion-label> {{ item.message }} </ion-label>
+   </ion-item>
+  </ion-card-content>
+ </ion-card>
+ }
+</ion-content>

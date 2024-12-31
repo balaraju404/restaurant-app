@@ -1,17 +1,25 @@
 <ion-header [translucent]="true">
  <ion-toolbar>
   <ion-title>
-   <ion-row class="title-row">
-    @if (isResUser) {
-    <ion-col size="auto">
+   <ion-row class="title-row" align-items="center">
+    <!-- Back Button (visible for ResUser) -->
+    <ion-col *ngIf="isResUser" size="auto" class="back-btn-col">
      <ion-icon name="arrow-back-outline" (click)="gotoSelectRestaurant()"></ion-icon>
     </ion-col>
-    }
-    <ion-col size="auto">
-     <img class="app-icon" src="{{isResUser?(resData['res_logo'] || fallbackResImg):appIcon}}" alt="app-icon">
+
+    <!-- Restaurant Logo or App Icon -->
+    <ion-col size="auto" class="logo-col">
+     <img class="app-icon" src="{{isResUser ? (resData['res_logo'] || fallbackResImg) : appIcon}}" alt="app-icon">
     </ion-col>
-    <ion-col size="auto">
-     {{isResUser?resData['restaurant_name']:'GBR Food App'}}
+
+    <!-- Restaurant Name or App Name -->
+    <ion-col size="auto" class="title-col">
+     {{ isResUser ? resData['restaurant_name'] : 'GBR Food App' }}
+    </ion-col>
+
+    <!-- Notifications Icon -->
+    <ion-col size="auto" class="notification-col">
+     <ion-icon name="notifications-outline" size="large" (click)="openNotificationsPage()"></ion-icon>
     </ion-col>
    </ion-row>
   </ion-title>
@@ -26,7 +34,8 @@
  <ion-toolbar>
   @if(isResUser){
   <ion-row justify-content="space-between" align-items="center">
-   <ion-col size="2" class="ion-text-center" [class.active]="isActive('restaurant-home')" (click)="onNavigatePage('restaurant-home')">
+   <ion-col size="2" class="ion-text-center" [class.active]="isActive('restaurant-home')"
+    (click)="onNavigatePage('restaurant-home')">
     <ion-icon name="home-outline" size="large" aria-label="Home"></ion-icon>
    </ion-col>
    <ion-col size="3" class="ion-text-center" [class.active]="isActive('cart')" (click)="onNavigatePage('cart')">

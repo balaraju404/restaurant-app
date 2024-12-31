@@ -11,6 +11,7 @@ import { AddCategoriesPage } from './pages/add-categories/add-categories.page';
 import { ResCategoriesPage } from './pages/res-categories/res-categories.page';
 import { CreateProductsPage } from './pages/create-products/create-products.page';
 import { ResProductsPage } from './pages/res-products/res-products.page';
+import { NotificationsPage } from './notifications/notifications.page';
 
 @Component({
  selector: 'app-layout',
@@ -19,6 +20,7 @@ import { ResProductsPage } from './pages/res-products/res-products.page';
 })
 export class LayoutPage implements OnInit {
  cartCount: number = 0
+ resActiveCartCount: number = 0
  userData: any = {}
  resData: any = {}
  role_id: number = 0
@@ -115,6 +117,27 @@ export class LayoutPage implements OnInit {
     AlertService.showAlert('Alert', error?.error['msg'] || JSON.stringify(error))
    }
   })
+ }
+ getResActiveOrdersCount() {
+  const res_id = this.resData['res_id']
+  this.apiService.getResActiveOrdersCount({ res_id }).subscribe({
+   next: (res: any) => {
+    if (res['status']) {
+     this.resActiveCartCount = res['count']
+    } else {
+     AlertService.showAlert('Alert', res['msg'] || JSON.stringify(res))
+    }
+   },
+   error: (error) => {
+    AlertService.showAlert('Alert', error?.error['msg'] || JSON.stringify(error))
+   }
+  })
+ }
+ async openNotificationsPage() {
+  const modal = await this.modalController.create({
+   component: NotificationsPage,
+  })
+  modal.present()
  }
  async gotoSelectRestaurant() {
   await DBManagerService.removeData(Constants.RES_USER_SELECTED_KEY)
