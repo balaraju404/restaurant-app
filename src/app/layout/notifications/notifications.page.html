@@ -1,10 +1,17 @@
 <ion-header [translucent]="true">
  <ion-toolbar color="">
   <ion-title>Notifications</ion-title>
+  <ion-icon slot="start" name="arrow-back-outline" size="large" (click)="dismiss()"></ion-icon>
  </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
+ <!-- Refresh Area -->
+ <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+  <ion-refresher-content pullingIcon="chevron-down-circle-outline" pullingText="Pull to refresh"
+   refreshingSpinner="circles" refreshingText="Refreshing..."></ion-refresher-content>
+ </ion-refresher>
+
  @for (item of notificationsData; track $index) {
  <ion-card (click)="onOpenNotification(item)">
   <ion-card-header>

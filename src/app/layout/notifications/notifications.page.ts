@@ -28,19 +28,22 @@ export class NotificationsPage implements OnInit {
   } else {
    this.userData = await DBManagerService.getData(Constants.USER_DATA_KEY)
   }
+  this.getNotifications()
  }
- getNotifications() {
+ async getNotifications() {
   let params: any = {}
   params['receiver_id'] = this.isResUser ? this.resData['res_id'] : this.userData['user_id']
-  this.loadingService.showLoading()
+  await this.loadingService.showLoading()
   this.apiService.getNotifications(params).subscribe({
    next: async (res: any) => {
+    await this.loadingService.hideLoading()
     if (res['status']) {
      this.notificationsData = res['data']
     } else {
      AlertService.showAlert("Error", res['msg'] || JSON.stringify(res))
     }
-   }, error: err => {
+   }, error: async err => {
+    await this.loadingService.hideLoading()
     AlertService.showAlert("Error", JSON.stringify(err['error'] || err))
    }
   })
@@ -51,5 +54,14 @@ export class NotificationsPage implements OnInit {
   // if (data['link']) {
 
   // }
+ }
+ dismiss() {
+  this.modalController.dismiss()
+ }
+ handleRefresh(event: any) {
+  this.getNotifications()
+  setTimeout(() => {
+   event.target.complete();
+  }, 2000);
  }
 }
