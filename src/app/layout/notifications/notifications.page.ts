@@ -49,7 +49,7 @@ export class NotificationsPage implements OnInit {
   })
  }
  onOpenNotification(data: any) {
-  console.log(data);
+//   console.log(data);
 
   // if (data['link']) {
 

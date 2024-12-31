@@ -20,6 +20,7 @@
     <!-- Notifications Icon -->
     <ion-col size="auto" class="notification-col">
      <ion-icon name="notifications-outline" size="large" (click)="openNotificationsPage()"></ion-icon>
+     <ion-badge>{{notificationsCount>99?'99+':notificationsCount}}</ion-badge>
     </ion-col>
    </ion-row>
   </ion-title>
@@ -38,9 +39,10 @@
     (click)="onNavigatePage('restaurant-home')">
     <ion-icon name="home-outline" size="large" aria-label="Home"></ion-icon>
    </ion-col>
-   <ion-col size="3" class="ion-text-center" [class.active]="isActive('cart')" (click)="onNavigatePage('cart')">
-    <ion-icon name="bag-handle-outline" size="large" aria-label="Cart"></ion-icon>
-    <ion-badge>{{cartCount}}</ion-badge>
+   <ion-col size="3" class="ion-text-center" [class.active]="isActive('res-orders')"
+    (click)="onNavigatePage('res-orders')">
+    <ion-icon name="bag-handle-outline" size="large" aria-label="res-orders"></ion-icon>
+    <ion-badge>{{resActiveCartCount}}</ion-badge>
    </ion-col>
    <ion-col size="2" class="ion-text-center" (click)="openPagesList()">
     <ion-icon name="filter-circle-outline" size="large" aria-label="Order List"></ion-icon>

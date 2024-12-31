@@ -1,0 +1,152 @@
+<ion-header [translucent]="true">
+ <ion-toolbar class="ion-padding-horizontal">
+  <ion-title>Handle Order</ion-title>
+  <ion-icon slot="end" name="close-circle-outline" size="large" (click)="dismiss()"></ion-icon>
+ </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+ <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+  <ion-refresher-content pullingIcon="chevron-down-circle-outline" pullingText="Pull to refresh"
+   refreshingSpinner="circles" refreshingText="Refreshing...">
+  </ion-refresher-content>
+ </ion-refresher>
+
+ <ion-grid>
+  <!-- Order ID and Restaurant Name -->
+  <ion-row>
+   <ion-col size="12">
+    <ion-card class="order-card">
+     <ion-card-header>
+      <ion-card-title class="order-title">Order ID: {{ ordersData.trans_id }}</ion-card-title>
+      <ion-card-subtitle>User Name:{{ ordersData.user_name }}</ion-card-subtitle>
+      <ion-card-subtitle>Order Date: {{ ordersData.display_order_date }}</ion-card-subtitle>
+     </ion-card-header>
+    </ion-card>
+   </ion-col>
+  </ion-row>
+
+  <!-- Order Status Section -->
+  <ion-row>
+   <ion-col size="12">
+    <ion-card class="status-card">
+     <ion-card-content>
+      <ion-row align-items="center" class="status-row">
+       <ion-col size="2">
+        <ion-icon name="checkmark-circle-outline" size="large" color="success"></ion-icon>
+       </ion-col>
+       <ion-col size="10">
+        <ion-text color="success">{{ getStatusText(ordersData.status) }}</ion-text>
+       </ion-col>
+      </ion-row>
+
+      <!-- Order Status Indicators -->
+      <ion-row class="status-row">
+       @if(ordersData.status===1){
+       <ion-col size="12" class="status-col">
+        <ion-button size="small" color="success" (click)="handleOrder(ordersData,2)">Accept</ion-button>
+        <ion-button size="small" color="danger" (click)="handleOrder(ordersData,3)">Reject</ion-button>
+       </ion-col>
+       }@else if (ordersData.status===3 || ordersData.status===4 || ordersData.status ===7 || ordersData.status===8) {
+       <!-- <ion-col size="12">
+        <ion-icon [name]="getStatusIcon(ordersData.status)" size="large"></ion-icon>
+       </ion-col> -->
+       <ion-col size="12">
+        <p>{{getStatusDate(ordersData.status)}}</p>
+       </ion-col>
+       } @else {
+       <ion-col size="4" class="status-icon-container">
+        <div class="status-icon-circle" [class.accepted]="ordersData.status>2">
+         <ion-icon name="cube" size="large" [class.text-white]="ordersData.status>2"></ion-icon>
+        </div>
+       </ion-col>
+
+       <ion-col size="4" class="status-icon-container">
+        <div class="status-icon-circle" [class.accepted]="ordersData.status>5">
+         <ion-icon name="alert-circle-outline" size="large" [class.text-white]="ordersData.status>5"></ion-icon>
+        </div>
+       </ion-col>
+       <ion-col size="4" class="status-icon-container">
+        <div class="status-icon-circle" [class.accepted]="ordersData.status>6">
+         <ion-icon name="checkmark-circle-outline" size="large" [class.text-white]="ordersData>6"></ion-icon>
+        </div>
+       </ion-col>
+       }
+      </ion-row>
+      <ion-row class="status-row">
+       @if(ordersData.status!==1 && ordersData.status!==3 && ordersData.status!==4 && ordersData.status !==7 &&
+       ordersData.status!==8){
+       <ion-col size="4" class="status-icon-container">
+        <ion-button *ngIf="ordersData.status === 2" expand="block" size="small"
+         (click)="handleOrder(ordersData,5)">Packed</ion-button>
+        <p *ngIf="ordersData.status > 2">Packed</p>
+       </ion-col>
+
+       <ion-col size="4" class="status-icon-container">
+        <ion-button *ngIf="ordersData.status === 5" expand="block" size="small" (click)="handleOrder(ordersData,6)">Out
+         for Delivery</ion-button>
+        <p *ngIf="ordersData.status > 5">Out for Delivery</p>
+       </ion-col>
+       <ion-col size="4" class="status-icon-container">
+        <ion-button *ngIf="ordersData.status === 6" expand="block" size="small"
+         (click)="handleOrder(ordersData,7)">Complete Delivery</ion-button>
+        <p *ngIf="ordersData.status ===7">Delivered</p>
+       </ion-col>
+       }
+      </ion-row>
+     </ion-card-content>
+    </ion-card>
+   </ion-col>
+  </ion-row>
+
+  <!-- Product Details -->
+  <ion-row>
+   <ion-col size="12">
+    <ion-card class="product-card">
+     <ion-card-header>
+      <ion-card-title>Products</ion-card-title>
+     </ion-card-header>
+
+     <ion-card-content>
+      <ion-list>
+       <ion-item *ngFor="let product of ordersData.products_data">
+        <ion-avatar slot="start">
+         <img [src]="product.product_img" alt="{{ product.product_name }}">
+        </ion-avatar>
+        <ion-label>
+         <h3>{{ product.product_name }}</h3>
+         <p class="product-description">{{ product.description.slice(0, 65) }}...</p>
+         <div class="product-quantity-price">
+          <p>Quantity: {{ product.product_qty }}</p>
+          <p>₹{{ product.price }}</p>
+         </div>
+        </ion-label>
+       </ion-item>
+      </ion-list>
+     </ion-card-content>
+    </ion-card>
+   </ion-col>
+  </ion-row>
+
+  <!-- Order Summary Section -->
+  <ion-row class="ion-margin-top">
+   <ion-col size="12">
+    <ion-card class="summary-card">
+     <ion-card-header>
+      <ion-card-title>Order Summary</ion-card-title>
+     </ion-card-header>
+     <ion-card-content>
+      <ion-row>
+       <ion-col size="6">
+        <p><strong>Total Items:</strong> {{ getTotalItems() }}</p>
+       </ion-col>
+       <ion-col size="6">
+        <p><strong>Total Amount:</strong> ₹{{ getTotalAmount() }}</p>
+       </ion-col>
+      </ion-row>
+     </ion-card-content>
+    </ion-card>
+   </ion-col>
+  </ion-row>
+ </ion-grid>
+</ion-content>

@@ -26,38 +26,42 @@ const routes: Routes = [
    },
    {
     path: 'restaurant-home',
-    loadChildren: () => import('./restaurant-home/restaurant-home.module').then( m => m.RestaurantHomePageModule)
-  }
+    loadChildren: () => import('./restaurant-home/restaurant-home.module').then(m => m.RestaurantHomePageModule)
+   },
+   {
+    path: 'res-orders',
+    loadChildren: () => import('./res-orders/res-orders.module').then(m => m.ResOrdersPageModule)
+   }
   ]
  },
-  {
-    path: 'res-details',
-    loadChildren: () => import('./res-details/res-details.module').then( m => m.ResDetailsPageModule)
-  },
-  {
-    path: 'restaurant-profile',
-    loadChildren: () => import('./pages/restaurant-profile/restaurant-profile.module').then( m => m.RestaurantProfilePageModule)
-  },
-  {
-    path: 'add-categories',
-    loadChildren: () => import('./pages/add-categories/add-categories.module').then( m => m.AddCategoriesPageModule)
-  },
-  {
-    path: 'res-categories',
-    loadChildren: () => import('./pages/res-categories/res-categories.module').then( m => m.ResCategoriesPageModule)
-  },
-  {
-    path: 'create-products',
-    loadChildren: () => import('./pages/create-products/create-products.module').then( m => m.CreateProductsPageModule)
-  },
-  {
-    path: 'res-products',
-    loadChildren: () => import('./pages/res-products/res-products.module').then( m => m.ResProductsPageModule)
-  },
-  {
-    path: 'notifications',
-    loadChildren: () => import('./notifications/notifications.module').then( m => m.NotificationsPageModule)
-  },
+ {
+  path: 'res-details',
+  loadChildren: () => import('./res-details/res-details.module').then(m => m.ResDetailsPageModule)
+ },
+ {
+  path: 'restaurant-profile',
+  loadChildren: () => import('./pages/restaurant-profile/restaurant-profile.module').then(m => m.RestaurantProfilePageModule)
+ },
+ {
+  path: 'add-categories',
+  loadChildren: () => import('./pages/add-categories/add-categories.module').then(m => m.AddCategoriesPageModule)
+ },
+ {
+  path: 'res-categories',
+  loadChildren: () => import('./pages/res-categories/res-categories.module').then(m => m.ResCategoriesPageModule)
+ },
+ {
+  path: 'create-products',
+  loadChildren: () => import('./pages/create-products/create-products.module').then(m => m.CreateProductsPageModule)
+ },
+ {
+  path: 'res-products',
+  loadChildren: () => import('./pages/res-products/res-products.module').then(m => m.ResProductsPageModule)
+ },
+ {
+  path: 'notifications',
+  loadChildren: () => import('./notifications/notifications.module').then(m => m.NotificationsPageModule)
+ }
 
 ];
 

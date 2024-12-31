@@ -1,0 +1,113 @@
+<ion-content>
+ <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+  <ion-refresher-content pullingIcon="chevron-down-circle-outline" pullingText="Pull to refresh"
+   refreshingSpinner="circles" refreshingText="Refreshing...">
+  </ion-refresher-content>
+ </ion-refresher>
+
+ <div class="container mt-4">
+  <p class="page-title-span">Active Orders</p>
+  <ion-list>
+   <ion-item *ngFor="let item of orders_data; let i = index" (click)="openOrderDetailsModal(item['trans_id'])">
+    <ion-card class="custom-card">
+     <ion-card-header class="custom-card-header">
+      <ion-card-title>Order: #{{ item.trans_id }}</ion-card-title>
+     </ion-card-header>
+
+     <ion-card-content>
+      <ion-label>
+       <p class=""><strong>User Name:</strong> {{ item.user_name }}</p>
+      </ion-label>
+
+      <ion-card-subtitle class="text-secondary">
+       <strong>Total Price:</strong> &#8377; {{ item.total_price }}
+      </ion-card-subtitle>
+      <ion-list class="horizontal-list">
+       @for(product of item.products_data;track $index; let j = $index){
+       <ion-item *ngIf="j<=2">
+        <ng-container *ngIf="j < 2">
+         <img class="product-image" [src]="product['product_img']" alt="prod img">
+        </ng-container>
+        <ng-container *ngIf="j === 2 && item.products_data.length > 3">
+         +{{ item.products_data.length - 2 }}
+        </ng-container>
+       </ion-item>
+       }
+       <ion-item>
+        <ion-icon name="chevron-forward-circle" class="chevron-icon"></ion-icon>
+       </ion-item>
+      </ion-list>
+
+      <div class="button-container">
+       <ion-button [color]="getButtonColor(item.status)" expand="full" size="small">
+        {{ getButtonLabel(item.status) }}
+       </ion-button>
+      </div>
+
+     </ion-card-content>
+     <ion-card-subtitle class="custom-footer-subtitle">
+      <strong>Order Date:</strong> {{ item.display_order_date }}
+     </ion-card-subtitle>
+    </ion-card>
+   </ion-item>
+  </ion-list>
+  @if (!isLoading && (orders_data.length===0)) {
+  <span>No Data Found</span>
+  } @if (isLoading) {
+  <ng-container [ngTemplateOutlet]="skeletonTemplate"></ng-container>
+  }
+  @if(orders_data.length !== count){
+  <ion-row class="d-flex ion-justify-content-end ion-margin">
+   <ion-button size="small" (click)="loadMoreOrders()">Load More</ion-button>
+  </ion-row>
+  }
+ </div>
+</ion-content>
+
+<ng-template #skeletonTemplate>
+ <ng-container *ngFor="let item of skeleton_data">
+  <ion-item>
+   <ion-card class="custom-card">
+    <ion-card-header class="custom-card-header">
+     <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+    </ion-card-header>
+
+    <ion-card-content>
+     <ion-label>
+      <ion-skeleton-text [animated]="true" style="width: 10rem"></ion-skeleton-text>
+     </ion-label>
+
+     <ion-card-subtitle class="text-secondary">
+      <ion-skeleton-text [animated]="true" style="width: 10rem"></ion-skeleton-text>
+     </ion-card-subtitle>
+
+     <ion-list class="horizontal-list">
+      <ion-item>
+       <ion-thumbnail slot="start">
+        <ion-skeleton-text [animated]="true" style="width: 3rem ; height: 3rem"></ion-skeleton-text>
+       </ion-thumbnail>
+      </ion-item>
+      <ion-item>
+       <ion-thumbnail slot="start">
+        <ion-skeleton-text [animated]="true" style="width: 3rem ; height: 3rem"></ion-skeleton-text>
+       </ion-thumbnail>
+      </ion-item>
+      <ion-item>
+       <ion-thumbnail slot="start">
+        <ion-skeleton-text [animated]="true" style="width: 3rem ; height: 3rem"></ion-skeleton-text>
+       </ion-thumbnail>
+      </ion-item>
+     </ion-list>
+
+     <div class="button-container">
+      <ion-skeleton-text [animated]="true" style="height: 1.5rem;"></ion-skeleton-text>
+     </div>
+    </ion-card-content>
+
+    <ion-card-subtitle class="custom-footer-subtitle">
+     <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+    </ion-card-subtitle>
+   </ion-card>
+  </ion-item>
+ </ng-container>
+</ng-template>

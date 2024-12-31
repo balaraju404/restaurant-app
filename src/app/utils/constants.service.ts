@@ -33,7 +33,9 @@ export class Constants {
   const role_id = userData?.['role_id'] || 0
   return role_id == 3
  }
+ static notificationCountSubject = new Subject()
  static cartCountSubject = new Subject()
+ static resCartCountSubject = new Subject()
 
  static readonly REGEXP_NUMERIC = /^[0-9\s]*$/
  static readonly REGEXP_EMAIL = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/

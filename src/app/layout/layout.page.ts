@@ -19,6 +19,7 @@ import { NotificationsPage } from './notifications/notifications.page';
  styleUrls: ['./layout.page.scss'],
 })
 export class LayoutPage implements OnInit {
+ notificationsCount: number = 0
  cartCount: number = 0
  resActiveCartCount: number = 0
  userData: any = {}
@@ -54,9 +55,17 @@ export class LayoutPage implements OnInit {
    const pageArr = this.router.url.split('/')
    this.curPage = pageArr[pageArr.length - 1]
    this.role_id = Number(this.userData['role_id'])
-   await this.socketService.createConnection(this.userData['user_id'], this.role_id, this.resData['res_id'] || '')
+   await this.socketService.createConnection(this.userData['user_id'], this.role_id, this.resData?.['res_id'] || '')
+   await this.getNotificationsCount()
+   Constants.notificationCountSubject.subscribe(() => {
+    this.getNotificationsCount()
+   })
    if (this.role_id == 1) {
    } else if (this.role_id == 2) {
+    await this.getResActiveOrdersCount()
+    Constants.resCartCountSubject.subscribe(() => {
+     this.getResActiveOrdersCount()
+    })
     if (this.curPage == 'layout') {
      this.router.navigate(['/layout/restaurant-home'])
     }
@@ -102,6 +111,22 @@ export class LayoutPage implements OnInit {
  }
  closePageListModal() {
   this.pageListStatus = false
+ }
+ getNotificationsCount() {
+  let params: any = { status: 1 }
+  params['receiver_id'] = this.isResUser ? this.resData['res_id'] : this.userData['user_id']
+  this.apiService.getNotificationsCount(params).subscribe({
+   next: (res: any) => {
+    if (res['status']) {
+     this.notificationsCount = res['count']
+    } else {
+     AlertService.showAlert('Alert', res['msg'] || JSON.stringify(res))
+    }
+   },
+   error: (error) => {
+    AlertService.showAlert('Alert', error?.error['msg'] || JSON.stringify(error))
+   }
+  })
  }
  getCartCount() {
   const user_id = this.userData['user_id']
