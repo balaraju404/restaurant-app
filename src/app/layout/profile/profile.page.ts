@@ -72,7 +72,8 @@ export class ProfilePage implements OnInit {
  }
  async onLogout() {
   await DBManagerService.clearAll()
-  this.router.navigate(['/login'])
+  // this.router.navigate(['/login'])
+   location.href = '/login'
  }
 
  async updateProfile() {
