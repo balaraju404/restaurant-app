@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -7,6 +8,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <!-- Main activity setup -->
         <activity
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|smallestScreenSize|screenLayout|uiMode"
             android:name=".MainActivity"
@@ -20,6 +23,7 @@
             </intent-filter>
         </activity>
 
+        <!-- FileProvider for handling file URIs -->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"
@@ -27,9 +31,15 @@
             android:grantUriPermissions="true">
             <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/file_paths" />
         </provider>
+
+        <!-- Firebase Cloud Messaging services -->
+        <service android:name="com.capacitor.pushnotifications.FCMService" android:exported="true"/>
+        <service android:name="com.capacitor.pushnotifications.FCMReceiver" android:exported="true"/>
+
+        <!-- Default notification icon for Firebase notifications -->
+        <meta-data android:name="com.google.firebase.messaging.default_notification_icon" android:resource="@drawable/ic_notification" />
     </application>
 
-    <!-- Permissions -->
-
+    <!-- Permissions for internet access -->
     <uses-permission android:name="android.permission.INTERNET" />
 </manifest>

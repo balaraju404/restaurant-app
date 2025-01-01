@@ -4,15 +4,13 @@ const config: CapacitorConfig = {
  appId: 'com.gbr-food.android',
  appName: 'GBR Food App',
  webDir: 'www',
- // server: {
- //   androidScheme: 'https',
- //   iosScheme: 'https',
- //   hostname: 'your-backend-url.com'  // if using a custom backend URL
- // }
  "plugins": {
   "Camera": {
    "allowEditing": true,
    "saveToGallery": false
+  },
+  PushNotifications: {
+   presentationOptions: ['badge', 'sound', 'alert'],
   },
   SplashScreen: {
    launchAutoHide: true,
@@ -23,7 +21,6 @@ const config: CapacitorConfig = {
    androidScaleType: 'CENTER_CROP',
   }
  }
-
 };
 
 export default config;

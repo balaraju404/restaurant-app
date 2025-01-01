@@ -9,6 +9,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { provideHttpClient } from '@angular/common/http';
 import { CustomAlertModule } from './utils/custom-componets/alert-component/custom-alert.module';
 import { SocketService } from './utils/socket-io.service';
+import { environment } from '../environments/environment';
+
+import { initializeApp } from 'firebase/app';  // Firebase Modular SDK v9+
+import { getMessaging, getToken, onMessage, Messaging } from 'firebase/messaging';  // Firebase Messaging
 
 @NgModule({
  declarations: [AppComponent],
@@ -16,7 +20,7 @@ import { SocketService } from './utils/socket-io.service';
   BrowserModule,
   IonicModule.forRoot(),
   AppRoutingModule,
-  CustomAlertModule
+  CustomAlertModule,
  ],
  providers: [
   { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
@@ -25,4 +29,12 @@ import { SocketService } from './utils/socket-io.service';
  ],
  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {
+ constructor() {
+  // Initialize Firebase with your config
+  const app = initializeApp(environment.firebaseConfig);
+  const messaging = getMessaging(app);
+
+  // Handle messaging token (see AppComponent for further details)
+ }
+}
