@@ -49,30 +49,30 @@ export class LayoutPage implements OnInit {
   if (this.userData) {
    this.router.events.subscribe((event) => {
     if (event instanceof NavigationEnd) {
-     this.curPage = event.urlAfterRedirects.split('/').pop() || '';
+     this.curPage = event.urlAfterRedirects.split('/').pop() ?? '';
     }
    });
    const pageArr = this.router.url.split('/')
    this.curPage = pageArr[pageArr.length - 1]
    this.role_id = Number(this.userData['role_id'])
-   await this.socketService.createConnection(this.userData['user_id'], this.role_id, this.resData?.['res_id'] || '')
+//    await this.socketService.createConnection(this.userData['user_id'], this.role_id, this.resData?.['res_id'] || '')
    await this.getNotificationsCount()
-   Constants.notificationCountSubject.subscribe(() => {
-    this.getNotificationsCount()
+   Constants.notificationCountSubject.subscribe(async () => {
+    await this.getNotificationsCount()
    })
    if (this.role_id == 1) {
    } else if (this.role_id == 2) {
     await this.getResActiveOrdersCount()
-    Constants.resCartCountSubject.subscribe(() => {
-     this.getResActiveOrdersCount()
+    Constants.resCartCountSubject.subscribe(async () => {
+     await this.getResActiveOrdersCount()
     })
     if (this.curPage == 'layout') {
      this.router.navigate(['/layout/restaurant-home'])
     }
    } else if (this.role_id == 3) {
     await this.getCartCount()
-    Constants.cartCountSubject.subscribe(() => {
-     this.getCartCount()
+    Constants.cartCountSubject.subscribe(async () => {
+     await this.getCartCount()
     })
     if (this.curPage == 'layout') {
      this.router.navigate(['/layout/home'])
@@ -112,7 +112,7 @@ export class LayoutPage implements OnInit {
  closePageListModal() {
   this.pageListStatus = false
  }
- getNotificationsCount() {
+ async getNotificationsCount() {
   let params: any = { status: 1 }
   params['receiver_id'] = this.isResUser ? this.resData['res_id'] : this.userData['user_id']
   this.apiService.getNotificationsCount(params).subscribe({
@@ -128,7 +128,7 @@ export class LayoutPage implements OnInit {
    }
   })
  }
- getCartCount() {
+ async getCartCount() {
   const user_id = this.userData['user_id']
   this.apiService.getCartCount({ user_id }).subscribe({
    next: (res: any) => {
@@ -143,7 +143,7 @@ export class LayoutPage implements OnInit {
    }
   })
  }
- getResActiveOrdersCount() {
+ async getResActiveOrdersCount() {
   const res_id = this.resData['res_id']
   this.apiService.getResActiveOrdersCount({ res_id }).subscribe({
    next: (res: any) => {
