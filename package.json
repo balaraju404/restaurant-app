@@ -21,7 +21,7 @@
     "@angular/platform-browser": "^18.2.0",
     "@angular/platform-browser-dynamic": "^18.2.0",
     "@angular/router": "^18.2.0",
-    "@capacitor/android": "^6.1.0",
+    "@capacitor/android": "6.2.0",
     "@capacitor/app": "^6.0.2",
     "@capacitor/camera": "^6.1.2",
     "@capacitor/core": "^6.2.0",
@@ -51,16 +51,15 @@
     "@capacitor/assets": "^3.0.5",
     "@capacitor/cli": "^6.1.0",
     "@ionic/angular-toolkit": "^12.1.1",
-    "@ionic/cli-plugin-cordova": "^1.6.2",
     "@types/jasmine": "~5.1.0",
     "@typescript-eslint/eslint-plugin": "^6.1.0",
     "@typescript-eslint/parser": "^6.1.0",
-    "capacitor-resources": "^1.2.1",
+    "capacitor-resources": "1.2.8",
     "eslint": "^8.57.0",
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-jsdoc": "^48.2.1",
-    "eslint-plugin-prefer-arrow": "1.2.2",
-    "jasmine-core": "~5.1.0",
+    "eslint-plugin-prefer-arrow": "1.2.3",
+    "jasmine-core": "5.5.0",
     "jasmine-spec-reporter": "~5.0.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
@@ -69,5 +68,13 @@
     "karma-jasmine-html-reporter": "~2.1.0",
     "typescript": "~5.5.0"
   },
-  "description": "An Ionic project"
+  "description": "An Ionic project",
+  "browserslist": [
+    "Chrome >=79",
+    "ChromeAndroid >=79",
+    "Firefox >=70",
+    "Edge >=79",
+    "Safari >=14",
+    "iOS >=14"
+  ]
 }

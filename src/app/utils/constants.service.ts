@@ -15,6 +15,8 @@ export class Constants {
  static readonly API_URL = Constants.NODE_URL + 'api/'
  static readonly USER_DATA_KEY = 'login_user_data'
  static readonly RES_USER_SELECTED_KEY = 'restaurant_user_selected_data'
+ static readonly LS_FIREBASE_TOKEN_KEY = 'firebase_token_key'
+ static FIREBASE_TOKEN = ''
  static readonly APP_ICON = 'assets/images/app-icon.png'
  static readonly FALLBACK_RESTAURANT_LOGO = 'assets/images/restaurant.png'
 

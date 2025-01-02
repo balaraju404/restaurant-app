@@ -1,24 +1,30 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
- appId: 'com.gbr-food.android',
+ appId: 'com.gbr.gbrfoodapp',
  appName: 'GBR Food App',
  webDir: 'www',
- "plugins": {
-  "Camera": {
-   "allowEditing": true,
-   "saveToGallery": false
+ plugins: {
+  Camera: {
+   allowEditing: true,
+   saveToGallery: false
   },
   PushNotifications: {
    presentationOptions: ['badge', 'sound', 'alert'],
   },
   SplashScreen: {
-   launchAutoHide: true,
-   launchShowDuration: 3000,
-   backgroundColor: "#ffffff",
+   launchAutoHide: false,
+   backgroundColor: "#000000",
+   androidSplashResourceName: "splash",
+   androidScaleType: "CENTER_CROP",
+   showSpinner: true,
+   androidSpinnerStyle: "large",
+   iosSpinnerStyle: "small",
+   spinnerColor: "#999999",
    splashFullScreen: true,
    splashImmersive: true,
-   androidScaleType: 'CENTER_CROP',
+   layoutName: "launch_screen",
+   useDialog: true,
   }
  }
 };
