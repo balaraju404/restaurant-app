@@ -5,6 +5,8 @@ import { APIservice } from 'src/app/utils/api.service';
 import { Constants } from 'src/app/utils/constants.service';
 import { DBManagerService } from 'src/app/utils/db-manager.service';
 import { LoadingService } from 'src/app/utils/loading.service';
+import { HandleOrderPage } from '../res-orders/handle-order/handle-order.page';
+import { OrderDetailsPage } from '../transactions/order-details/order-details.page';
 
 @Component({
  selector: 'app-notifications',
@@ -48,12 +50,50 @@ export class NotificationsPage implements OnInit {
    }
   })
  }
- onOpenNotification(data: any) {
-//   console.log(data);
-
-  // if (data['link']) {
-
-  // }
+ async onOpenNotification(item: any) {
+  if (item['status'] == 1) {
+   this.updateNotification(item)
+  }
+  const id = item['ref_id']
+  if (id) {
+   if (await Constants.isUser()) {
+    this.openUserOrderModal(id)
+   } else if (await Constants.isRestaurantUsers()) {
+    this.openResOrderModal(id)
+   }
+  }
+ }
+ updateNotification(item: any) {
+  const params: any = { 'notification_id': item['notification_id'], 'status': 2 }
+  this.apiService.updateNotification(params).subscribe({
+   next: async (res: any) => {
+    if (res['status']) {
+     item['status'] = 2
+    } else {
+     AlertService.showAlert("Error", res['msg'] || JSON.stringify(res))
+    }
+   }, error: async err => {
+    AlertService.showAlert("Error", JSON.stringify(err['error'] || err))
+   }
+  })
+ }
+ async openUserOrderModal(id: any) {
+  const modal = await this.modalController.create({
+   component: OrderDetailsPage,
+   componentProps: {
+    orderId: id
+   }
+  })
+  await modal.present()
+ }
+ async openResOrderModal(id: any) {
+  const modal = await this.modalController.create({
+   component: HandleOrderPage,
+   componentProps: {
+    orderId: id
+   }
+  })
+  await modal.present()
  }
  dismiss() {
   this.modalController.dismiss()

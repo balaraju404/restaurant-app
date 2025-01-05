@@ -67,11 +67,11 @@ export class TransactionsPage implements OnInit {
   this.params['page_num'] = this.params['page_num'] + 1
   this.getOrdersData()
  }
- async openOrderDetailsModal(item: any) {
+ async openOrderDetailsModal(id: any) {
   const modal = await this.modalController.create({
    component: OrderDetailsPage,
    componentProps: {
-    ordersData: item
+    orderId: id
    }
   })
   await modal.present()

@@ -1,6 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Constants } from "./constants.service";
+import { DBManagerService } from "./db-manager.service";
 
 @Injectable({
  providedIn: 'root',
@@ -11,8 +12,10 @@ export class APIservice {
 
  constructor(private readonly http: HttpClient) { }
 
- loginCheck(loginName: string, loginPassword: string) {
-  const params = { 'login_name': loginName, 'login_password': loginPassword };
+ async loginCheck(loginName: string, loginPassword: string) {
+  const device_token = await DBManagerService.getData(Constants.LS_FIREBASE_TOKEN_KEY)
+  const params: any = { 'login_name': loginName, 'login_password': loginPassword };
+  if (device_token) params['device_token'] = device_token
   return this.http.post(this.apiUrl + 'login/check', params);
  }
  userCreate(userName: string, loginName: string, loginPassword: string, roleId: number) {
@@ -32,6 +35,13 @@ export class APIservice {
   return this.http.post(this.apiUrl + 'user/getUsers', params);
  }
 
+ // device_token
+ saveDeviceToken(params: any) {
+  return this.http.post(this.apiUrl + 'device_token/save', params);
+ }
+ updateDeviceToken(params: any) {
+  return this.http.put(this.apiUrl + 'device_token/update', params);
+ }
  // dashboard
  getRestaurantDashboardCount(params: any) {
   return this.http.post(this.apiUrl + 'dashboard/resOrdersCount', params);
@@ -50,11 +60,11 @@ export class APIservice {
  getNotificationsCount(params: any = {}) {
   return this.http.post(this.apiUrl + 'notifications/count', params);
  }
- getNotificationsSend(params: any = {}) {
+ sendNotification(params: any = {}) {
   return this.http.post(this.apiUrl + 'notifications/send', params);
  }
- getNotificationsUpdate(params: any = {}) {
-  return this.http.post(this.apiUrl + 'notifications/update', params);
+ updateNotification(params: any = {}) {
+  return this.http.put(this.apiUrl + 'notifications/update', params);
  }
 
  // restaurant

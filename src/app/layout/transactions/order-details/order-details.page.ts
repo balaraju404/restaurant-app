@@ -11,16 +11,20 @@ import { LoadingService } from 'src/app/utils/loading.service';
  styleUrls: ['./order-details.page.scss'],
 })
 export class OrderDetailsPage implements OnInit {
- @Input() ordersData: any = {}
+ @Input() orderId: any = ''
+ ordersData: any = {}
  isResUser: boolean = false
  constructor(private readonly modalController: ModalController, private readonly apiService: APIservice, private readonly loadingService: LoadingService) { }
 
  async ngOnInit() {
   this.isResUser = await Constants.isRestaurantUsers()
+  if (this.orderId.length > 0) {
+   this.getOrderData()
+  }
  }
  async getOrderData() {
   await this.loadingService.showLoading()
-  const params: any = { trans_id: this.ordersData['trans_id'] }
+  const params: any = { trans_id: this.orderId }
   this.apiService.getResOrders(params).subscribe({
    next: async (res: any) => {
     await this.loadingService.hideLoading()
@@ -36,10 +40,10 @@ export class OrderDetailsPage implements OnInit {
   })
  }
  getTotalItems() {
-  return this.ordersData.products_data.reduce((acc: any, product: any) => acc + product.product_qty, 0);
+  return this.ordersData?.products_data?.reduce((acc: any, product: any) => acc + product.product_qty, 0);
  }
  getTotalAmount() {
-  return this.ordersData.products_data.reduce((acc: any, product: any) => acc + (product.price * product.product_qty), 0);
+  return this.ordersData?.products_data?.reduce((acc: any, product: any) => acc + (product.price * product.product_qty), 0);
  }
  dismiss() {
   this.modalController.dismiss()

@@ -71,9 +71,29 @@ export class ProfilePage implements OnInit {
   this.imageModal = false
  }
  async onLogout() {
-  await DBManagerService.clearAll()
-  // this.router.navigate(['/login'])
+  const device_token_id = await DBManagerService.getData(Constants.LS_DEVICE_TOKEN_ID)
+  if (device_token_id) {
+   await this.loadingService.showLoading()
+   this.apiService.updateDeviceToken({ device_token_id: device_token_id, status: 0 }).subscribe({
+    next: async (res: any) => {
+     await this.loadingService.hideLoading()
+     if (res['status']) {
+      await Constants.clearLSonLogout()
+      // this.router.navigate(['/login'])
+      location.href = '/login'
+     } else {
+      AlertService.showAlert('Error', JSON.stringify(res['msg'] || res))
+     }
+    }, error: async err => {
+     await this.loadingService.hideLoading()
+     AlertService.showAlert('Error', JSON.stringify(err))
+    }
+   })
+  } else {
+   await Constants.clearLSonLogout()
+   // this.router.navigate(['/login'])
    location.href = '/login'
+  }
  }
 
  async updateProfile() {

@@ -13,19 +13,21 @@
  </ion-refresher>
 
  @for (item of notificationsData; track $index) {
- <ion-card (click)="onOpenNotification(item)">
+ <ion-card [class.not-seen]="item['status']===1" (click)="onOpenNotification(item)">
   <ion-card-header>
    <ion-row>
-    <ion-col size="7">
-     <p>{{item['title']}}</p>
-    </ion-col>
-    <ion-col size="5">
-     <p>{{item['display_sent_date']}}</p>
+    <ion-col size="12">
+     <p class="text-bold">{{item['title']}}</p>
     </ion-col>
    </ion-row>
   </ion-card-header>
   <ion-card-content>
    <p> {{ item.message }} </p>
+   <ion-row class="d-flex ion-justify-content-end">
+    <ion-col size="auto">
+     <p>{{item['display_sent_date']}}</p>
+    </ion-col>
+   </ion-row>
   </ion-card-content>
  </ion-card>
  }

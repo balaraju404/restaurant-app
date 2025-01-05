@@ -8,7 +8,7 @@
  <div class="container mt-4">
   <p class="page-title-span">Orders Page</p>
   <ion-list>
-   <ion-item *ngFor="let item of orders_data; let i = index" (click)="openOrderDetailsModal(item)">
+   <ion-item *ngFor="let item of orders_data; let i = index" (click)="openOrderDetailsModal(item['trans_id'])">
     <ion-card class="custom-card">
      <ion-card-header class="custom-card-header">
       <ion-card-title>Order: #{{ item.trans_id }}</ion-card-title>

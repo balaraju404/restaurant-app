@@ -1,3 +1,14 @@
+ion-card {
+ &.not-seen {
+  border: 0.05rem solid #0c2043;
+  background: #475f8a;
+  color: white;
+  ion-card-header{
+   color: white;
+  }
+ }
+}
+
 ion-card-header {
  padding: 0 0.5rem;
 }

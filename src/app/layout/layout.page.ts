@@ -12,6 +12,7 @@ import { ResCategoriesPage } from './pages/res-categories/res-categories.page';
 import { CreateProductsPage } from './pages/create-products/create-products.page';
 import { ResProductsPage } from './pages/res-products/res-products.page';
 import { NotificationsPage } from './notifications/notifications.page';
+import { LoadingService } from '../utils/loading.service';
 
 @Component({
  selector: 'app-layout',
@@ -40,7 +41,8 @@ export class LayoutPage implements OnInit {
  constructor(private readonly router: Router,
   private readonly apiService: APIservice,
   private readonly socketService: SocketService,
-  private readonly modalController: ModalController) { }
+  private readonly modalController: ModalController,
+  private readonly loadingService: LoadingService) { }
 
  async ngOnInit() {
   this.isResUser = await Constants.isRestaurantUsers()
@@ -55,7 +57,7 @@ export class LayoutPage implements OnInit {
    const pageArr = this.router.url.split('/')
    this.curPage = pageArr[pageArr.length - 1]
    this.role_id = Number(this.userData['role_id'])
-//    await this.socketService.createConnection(this.userData['user_id'], this.role_id, this.resData?.['res_id'] || '')
+   //    await this.socketService.createConnection(this.userData['user_id'], this.role_id, this.resData?.['res_id'] || '')
    await this.getNotificationsCount()
    Constants.notificationCountSubject.subscribe(async () => {
     await this.getNotificationsCount()
@@ -107,7 +109,7 @@ export class LayoutPage implements OnInit {
   const modal = await this.modalController.create({
    component: page,
   })
-  modal.present()
+  await modal.present()
  }
  closePageListModal() {
   this.pageListStatus = false
@@ -162,11 +164,37 @@ export class LayoutPage implements OnInit {
   const modal = await this.modalController.create({
    component: NotificationsPage,
   })
-  modal.present()
+  await modal.present()
+  modal.onDidDismiss().then(() => {
+   this.getNotificationsCount()
+  }).catch((err) => {
+   AlertService.showAlert("Error", "Error while closing notifications page " + JSON.stringify(err))
+  })
  }
  async gotoSelectRestaurant() {
-  await DBManagerService.removeData(Constants.RES_USER_SELECTED_KEY)
-  //   this.router.navigate(['/select-restaurant'])
-  location.href = '/select-restaurant'
+  const device_token_id = await DBManagerService.getData(Constants.LS_DEVICE_TOKEN_ID)
+  if (device_token_id) {
+   await this.loadingService.showLoading()
+   this.apiService.updateDeviceToken({ device_token_id: device_token_id, status: 0 }).subscribe({
+    next: async (res: any) => {
+     await this.loadingService.hideLoading()
+     if (res['status']) {
+      await DBManagerService.removeData(Constants.RES_USER_SELECTED_KEY)
+      await DBManagerService.removeData(Constants.LS_DEVICE_TOKEN_ID)
+      //   this.router.navigate(['/select-restaurant'])
+      location.href = '/select-restaurant'
+     } else {
+      AlertService.showAlert('Error', JSON.stringify(res['msg'] || res))
+     }
+    }, error: async err => {
+     await this.loadingService.hideLoading()
+     AlertService.showAlert('Error', JSON.stringify(err))
+    }
+   })
+  } else {
+   await DBManagerService.removeData(Constants.RES_USER_SELECTED_KEY)
+   // this.router.navigate(['/select-restaurant'])
+   location.href = '/select-restaurant'
+  }
  }
 }

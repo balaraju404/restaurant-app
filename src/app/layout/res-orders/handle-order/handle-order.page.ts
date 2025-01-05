@@ -57,22 +57,27 @@ export class HandleOrderPage implements OnInit {
   } else if (status === 8) {
    msg = 'Do you want to refund this order?'
   }
-  AlertService.showConfirmAlert("Alert", msg, "OK", (num: number) => {
+  AlertService.showConfirmAlert("Alert", msg, "OK", async (num: number) => {
    if (num == 1) {
     let params: any = { "trans_id": obj['trans_id'], "res_id": obj['res_id'], "user_id": obj['user_id'], "status": status }
-    this.apiService.handleOrder(params).subscribe((res: any) => {
-     if (res['status']) {
-      this.isPageChange = true
-      if ([3, 4, 7, 8].includes(status)) {
-       Constants.resCartCountSubject.next(true)
+    await this.loadingService.showLoading()
+    this.apiService.handleOrder(params).subscribe({
+     next: async (res: any) => {
+      await this.loadingService.hideLoading()
+      if (res['status']) {
+       this.isPageChange = true
+       if ([3, 4, 7, 8].includes(status)) {
+        Constants.resCartCountSubject.next(true)
+       }
+       AlertService.showAlert('Alert', res['msg'])
+       this.getOrderData()
+      } else {
+       AlertService.showAlert('Alert', res['msg'] || JSON.parse(res))
       }
-      AlertService.showAlert('Alert', res['msg'])
-      this.getOrderData()
-     } else {
-      AlertService.showAlert('Alert', res['msg'] || JSON.parse(res))
+     }, error:async error => {
+      await this.loadingService.hideLoading()
+      AlertService.showAlert('Alert', JSON.stringify(error))
      }
-    }, error => {
-     AlertService.showAlert('Alert', JSON.stringify(error))
     })
    }
   })
