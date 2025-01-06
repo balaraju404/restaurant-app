@@ -8,9 +8,9 @@ import { Subject } from "rxjs";
 })
 export class Constants {
 
- // static NODE_URL = environment.NODE_URL
+ static readonly NODE_URL = environment.NODE_URL
  //  static readonly NODE_URL = 'http://localhost:3099/'
- static readonly NODE_URL = 'https://restaurant-node-mongo.vercel.app/'
+ //  static readonly NODE_URL = 'https://restaurant-node-mongo.vercel.app/'
  //   static readonly NODE_URL = 'https://13.51.59.98/'
  static readonly API_URL = Constants.NODE_URL + 'api/'
  static readonly USER_DATA_KEY = 'login_user_data'

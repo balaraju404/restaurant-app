@@ -56,7 +56,7 @@ export class SelectRestaurantPage implements OnInit {
  }
 
  async selectRestaurant(data: any) {
-  const device_token = await DBManagerService.getData(Constants.FIREBASE_TOKEN)
+  const device_token = await DBManagerService.getData(Constants.LS_FIREBASE_TOKEN_KEY)
   if (device_token) {
    const id = data['res_id']
    const params = { 'id': id, 'device_token': device_token }
